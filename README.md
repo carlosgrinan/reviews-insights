@@ -1,10 +1,10 @@
-# Integration of OpenAI API with multiple Google platforms for generating customer feedback insights
+# Integration of OpenAI API with multiple Google APIs for generating customer feedback insights
 
-The objective of this project is to develop an AI-powered module integrated into an ERP-CRM system (to be determined) that provides a short summary on customer feedback.
+The objective of this project is to develop an Odoo module that provides AI-powered short summaries on customer feedback.
 
 ## Tools
 
-- To obtain customer feedback, various Google platforms' APIs will be used:
+- To obtain customer feedback, various Google APIs will be used:
   - **Business Profile APIs**: to obtain customer reviews from *Google Maps* and *Google Search*.
   - **[Places API](https://developers.google.com/maps/documentation/places/web-service/overview)**: to obtain customer reviews from *Google Maps*.
   - **Gmail API**: to obtain customer emails, such as support requests, from *Gmail*.
@@ -25,7 +25,7 @@ To kickstart this project, our focus will be on analyzing customer feedback. How
 
 ## Milestones
 
-1. **[Authorization](#authorization)**: Implement an authorization flow using the OAuth 2.0 protocol to access the protected resources of the Google platforms' APIs.
+1. **[Authorization](#authorization)**: Implement an authorization flow using the OAuth 2.0 protocol to access the protected resources of the Google APIs.
 2. **Configurate a developer account** to access the APIs of the Google Cloud Platform and OpenAI.
 3. **Data requests and collection**:
 
@@ -37,7 +37,7 @@ To kickstart this project, our focus will be on analyzing customer feedback. How
 
    - Process the response data from the Google platforms' APIs to fit the requests of the OpenAI API.
    - Process the response data from the OpenAI API to obtain the customer feedback summary.
-5. **ERP integration**: Build an ERP module that:
+5. **Odoo app**:
 
    - Provides configuration options for the user, and a way to initiate the authorization flow.
    - Show the customer feedback summary to the user.
@@ -45,3 +45,21 @@ To kickstart this project, our focus will be on analyzing customer feedback. How
 ### Authorization
 
 To access sensitive data as a 3rd party application, we need authorization from the user.
+
+### Odoo app
+
+UI: dashboard to provide info at first-glance. It will have multiple cards, each one for a Google API. The cards will contain:
+
+* paragraph, the summary received from OpenAI API. Only shown when that Google API is connected.
+* button, to provide the functionality of connecting and disconnecting that Google API.
+
+Models:
+
+
+
+
+Referencia OpenAi para presentación
+
+* Por qué he elegido un modelo de chat:
+  * https://platform.openai.com/docs/guides/chat/chat-vs-completions
+  * https://openai.com/pricing#language-models
