@@ -1,32 +1,32 @@
 import os
+
+import googlemaps
 import openai
 from dotenv import load_dotenv
 
 load_dotenv()
-
-# Retrieve the value of the "foo" variable
-foo = os.getenv("OPENAI_API_KEY")
-
-# Load your API key from an environment variable or secret management service
 openai.api_key = os.getenv("OPENAI_API_KEY")
+gmaps = googlemaps.Client(key=os.getenv("GOOGLE_API_KEY"))
 
-response = openai.Completion.create(
-    model="text-davinci-003", prompt="Say this is a test", temperature=0, max_tokens=7
+response = gmaps.place(
+    "ChIJN1t_tDeuEmsRUsoyG83frY4",
+    fields=["reviews"],
+    language="en",
+    reviews_sort="most_relevant",
 )
+reviews = response["result"]["reviews"]
 
+reviews_texts = [review["text"] for review in reviews]
 
+prompt = "Write the manager a quick overview of current business situation shorter than 100 words based on this reviews:"
+prompt += reviews_texts.__str__()
+# print(prompt)
 response = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
     messages=[
         {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "Who won the world series in 2020?"},
-        {
-            "role": "assistant",
-            "content": "The Los Angeles Dodgers won the World Series in 2020.",
-        },
-        {"role": "user", "content": "Where was it played?"},
+        {"role": "user", "content": f"{prompt}"},
     ],
 )
-
 summary = response["choices"][0]["message"]["content"]
 print(summary)
