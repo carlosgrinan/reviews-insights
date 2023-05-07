@@ -1,6 +1,6 @@
 # Integration of OpenAI API with multiple Google APIs for generating customer feedback insights
 
-The objective of this project is to develop an [Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html) module that provides AI-powered short insights on customer feedback.
+The objective of this project is to develop an [Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html) app that provides AI-powered short insights on customer feedback.
 
 ## Motivation
 
@@ -9,53 +9,76 @@ To kickstart this project, our focus will be on analyzing customer feedback. How
 
 ## Tools
 
-- To obtain customer feedback, various [Google APIs](https://developers.google.com/apis-explorer) will be used:
-  - Need Oauth2.0 authorization from data owner:   
-    - **[Gmail API](https://developers.google.com/gmail/api/guides)**: to obtain customer support emails from *Gmail*.    
-    - TODO: **Business Profile APIs**: to obtain customer reviews from *Google Maps* and *Google Search*. 
+- To obtain customer feedback, various [Google APIs](https://developers.google.com/apis-explorer) will be used through [Google API Client](https://github.com/googleapis/google-api-python-client):
+
+  - Need Oauth2.0 authorization:
+    - **[Gmail API](https://developers.google.com/gmail/api/guides)**: to obtain customer support emails from *Gmail*.
+    - TODO: **Business Profile APIs**: to obtain customer reviews from *Google Maps* and *Google Search*.
     - TODO: **Google Play Developer API**: to obtain app reviews from *Google Play Store*.
     - TODO: **Data API**: to obtain comments on videos from *Youtube*.
   - Don't need authorization (publicly available data):
-    - **[Places API](https://developers.google.com/maps/documentation/places/web-service/overview)**: to obtain up to 5 customer reviews from a *Google Maps* place.
-- To obtain insights (summary and/or tips) on the information, the language model [gpt-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5) will be used through [OpenAI API](https://platform.openai.com/docs/introduction/overview).
+    - **[Places API](https://developers.google.com/maps/documentation/places/web-service/overview)**: to obtain up to 5 reviews from a *Google Maps* place. Note that this API doesn't work with Google API Client and needs its own [client](https://github.com/googlemaps/google-maps-services-python)
+- To obtain user consent to access protected resources from the Google APIs that require Oauth2.0 authorization:
+
+  1. [Google 3P Authorization JavaScript Library](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library) will be used to obtain an authorization code
+  2. The authorization code will be exchanged for a [token](https://developers.google.com/identity/protocols/oauth2/web-server#httprest_3). I've found [google-auth-oauthlib](https://google-auth-oauthlib.readthedocs.io/en/latest/) to overcomplicate the task so I've opted for a simple [Requests](https://requests.readthedocs.io/en/latest/).
+  3. [google-auth](https://googleapis.dev/python/google-auth/latest/user-guide.html) will be used to create Credentials from the token. The Credentials will be used by the aforementioned Google API Client to access Google APIs.
+- To obtain insights (summary and/or tips) on the information, the language model [gpt-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5) from [OpenAI API](https://platform.openai.com/docs/introduction/overview) will be used through the [OpenAI Python library](https://github.com/openai/openai-python).
 - TODO: Odoo
 
+  - The frontend will use [Bootstrap](https://getbootstrap.com/docs/5.0/getting-started/introduction/).
 
 ## Milestones
 
-1. **[Authorization](#authorization)**: Implement an authorization flow using the OAuth 2.0 protocol to access the protected resources of the Google APIs.
-2. **Configurate a developer account** to access the APIs of the Google Cloud Platform and OpenAI.
-3. **Data requests and collection**:
+### Obtaining customer feedback
 
-   - Define the requests to be made to the Google platforms' APIs.
-   - Define the requests to be made to OpenAI API.
-     - Choose a suitable OpenAI model.
-     - Define the prompt.
-4. **Data processing**:
+* [X] Configurate a developer account to access Google APIs.
+* [X] Obtain publicly available data from a Google API (reviews from Places API).
+* [X] Obtain protected resources from a Google API (emails from Gmail API).
 
-   - Process the response data from the Google platforms' APIs to fit the requests of the OpenAI API.
-   - Process the response data from the OpenAI API to obtain the customer feedback summary.
-5. **Odoo app**:
+### Obtaining insights
 
-   - Provides configuration options for the user, and a way to initiate the authorization flow.
-   - Show the customer feedback summary to the user.
+* [X] Configurate a developer account to access OpenAI API.
+* [X] Refining the prompt. This step took place on [OpenAI Playground](https://platform.openai.com/playground) to focus on the prompt and response.
+* [X] Obtain insights through the OpenAI Python library.
 
-### Authorization
+Insights are expected to be short (around a paragraph's length), and shouldn't make reference to the direct data provided ("One customer says that..." is not the expected behaviour).
 
-To access sensitive data as a 3rd party application, we need authorization from the user.
+This is a succesful example. Customer reviews are real, obtained from a McDonald's location in *Google Maps.*
+Prompt:
 
-### Odoo app
+* System: `You are an Executive Assistant.`
+* User:
 
-UI: dashboard to provide info at first-glance. It will have multiple cards, each one for a Google API. The cards will contain:
+```plaintext
+Write the manager a quick overview of current business situation shorter than 100 words based on this customer reviews:
+
+- Open 24 hours a day so there is no rush to get there before closing time. Staff are always polite and friendly despite looking incredibly busy looking after drive through, in house and online orders. Old favourites and seasonal options are available on the menu and there is a growing vegan menu which is great to see.],
+
+- Service was good using the drive through.
+I can only imagine the staff preparing the food was just about to quit  or get sacked as the cheeseburgers had the cheese on the outside of the bun and the Big Macs had no meat in them at all?????? Too far away to go back, really disappointed and hungry.
+
+- When collecting my meal this week this restaurant was packed and extremely busy the workers who was working on Friday around 18.30 are a credit to you not only was they under very high demanding pressure they stayed calm, polite and professional well done to each one of you 👏 and to top it off even managed to help me with my order back to my vehicle as it was a large order I hope your managers read this and know how good there staff are they will go far in life see you again soon
+```
+
+Response:
+
+```plaintext
+Overall, customer reviews for the business are positive with customers praising the 24-hour service and friendly staff. However, there have been some negative reviews regarding food quality. Despite this, the restaurant remains busy and workers have been commended for their professionalism and ability to handle high-pressure situations.
+```
+
+### TODO: Odoo app
+
+Up until now, I've been developing each step on a simple web application using [Flask](https://flask.palletsprojects.com/en/2.3.x/), which was enough to test API calls and OAuth2.0 authorization (which takes place both on client and server side, i.e. on the HTML/JS and on the Python part of Flask). Now it's time to switch to the Odoo framework. Switching from a standalone website to an app integrated into an ERP will get the project closer to the real business situation that I aim for.
+
+* [ ] UI: dashboard to provide info at first-glance. It will have multiple cards, each one for a Google API. The cards will contain:
 
 * paragraph, the summary received from OpenAI API. Only shown when that Google API is connected.
 * button, to provide the functionality of connecting and disconnecting that Google API.
 
 
-
-
-
 ## Others
+
 - Why I've chosen a chat-optimized model:
   - https://platform.openai.com/docs/guides/chat/chat-vs-completions
   - https://openai.com/pricing#language-models
