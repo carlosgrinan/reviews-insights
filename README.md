@@ -49,13 +49,11 @@ UI: dashboard to provide info at first-glance. It will have multiple cards, each
 * paragraph, the summary received from OpenAI API. Only shown when that Google API is connected.
 * button, to provide the functionality of connecting and disconnecting that Google API.
 
-Models:
 
 
 
 
-Referencia OpenAi para presentación
-
-* Why I've chosen a chat-optimized model:
-  * https://platform.openai.com/docs/guides/chat/chat-vs-completions
-  * https://openai.com/pricing#language-models
+## Others
+- Why I've chosen a chat-optimized model:
+  - https://platform.openai.com/docs/guides/chat/chat-vs-completions
+  - https://openai.com/pricing#language-models
