@@ -1,4 +1,4 @@
-# Integration of OpenAI API with multiple Google APIs for generating customer feedback insights
+# Integration of OpenAI API with multiple Google APIs for generating customer feedback insights 
 
 The objective of this project is to develop an [Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html) app that provides AI-powered short insights on customer feedback.
 
