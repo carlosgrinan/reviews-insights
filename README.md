@@ -2,6 +2,11 @@
 
 The objective of this project is to develop an [Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html) module that provides AI-powered short insights on customer feedback.
 
+## Motivation
+
+The costs associated with human reviews and classifications of text-based data often lead to its neglect in favor of numerical data, which can be automatically analyzed on platforms like Google Analytics. The recent advancements and increased accessibility of AI Language Generative models have made it possible to automate the analysis of text-based information too. By combining analyses of both types of data, companies can gain more comprehensive insights which to incorporate into their decision-making.
+To kickstart this project, our focus will be on analyzing customer feedback. However, the same approach can be applied to other types of valuable text-based data.
+
 ## Tools
 
 - To obtain customer feedback, various [Google APIs](https://developers.google.com/apis-explorer) will be used:
@@ -13,11 +18,8 @@ The objective of this project is to develop an [Odoo](https://www.odoo.com/docum
   - Don't need authorization (publicly available data):
     - **[Places API](https://developers.google.com/maps/documentation/places/web-service/overview)**: to obtain up to 5 customer reviews from a *Google Maps* place.
 - To obtain insights (summary and/or tips) on the information, the language model [gpt-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5) will be used through [OpenAI API](https://platform.openai.com/docs/introduction/overview).
+- TODO: Odoo
 
-## Motivation
-
-The costs associated with human reviews and classifications of text-based data often lead to its neglect in favor of numerical data, which can be automatically analyzed on platforms like Google Analytics. The recent advancements and increased accessibility of AI Language Generative models have made it possible to automate the analysis of text-based information too. By combining analyses of both types of data, companies can gain more comprehensive insights which to incorporate into their decision-making.
-To kickstart this project, our focus will be on analyzing customer feedback. However, the same approach can be applied to other types of valuable text-based data.
 
 ## Milestones
 
