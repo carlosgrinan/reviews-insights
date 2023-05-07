@@ -21,7 +21,7 @@ To kickstart this project, our focus will be on analyzing customer feedback. How
 - To obtain user consent to access protected resources from the Google APIs that require Oauth2.0 authorization:
 
   1. [Google 3P Authorization JavaScript Library](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library) will be used to obtain an authorization code
-  2. The authorization code will be exchanged for a [token](https://developers.google.com/identity/protocols/oauth2/web-server#httprest_3). I've found [google-auth-oauthlib](https://google-auth-oauthlib.readthedocs.io/en/latest/) to overcomplicate the task so I've opted for a simple [Requests](https://requests.readthedocs.io/en/latest/).
+  2. The authorization code will be exchanged for a [token](https://developers.google.com/identity/protocols/oauth2/web-server#httprest_3). I've found [google-auth-oauthlib](https://google-auth-oauthlib.readthedocs.io/en/latest/) to overcomplicate the task so I've opted for a simple HTTP request.
   3. [google-auth](https://googleapis.dev/python/google-auth/latest/user-guide.html) will be used to create Credentials from the token. The Credentials will be used by the aforementioned Google API Client to access Google APIs.
 - To obtain insights (summary and/or tips) on the information, the language model [gpt-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5) from [OpenAI API](https://platform.openai.com/docs/introduction/overview) will be used through the [OpenAI Python library](https://github.com/openai/openai-python).
 - TODO: Odoo
