@@ -1,6 +1,6 @@
 # Integración de la API de OpenAI con varias API de Google para generar información sobre los comentarios de los clientes
 
-El objetivo de este proyecto es desarrollar un[Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html) app that provides AI-powered short insights on customer feedback.
+El objetivo de este proyecto es desarrollar un[Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html)aplicación que proporciona información breve basada en inteligencia artificial sobre los comentarios de los clientes.
 
 ## Motivación
 
@@ -13,7 +13,7 @@ Para poner en marcha este proyecto, nos centraremos en analizar los comentarios 
 
     -   Necesita autorización de Oauth2.0:
         -   **[API de Gmail](https://developers.google.com/gmail/api/guides)**: para obtener correos electrónicos de atención al cliente de_Gmail_.
-        -   TODO:**API de perfil empresarial**: para obtener opiniones de los clientes de_mapas de Google_y_Búsqueda de Google_.
+        -   TODO:**API de perfil comercial**: para obtener opiniones de los clientes de_mapas de Google_y_Búsqueda de Google_.
         -   TODO:**API para desarrolladores de Google Play**: para obtener reseñas de aplicaciones de_Tienda de juegos de Google_.
         -   TODO:**datos de la API**: para obtener comentarios sobre videos de_YouTube_.
     -   No necesita autorización (datos disponibles públicamente):
@@ -21,7 +21,7 @@ Para poner en marcha este proyecto, nos centraremos en analizar los comentarios 
 -   Para obtener el consentimiento del usuario para acceder a los recursos protegidos de las API de Google que requieren autorización Oauth2.0:
 
     1.  [Biblioteca de JavaScript de autorización de Google 3P](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library)se utilizará para obtener un código de autorización
-    2.  El código de autorización será canjeado por un[token](https://developers.google.com/identity/protocols/oauth2/web-server#httprest_3). He encontrado[google-auth-oauthlib](https://google-auth-oauthlib.readthedocs.io/en/latest/)para complicar demasiado la tarea, así que he optado por un simple[Peticiones](https://requests.readthedocs.io/en/latest/).
+    2.  El código de autorización será canjeado por un[simbólico](https://developers.google.com/identity/protocols/oauth2/web-server#httprest_3). He encontrado[google-auth-oauthlib](https://google-auth-oauthlib.readthedocs.io/en/latest/)para complicar demasiado la tarea, así que opté por una solicitud HTTP simple.
     3.  [google-autorización](https://googleapis.dev/python/google-auth/latest/user-guide.html)se utilizará para crear Credenciales a partir del token. Las Credenciales serán utilizadas por el Cliente API de Google antes mencionado para acceder a las API de Google.
 -   Para obtener insights (resumen y/o tips) sobre la información, el modelo de lenguaje[gpt-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5)de[API de IA abierta](https://platform.openai.com/docs/introduction/overview)se utilizará a través de la[Biblioteca Open AI Python](https://github.com/openai/openai-python).
 -   TODO: Odoo
@@ -32,7 +32,7 @@ Para poner en marcha este proyecto, nos centraremos en analizar los comentarios 
 
 ### Obtención de comentarios de los clientes
 
--   [x] Configurate a developer account to access Google APIs.
+-   [x] Configure una cuenta de desarrollador para acceder a las API de Google.
 -   [x] Obtenga datos disponibles públicamente de una API de Google (reseñas de la API de Places).
 -   [x] Obtenga recursos protegidos de una API de Google (correos electrónicos de la API de Gmail).
 
