@@ -1,26 +1,22 @@
 # Integration of OpenAI API with multiple Google APIs for generating customer feedback insights
 
-The objective of this project is to develop an Odoo module that provides AI-powered short summaries on customer feedback.
+The objective of this project is to develop an [Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html) module that provides AI-powered short insights on customer feedback.
 
 ## Tools
 
-- To obtain customer feedback, various Google APIs will be used:
-  - **Business Profile APIs**: to obtain customer reviews from *Google Maps* and *Google Search*.
-  - **[Places API](https://developers.google.com/maps/documentation/places/web-service/overview)**: to obtain customer reviews from *Google Maps*.
-  - **Gmail API**: to obtain customer emails, such as support requests, from *Gmail*.
-  - **Google Play Developer API**: to obtain app reviews from *Google Play Store*.
-  - **Data API**: to obtain comments on videos from *Youtube*.
-  - To be determined
-- To obtain insights (summary and tips) on the information, a Language Generative model (like GPT-3.5) will be used through OpenAI API.
+- To obtain customer feedback, various [Google APIs](https://developers.google.com/apis-explorer) will be used:
+  - Need Oauth2.0 authorization from data owner:   
+    - **[Gmail API](https://developers.google.com/gmail/api/guides)**: to obtain customer support emails from *Gmail*.    
+    - TODO: **Business Profile APIs**: to obtain customer reviews from *Google Maps* and *Google Search*. 
+    - TODO: **Google Play Developer API**: to obtain app reviews from *Google Play Store*.
+    - TODO: **Data API**: to obtain comments on videos from *Youtube*.
+  - Don't need authorization (publicly available data):
+    - **[Places API](https://developers.google.com/maps/documentation/places/web-service/overview)**: to obtain up to 5 customer reviews from a *Google Maps* place.
+- To obtain insights (summary and/or tips) on the information, the language model [gpt-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5) will be used through [OpenAI API](https://platform.openai.com/docs/introduction/overview).
 
 ## Motivation
 
-The costs associated with human reviews and classifications of text-based data often lead to its neglect in favor of numerical data, which can be automatically analyzed on platforms like Google Analytics.
-
-The recent advancements and increased accessibility of AI Language Generative models have made it possible to automate the analysis of text-based information too.
-
-By combining analyses of both types of data, companies can gain more comprehensive insights which to incorporate into their decision-making.
-
+The costs associated with human reviews and classifications of text-based data often lead to its neglect in favor of numerical data, which can be automatically analyzed on platforms like Google Analytics. The recent advancements and increased accessibility of AI Language Generative models have made it possible to automate the analysis of text-based information too. By combining analyses of both types of data, companies can gain more comprehensive insights which to incorporate into their decision-making.
 To kickstart this project, our focus will be on analyzing customer feedback. However, the same approach can be applied to other types of valuable text-based data.
 
 ## Milestones
@@ -60,6 +56,6 @@ Models:
 
 Referencia OpenAi para presentación
 
-* Por qué he elegido un modelo de chat:
+* Why I've chosen a chat-optimized model:
   * https://platform.openai.com/docs/guides/chat/chat-vs-completions
   * https://openai.com/pricing#language-models
