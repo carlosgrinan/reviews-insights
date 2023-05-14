@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import random
 from odoo import http
+from google_apis.api import code_to_token
 
 logger = logging.getLogger(__name__)
 
 
 class Source(http.Controller):
     @http.route(
-        "/proyecto_dam/source",
+        "/proyecto_dam/oauth2",
         type="json",
         auth="user",
-        methods=["LIST"],
     )
-    def list_sources(self):
-        sources = http.request.env["proyecto_dam.source"].search([])
-        return sources.read(["name", "summary"])
+    def code_to_token(self):
+        code = http.request.params.get("code")
+        refresh_token = code_to_token(code)
+        id = http.request.params.get("id")
+        source = http.request.env["proyecto_dam.source"].browse(id)
+        source.write({"refresh_token": refresh_token})

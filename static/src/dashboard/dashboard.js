@@ -1,5 +1,6 @@
 /** @odoo-module **/
 
+
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { Card } from "../card/card";
@@ -13,7 +14,8 @@ class Dashboard extends Component {
 
         onWillStart(async () => {
             this.sources = await this.orm.searchRead('proyecto_dam.source', [], ['id', 'name', 'summary', 'img_name']);
-            console.log(this.sources);
+
+
         });
     }
 

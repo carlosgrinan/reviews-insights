@@ -2,17 +2,14 @@
 <templates xml:space="preserve">
     <t t-name="proyecto_dam.Card" owl="1">
         <div class="col">
-            <div class="card h-100">
-                <!-- <t t-set="source" t-value="props.source">
-                </t> -->
-                
+            <div class="card h-100">                
                 <div class="card-body">
                     <p class="card-text">
                         <t t-esc="source.summary" /></p>
 
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-outline-primary" on-click="updateSource">
+                    <button class="btn btn-outline-primary" t-on-click="requestCode">
                         <img
                             t-attf-src="/proyecto_dam/static/img/{{source.img_name}}-48.png" class="mx-1"
                             width="24"
@@ -20,7 +17,6 @@
                         <t t-esc="source.name"></t>
                         
                     </button>
-                    <t t-esc="source.id"></t>
                 </div>                
             </div>
         </div>

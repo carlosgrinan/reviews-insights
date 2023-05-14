@@ -38,14 +38,14 @@ class GoogleApi:
         return BatchHttpRequestCustom(batch)
 
 
-def get_token(code):
+def code_to_token(code):
     url = "https://oauth2.googleapis.com/token"
     data = {
         "grant_type": "authorization_code",
         "code": code,
         "client_id": os.getenv("CLIENT_ID"),
         "client_secret": os.getenv("CLIENT_SECRET"),
-        "redirect_uri": "http://127.0.0.1:5000",  # One of the redirect URIs listed for your project in the API Console Credentials page for the given client_id. Not used but required.
+        "redirect_uri": "http://127.0.0.1:8069",  # One of the redirect URIs listed for your project in the API Console Credentials page for the given client_id. Not used but required.
     }
     response = requests.post(url, data=data)
     return response.json().get("refresh_token")
