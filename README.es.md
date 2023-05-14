@@ -13,7 +13,7 @@ Para poner en marcha este proyecto, nos centraremos en analizar los comentarios 
 
     -   Necesita autorización de Oauth2.0:
         -   **[API de Gmail](https://developers.google.com/gmail/api/guides)**: para obtener correos electrónicos de atención al cliente de_Gmail_.
-        -   TODO:**API de perfil comercial**: para obtener opiniones de los clientes de_mapas de Google_y_Búsqueda de Google_.
+        -   TODO:**API de perfil empresarial**: para obtener opiniones de los clientes de_mapas de Google_y_Búsqueda de Google_.
         -   TODO:**API para desarrolladores de Google Play**: para obtener reseñas de aplicaciones de_Tienda de juegos de Google_.
         -   TODO:**datos de la API**: para obtener comentarios sobre videos de_YouTube_.
     -   No necesita autorización (datos disponibles públicamente):
@@ -86,7 +86,7 @@ Hasta ahora, he estado desarrollando cada paso en una aplicación web simple usa
 
 ### El proceso de refinar el aviso:
 
-TODO: agregue la parte GOOGLE de refining_prompt.md. En primer lugar, explique que pasé reseñas y correos electrónicos junto con el mensaje.
+TODO: add the GOOGLE part from refining_prompt.md. Explain firstly that i passed reviews and emails along the prompt.
 
 #### RESTAURANTE
 
