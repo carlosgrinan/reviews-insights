@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <data noupdate="1"> means the data won't be updated when the module is upgraded -->
+    <record id="default_record1" model="proyecto_dam.source">
+        <field name="name">Gmail</field>
+        <field name="img_name">gmail</field>
+        <field name="summary">
+            Lorem Ipsum es simplemente el texto de relleno de las imprentas y
+            archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las
+            industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a
+            la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que
+            logró hacer un libro de textos especimen.
+        </field>
+        <!-- add other fields here -->
+    </record>
+    <record id="default_record2" model="proyecto_dam.source">
+        <field name="name">Google Maps</field>
+        <field name="img_name">google-maps</field>
+        <field name="summary">
+            Overall, customer reviews for the business are positive with customers
+            praising the 24-hour service and friendly staff. However, there have been some negative
+            reviews regarding food quality. Despite this, the restaurant remains busy and workers
+            have been commended for their professionalism and ability to handle high-pressure
+            situations.
+        </field>
+        <!-- add other fields here -->
+    </record>
+    <!-- add more records here -->
+    <!-- </data> -->
+</odoo>

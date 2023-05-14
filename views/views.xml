@@ -1,0 +1,128 @@
+<odoo>
+    <data>
+
+        <!-- views -->
+        <!-- <record id="orders_form_view" model="ir.ui.view">
+            <field name="name">proyecto_dam.orders.form</field>
+            <field name="model">proyecto_dam.order</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" clickable="1" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="customer_id" />
+                                <field name="size" />
+                                <field name="quantity" />
+                            </group>
+                            <group>
+                                <field name="amount" />
+                                <field name="is_late" />
+                            </group>
+                            <group>
+                                <field name="image_url" />
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" />
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="orders_form_view_simplified" model="ir.ui.view">
+            <field name="name">proyecto_dam.orders.form.simplified</field>
+            <field name="model">proyecto_dam.order</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="customer_id" />
+                        <field name="size" />
+                        <field name="quantity" />
+                        <field name="image_url" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="orders_kanban_view" model="ir.ui.view">
+            <field name="name">proyecto_dam.orders.kanban</field>
+            <field name="model">proyecto_dam.order</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state" class="o_kanban_small_column"
+                    on_create="quick_create"
+                    quick_create_view="proyecto_dam.orders_form_view_simplified">
+                    <field name="customer_id" />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div>Customer: <field name="customer_id" /></div>
+                                <div>Size: <field name="size" /></div>
+                                <div>Quantity: <field name="quantity" /></div>
+                                <div>Amount: <field name="amount" /></div>
+                                <div>Created: <field name="create_date" /></div>
+                                <div>
+                                    <field class="pull-right" name="is_late"
+                                        options="{'not_late_color':'yellow'}" />
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="orders_list_view" model="ir.ui.view">
+            <field name="name">proyecto_dam.orders.list</field>
+            <field name="model">proyecto_dam.order</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="customer_id" />
+                    <field name="size" />
+                    <field name="quantity" />
+                    <field name="amount" />
+                    <field name="is_late" />
+                    <field name="create_date" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="orders_search_view" model="ir.ui.view">
+            <field name="name">proyecto_dam.orders.search</field>
+            <field name="model">proyecto_dam.order</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="customer_id" />
+                </search>
+            </field>
+        </record>
+
+        <record id="view_partner_form_geolocate" model="ir.ui.view">
+            <field name="name">proyecto_dam.res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="attributes">
+                    <attribute name="js_class">customer_form_view</attribute>
+                </xpath>
+            </field>
+        </record> -->
+
+        <!-- actions -->
+        <record model="ir.actions.client" id="dashboard">
+            <field name="name">Dashboard</field>
+            <field name="tag">proyecto_dam.dashboard</field>
+        </record>
+
+        <!-- menu items -->
+        <menuitem name="Proyecto DAM" id="proyecto_dam.menu_root" groups="base.group_user"
+        />
+        <menuitem name="Dashboard" id="proyecto_dam.dashboard_menu"
+            parent="proyecto_dam.menu_root" action="proyecto_dam.dashboard" sequence="1" />
+
+    </data>
+</odoo>
