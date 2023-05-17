@@ -2,8 +2,8 @@
 <odoo>
     <!-- <data noupdate="1"> means the data won't be updated when the module is upgraded -->
     <record id="default_record1" model="proyecto_dam.source">
-        <field name="name">Gmail</field>
-        <field name="img_name">gmail</field>
+        <field name="display_name">Gmail</field>
+        <field name="name">gmail</field>
         <field name="summary">
             Lorem Ipsum es simplemente el texto de relleno de las imprentas y
             archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las
@@ -14,8 +14,8 @@
         <!-- add other fields here -->
     </record>
     <record id="default_record2" model="proyecto_dam.source">
-        <field name="name">Google Maps</field>
-        <field name="img_name">google-maps</field>
+        <field name="display_name">Google Maps</field>
+        <field name="name">google_maps</field>
         <field name="summary">
             Overall, customer reviews for the business are positive with customers
             praising the 24-hour service and friendly staff. However, there have been some negative

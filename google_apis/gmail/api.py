@@ -1,5 +1,5 @@
-from google.api import GoogleApi
-from google.gmail.utils import get_text
+from google_apis.api import GoogleApi
+from google_apis.gmail.utils import get_text
 
 
 from googleapiclient.http import HttpMock

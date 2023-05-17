@@ -13,7 +13,7 @@ class Dashboard extends Component {
         this.orm = useService("orm");
 
         onWillStart(async () => {
-            this.sources = await this.orm.searchRead('proyecto_dam.source', [], ['id', 'name', 'summary', 'img_name']);
+            this.sources = await this.orm.searchRead('proyecto_dam.source', [], ['id', 'display_name', 'summary', 'name']);
 
 
         });

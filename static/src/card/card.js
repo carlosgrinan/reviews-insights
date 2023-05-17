@@ -24,7 +24,7 @@ export class Card extends Component {
                                 console.log(response.code);
                                 this.rpc('/proyecto_dam/oauth2', { code: response.code }).then(() => {
 
-                                    console.log('Source updated successfully');
+                                    // TODO this.orm.searchRead y me vuelvo a traer el summary, habria que hacer que el summary fuera un useState o algo asi para que se actualice la UI sola
                                 });
                                 // this.orm.write('proyecto_dam.source', [this.source.id], { code: response.code });
 
