@@ -4,19 +4,29 @@
         <div class="col">
             <div class="card h-100">                
                 <div class="card-body">
-                    <p class="card-text">
-                        <t t-esc="source.summary" /></p>
+                    <p t-if="state.summary" class="card-text">
+                        <t t-esc="state.summary" /></p>
 
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-outline-primary" t-on-click="requestCode">
-                        <img
-                            t-attf-src="/proyecto_dam/static/img/{{source.name}}-48.png" class="mx-1"
-                            width="24"
-                            t-att-alt="source.display_name"></img>
-                        <t t-esc="source.display_name"></t>
-                        
-                    </button>
+                    <t t-if="state.summary">
+                        <button class="btn btn-outline-secondary" t-on-click="disconnect">
+                            <img
+                                t-attf-src="/proyecto_dam/static/img/{{source.name}}-48.png" class="mx-1"
+                                width="24"
+                                t-att-alt="source.display_name"></img>
+                            <p>Desconectar <t t-esc="source.display_name"></t></p>
+                        </button>
+                    </t>
+                    <t t-else="">
+                        <button class="btn btn-outline-primary" t-on-click="connect">
+                            <img
+                                t-attf-src="/proyecto_dam/static/img/{{source.name}}-48.png" class="mx-1"
+                                width="24"
+                                t-att-alt="source.display_name"></img>
+                            <p>Conectar <t t-esc="source.display_name"></t></p>
+                        </button>
+                    </t>
                 </div>                
             </div>
         </div>

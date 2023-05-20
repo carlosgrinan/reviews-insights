@@ -11,6 +11,7 @@
             la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que
             logró hacer un libro de textos especimen.
         </field>
+        <field name="scope">https://www.googleapis.com/auth/gmail.readonly</field>
         <!-- add other fields here -->
     </record>
     <record id="default_record2" model="proyecto_dam.source">
