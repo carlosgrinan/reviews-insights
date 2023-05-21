@@ -1,10 +1,10 @@
 # Integración de la API de OpenAI con varias API de Google para generar información sobre los comentarios de los clientes
 
-El objetivo de este proyecto es desarrollar un[Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html)aplicación que proporciona información breve basada en inteligencia artificial sobre los comentarios de los clientes.
+El objetivo de este proyecto es desarrollar un[Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html) app that provides AI-powered short insights on customer feedback.
 
 ## Motivación
 
-Los costos asociados con las revisiones y clasificaciones humanas de datos basados ​​en texto a menudo conducen a su descuido en favor de datos numéricos, que pueden analizarse automáticamente en plataformas como Google Analytics. Los avances recientes y la mayor accesibilidad de los modelos AI Language Generative también han hecho posible automatizar el análisis de información basada en texto. Al combinar análisis de ambos tipos de datos, las empresas pueden obtener conocimientos más completos que incorporar en su toma de decisiones.
+Los costos asociados con las revisiones y clasificaciones humanas de datos basados ​​en texto a menudo conducen a su descuido en favor de datos numéricos, que pueden analizarse automáticamente en plataformas como Google Analytics. Los avances recientes y la mayor accesibilidad de los modelos AI Language Generative también han hecho posible automatizar el análisis de información basada en texto. Al combinar análisis de ambos tipos de datos, las empresas pueden obtener conocimientos más completos que incorporar en la toma de decisiones.
 Para poner en marcha este proyecto, nos centraremos en analizar los comentarios de los clientes. Sin embargo, el mismo enfoque se puede aplicar a otros tipos de datos valiosos basados ​​en texto.
 
 ## Herramientas
@@ -13,7 +13,7 @@ Para poner en marcha este proyecto, nos centraremos en analizar los comentarios 
 
     -   Necesita autorización de Oauth2.0:
         -   **[API de Gmail](https://developers.google.com/gmail/api/guides)**: para obtener correos electrónicos de atención al cliente de_Gmail_.
-        -   TODO:**Business Profile APIs**: para obtener opiniones de los clientes de_mapas de Google_y_Búsqueda de Google_.
+        -   TODO:**API de perfil comercial**: para obtener opiniones de los clientes de_mapas de Google_y_Búsqueda de Google_.
         -   TODO:**API para desarrolladores de Google Play**: para obtener reseñas de aplicaciones de_Tienda de juegos de Google_.
         -   TODO:**datos de la API**: para obtener comentarios sobre videos de_YouTube_.
     -   No necesita autorización (datos disponibles públicamente):
@@ -70,7 +70,7 @@ Overall, customer reviews for the business are positive with customers praising 
 
 ### TODO: Odoo app
 
-Hasta ahora, he estado desarrollando cada paso en una aplicación web simple usando[Matraz](https://flask.palletsprojects.com/en/2.3.x/), que fue suficiente para probar las llamadas API y la autorización OAuth2.0 (que tiene lugar tanto en el lado del cliente como en el del servidor, es decir, en HTML/JS y en la parte Python de Flask). Ahora es el momento de cambiar al marco de Odoo. Cambiar de un sitio web independiente a una aplicación integrada en un ERP acercará el proyecto a la situación comercial real que busco.
+Hasta ahora, he estado desarrollando cada paso en una aplicación web simple usando[Matraz](https://flask.palletsprojects.com/en/2.3.x/), que fue suficiente para probar las llamadas a la API y la autorización OAuth2.0 (que tiene lugar tanto en el lado del cliente como en el del servidor, es decir, en HTML/JS y en la parte Python de Flask). Ahora es el momento de cambiar al marco de Odoo. Cambiar de un sitio web independiente a una aplicación integrada en un ERP acercará el proyecto a la situación comercial real que busco.
 
 -   [ ] Interfaz de usuario: tablero para proporcionar información a primera vista. Tendrá varias tarjetas, cada una para una API de Google. Las tarjetas contendrán:
 
