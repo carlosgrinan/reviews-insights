@@ -4,11 +4,15 @@
     <t t-name="proyecto_dam.clientaction" owl="1">
         <div class="d-flex p-4">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
-                <t t-foreach="sources" t-as="source" t-key="source.id" class="m-2">                    
+                <t t-foreach="sources" t-as="source" t-key="source.id" class="m-2">
                     <Card googleScriptLoaded="state.googleScriptLoaded" source="source">
                     </Card>
                 </t>
-            </div>      
+            </div>
+        </div>
+
+        <div t-if="state.loadError" class="alert alert-warning" role="alert">
+        Por favor, comprueba tu conexión a internet. No podrás acceder a la información más reciente.
         </div>
     </t>
 </templates>

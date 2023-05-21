@@ -10,12 +10,16 @@ const { Component } = owl;
 class Dashboard extends Component {
     setup() {
         this.orm = useService("orm");
+        this.state = useState({ loadError: false, });
+
 
         onWillStart(async () => {
             this.sources = await this.orm.searchRead('proyecto_dam.source', [], ['id', 'display_name', 'summary', 'name', 'scope']);
-            this.googleScriptLoaded = loadJS("https://accounts.google.com/gsi/client").catch(() => {
-                // TODO modal si el usuario no tiene internet
+            this.googleScriptLoaded = loadJS("https://accounts.google.com/gsi/client").catch((error) => {
+                console.error(error);
+                this.state.loadError = true;
             });
+
         });
     }
 
