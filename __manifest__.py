@@ -1,17 +1,11 @@
 {
     "name": "proyecto_dam",
     "summary": """
-        TODO Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        AI-powered brief insights on customer feedback.""",
     "description": """
-        TODO This app helps you to manage a business of printing customized t-shirts
-        for online customers. It offers a public page allowing customers to make
-        t-shirt orders.
-
-        Note that this is just a toy app intended to learn the javascript
-        framework.
+        This app provide  insights on customer feedback from various text-based sources, such as customer support emails and reviews, which are processed by OpenAI's GPT-3.5.
     """,
-    "author": "Carlos Griñán",
+    "author": "Carlos Grinan",
     "category": "Productivity",
     "version": "0.1",
     "application": True,
@@ -21,17 +15,15 @@
         "data/sources.xml",
         "views/views.xml",
     ],
+    # TODO like "data/sources.xml", but with summaries and refres tokens for each source
     # "demo": [
-    #     "demo/demo.xml",
+    #     "demo/sources.xml",
     # ],
     "assets": {
         "web.assets_backend": [
             "proyecto_dam/static/src/**/*",
             "proyecto_dam/static/img/**/*",
         ],
-        # "web.assets_common": [
-        #     "web/static/lib/bootstrap/**/*",
-        # ],
     },
     "depends": [
         "base",

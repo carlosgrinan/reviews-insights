@@ -4,8 +4,8 @@ import re
 
 def message_parts_recursion(parts):
     """
-    Receives a list of MessageParts and returns the text body of the first
-    MessagePart in the hierarchy that has a mimeType of "text/plain"
+    Receives a list of ``MessageParts`` and returns the text body of the first
+    ``MessagePart`` in the hierarchy that has a text/plain ``mimeType``
     """
 
     for part in parts:
@@ -20,7 +20,7 @@ def message_parts_recursion(parts):
 
 def get_text(message):
     """
-    Returns the text body of a Message
+    Returns the text body of a ``Message``
     """
 
     # Note that "payload" itself is a MessagePart.

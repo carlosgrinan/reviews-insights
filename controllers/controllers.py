@@ -1,10 +1,5 @@
-# -*- coding: utf-8 -*-
-
-import logging
 from odoo import http
 from google_apis.api import code_to_token
-
-logger = logging.getLogger(__name__)
 
 
 class Source(http.Controller):

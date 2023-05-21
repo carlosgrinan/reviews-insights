@@ -1,55 +1,53 @@
-from ..api import GoogleApi
-from .utils import get_text
+from pprint import pprint
 
-
+# from ..api import GoogleApi # TODO remove if below line works
+from google_apis.api import GoogleApi
 from googleapiclient.http import HttpMock
 
+from .utils import get_text
 
-from pprint import pprint
+SCOPES = [
+    "https://www.googleapis.com/auth/gmail.readonly",
+]
 
 
 class Gmail(GoogleApi):
-    def __init__(
-        self,
-        refresh_token,
-        #  mock=False
-    ):
+    def __init__(self, refresh_token, mock=False):
         super().__init__(
             "gmail",
             "v1",
             refresh_token,
-            #  mock=mock,
-            #  mock_filename="",
+            mock=mock,
+            mock_filename="",
         )
 
     def get_emails(self, mock=False):
         """
-        Returns a list of emails texts
-        """
-        if mock:
-            http_mock = HttpMock("mock_data/messages-list.json", {"status": "200"})
-            # http_batch_mock = ...
-        else:
-            http_mock = None
-            # http_batch_mock = None
+        Returns a list consisting of the text body (string) of the 10 more recent emails in the user's inbox."""
 
-        response = (
+        request = (
             self.service.users()
             .messages()
             .list(
                 userId="me",
                 labelIds=["INBOX"],
                 maxResults=10,
-                q="-is:forward -is:reply",
+                q="-is:forward -is:reply",  # exclude forwarded and replied emails because they contain the original email
                 fields="messages/id",
             )
-            .execute(http=http_mock)
         )
-        pprint(response)
+
+        if mock:
+            http_mock = HttpMock("mock_data/messages-list.json", {"status": "200"})
+            response = request.execute(http=http_mock)
+        else:
+            response = request.execute()
+
         minimal_messages = response.get("messages", [])
 
-        # list() doesn't return the body of the messages, so now we need to get the
-        # messages one by one:
+        # LIST returns the messages in 'minimal' format (doesn't include the body)
+        # Now we need to GET the
+        # messages in 'full' format one by one (of course, the requests are batched):
         batch = self.new_batch_http_request()
         for minimal_message in minimal_messages:
             request = (
@@ -63,15 +61,12 @@ class Gmail(GoogleApi):
                 )
             )
             batch.add(request)
-        messages = batch.execute(
-            # http=http_batch_mock
-        )
+        # if mock:
+        #     http_batch_mock = ...
+        #     messages = batch.execute(http=http_batch_mock)
+        # else:
+        messages = batch.execute()
 
-        emails_text = [get_text(message) for message in messages]
-        emails_text = [text for text in emails_text if text]  # remove empty strings
-        return emails_text
-
-
-SCOPES = [
-    "https://www.googleapis.com/auth/gmail.readonly",
-]
+        text_bodies = [get_text(message) for message in messages]
+        text_bodies = [text_body for text_body in text_bodies if text_body]  # remove empty strings
+        return text_bodies

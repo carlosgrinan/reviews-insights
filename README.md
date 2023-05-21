@@ -1,6 +1,6 @@
 # Integration of OpenAI API with multiple Google APIs for generating customer feedback insights
 
-The objective of this project is to develop an [Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html) app that provides AI-powered short insights on customer feedback.
+The objective of this project is to develop an [Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html) app that provides AI-powered brief insights on customer feedback.
 
 ## Motivation
 
@@ -45,6 +45,7 @@ To kickstart this project, our focus will be on analyzing customer feedback. How
 Insights are expected to be short (around a paragraph's length), and shouldn't make reference to the direct data provided ("One customer says that..." is not the expected behaviour).
 
 This is a succesful example. Customer reviews are real, obtained from a McDonald's location in *Google Maps.*
+
 - Prompt:
 
   * System: `You are an Executive Assistant.`
@@ -81,8 +82,11 @@ Up until now, I've been developing each step on a simple web application using [
 - Why I've chosen a chat-optimized model:
   - https://platform.openai.com/docs/guides/chat/chat-vs-completions
   - https://openai.com/pricing#language-models
+
 ### The process of refining the prompt:
+
 TODO: add the GOOGLE part from refining_prompt.md. Explain firstly that i passed reviews and emails along the prompt.
+
 #### RESTAURANT
 
 - Prompt:
@@ -101,7 +105,7 @@ Asking for an `executive summary` gives us information that we already know if w
 - Response:
   ```plaintext
   Overall, customer satisfaction is high with positive feedback on the 24-hour availability, friendly staff, and diverse menu options including vegan choices. However, there was one negative review regarding incorrect food preparation. Despite this, the majority of customers are pleased with the service and professionalism of the staff during busy periods.
-  ``` 
+  ```
 
 Now the model focus too much on the customers themselves (e.g. `there was one negative review`) We change `current customer satisfaction` for `current business situation`.
 
@@ -115,23 +119,23 @@ Now the model focus too much on the customers themselves (e.g. `there was one ne
 
 #### INTERNET PROVIDER
 
-  - Prompt:
-    - System: `You are an Executive Assistant.`
-    - User: `Write the manager a quick overview of current business situation shorter than 100 words based on this customer support emails.`    
-  - Response:
-    ```plaintext
-    Dear Manager, 
-    We have been receiving a mix of customer feedback regarding our internet services. Some customers are experiencing internet connection issues and slow internet speeds, while others are satisfied with the quality of internet provided. We have also received a billing issue complaint and a delayed installation complaint. We need to address these issues promptly to maintain customer satisfaction. 
-    Best regards, 
-    Executive Assistant
-    ```
+- Prompt:
+  - System: `You are an Executive Assistant.`
+  - User: `Write the manager a quick overview of current business situation shorter than 100 words based on this customer support emails.`
+- Response:
+  ```plaintext
+  Dear Manager, 
+  We have been receiving a mix of customer feedback regarding our internet services. Some customers are experiencing internet connection issues and slow internet speeds, while others are satisfied with the quality of internet provided. We have also received a billing issue complaint and a delayed installation complaint. We need to address these issues promptly to maintain customer satisfaction. 
+  Best regards, 
+  Executive Assistant
+  ```
 
   Now we tell the model to `Avoid headers and signatures like "Dear Manager"`. Sometimes the model produces them, maybe because of the serious and professional nature of the System Prompt: `You are an Executive Assistant.`
 
-  - Prompt:
-    - System: `You are an Executive Assistant.` 
-    - User: `Write the manager a quick overview of current business situation shorter than 100 words based on this customer support emails. Avoid headers and signatures like "Dear Manager".`
-  - Response:
-    ```plaintext
-    Customers are facing internet connection issues such as frequent disconnection, slow internet speeds, and delayed installation. Additionally, one customer has raised concerns about their billing. However, one customer has expressed their satisfaction with the quality of internet and customer service. Immediate action is required to address the issues faced by the customers.
-    ```
+- Prompt:
+  - System: `You are an Executive Assistant.`
+  - User: `Write the manager a quick overview of current business situation shorter than 100 words based on this customer support emails. Avoid headers and signatures like "Dear Manager".`
+- Response:
+  ```plaintext
+  Customers are facing internet connection issues such as frequent disconnection, slow internet speeds, and delayed installation. Additionally, one customer has raised concerns about their billing. However, one customer has expressed their satisfaction with the quality of internet and customer service. Immediate action is required to address the issues faced by the customers.
+  ```

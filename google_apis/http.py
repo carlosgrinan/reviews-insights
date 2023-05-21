@@ -1,15 +1,12 @@
-from googleapiclient.http import BatchHttpRequest
-
-
-class BatchHttpRequestCustom(BatchHttpRequest):
+class BatchHttpRequestCustom:
     """
-    Same as BatchHttpRequest but returns a list with the responses on execute().
+    Wrapper of ``BatchHttpRequest`` that returns a list with the responses on ``execute()``.
     """
 
     def __init__(self, batch_http_request):
         """
         Args:
-            batch_http_request: BatchHttpRequest, a Batch created with service.new_batch_http_request(), not directly with BatchHttpRequest(), because of the internal batch_uri attribute.
+            batch_http_request: a ``BatchHttpRequest`` created with ``service.new_batch_http_request()``, not directly with its constructor, because of the internal ``batch_uri`` attribute that the former method provides.
         """
         self._batch_http_request = batch_http_request
         self.responses = []
@@ -24,9 +21,6 @@ class BatchHttpRequestCustom(BatchHttpRequest):
         self._batch_http_request.add(request)
 
     def execute(self, http=None):
-        """
-        Returns:
-            list, a list with the responses of the requests added with add()."""
         self._batch_http_request.execute(http=http)
         return self.responses
 

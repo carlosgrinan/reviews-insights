@@ -1,12 +1,11 @@
 /** @odoo-module **/
 
-
+import { loadJS } from "@web/core/assets";
 import { registry } from "@web/core/registry";
-import { useService } from "@web/core/utils/hooks";
+import { onWillStart, useService } from "@web/core/utils/hooks";
 import { Card } from "../card/card";
 
-
-const { Component, onWillStart } = owl;
+const { Component } = owl;
 
 class Dashboard extends Component {
     setup() {
@@ -14,8 +13,9 @@ class Dashboard extends Component {
 
         onWillStart(async () => {
             this.sources = await this.orm.searchRead('proyecto_dam.source', [], ['id', 'display_name', 'summary', 'name', 'scope']);
-
-
+            this.googleScriptLoaded = loadJS("https://accounts.google.com/gsi/client").catch(() => {
+                // TODO modal si el usuario no tiene internet
+            });
         });
     }
 
