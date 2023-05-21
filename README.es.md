@@ -1,13 +1,13 @@
 # Integración de la API de OpenAI con varias API de Google para generar información sobre los comentarios de los clientes
 
-El objetivo de este proyecto es desarrollar un[Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html) app that provides AI-powered short insights on customer feedback.
+El objetivo de este proyecto es desarrollar un[Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html)aplicación que proporciona información breve basada en inteligencia artificial sobre los comentarios de los clientes.
 
 ## Motivación
 
 Los costos asociados con las revisiones y clasificaciones humanas de datos basados ​​en texto a menudo conducen a su descuido en favor de datos numéricos, que pueden analizarse automáticamente en plataformas como Google Analytics. Los avances recientes y la mayor accesibilidad de los modelos AI Language Generative también han hecho posible automatizar el análisis de información basada en texto. Al combinar análisis de ambos tipos de datos, las empresas pueden obtener conocimientos más completos que incorporar en la toma de decisiones.
 Para poner en marcha este proyecto, nos centraremos en analizar los comentarios de los clientes. Sin embargo, el mismo enfoque se puede aplicar a otros tipos de datos valiosos basados ​​en texto.
 
-## Herramientas
+## Tools
 
 -   Para obtener comentarios de los clientes, varios[API de Google](https://developers.google.com/apis-explorer)será utilizado a través[Cliente API de Google](https://github.com/googleapis/google-api-python-client):
 
