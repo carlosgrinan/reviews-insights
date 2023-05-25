@@ -23,7 +23,8 @@ class Gmail(GoogleApi):
 
     def get_emails(self, mock=False):
         """
-        Returns a list consisting of the text body (string) of the 10 more recent emails in the user's inbox."""
+        Returns a list consisting of the text body (string) of the 10 more recent emails in the user's inbox. Avoids forwarded and replied emails.
+        """
 
         request = (
             self.service.users()

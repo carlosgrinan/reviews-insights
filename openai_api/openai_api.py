@@ -24,10 +24,12 @@ def translate(text, language="English"):
 def summarize(texts, text_type="reviews"):
     if texts:
         text = "- " + "\n\n- ".join(texts)
+
+        # Translate to English to get better results
         text = translate(text)
 
         prompt = f"Write the manager a quick overview of current business situation shorter than 100 words based on this {text_type}. Avoid headers and signatures like 'Dear Manager,':"
-        prompt += texts.__str__()
+        prompt += text
         summary = create(prompt, system_prompt="You are an Executive Assistant.")
         return summary
 

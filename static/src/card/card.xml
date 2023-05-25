@@ -18,7 +18,7 @@
                         </button>
                     </t>
                     <t t-else="">
-                        <button class="btn btn-outline-primary" t-att-disabled="not state.codeClient" t-on-click="connect">
+                        <button class="btn btn-outline-primary" t-att-disabled="!state.codeClient" t-on-click="connect">
                             <img t-attf-src="/proyecto_dam/static/img/{{source.name}}-48.png" class="mx-1" width="24" t-att-alt="source.display_name"></img>
                             <p>Conectar <t t-esc="source.display_name"></t>
                             </p>
@@ -29,7 +29,7 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="disconnectModal" tabindex="-1" aria-labelledby="disconnectModalLabel" aria-hidden="true">
+        <!-- <div class="modal fade" id="disconnectModal" tabindex="-1" aria-labelledby="disconnectModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -49,6 +49,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </t>
 </templates>

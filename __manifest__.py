@@ -22,7 +22,7 @@
     "assets": {
         "web.assets_backend": [
             "proyecto_dam/static/src/**/*",
-            "proyecto_dam/static/img/**/*",
+            "proyecto_dam/static/img/*",
         ],
     },
     "depends": [

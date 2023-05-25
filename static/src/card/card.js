@@ -1,9 +1,10 @@
 /** @odoo-module */
-import { onWillStart, useService, useState } from "@web/core/utils/hooks";
-const { Component } = owl;
+import { useService, } from "@web/core/utils/hooks";
+import { Component, useState, onWillStart } from "@odoo/owl";
 
 export class Card extends Component {
     setup() {
+        console.log("3");
         this.orm = useService("orm");
         this.rpc = useService("rpc");
         this.source = this.props.source;
@@ -16,7 +17,7 @@ export class Card extends Component {
         onWillStart(async () => {
             if (this.source.scope) {
                 this.props.googleScriptLoaded.then(() => {
-
+                    console.log("4");
                     // let intervalId = setInterval(() => {
                     //     if (window.google && window.google.accounts) {
                     //         clearInterval(intervalId);
@@ -35,7 +36,7 @@ export class Card extends Component {
                                     id: this.source.id,
                                     code: response.code,
                                 }).then(async () => {
-                                    this.orm.searchRead('proyecto_dam.source', [this.source.id], ['summary']).then((results) => {
+                                    this.orm.searchRead('proyecto_dam.source', [["id", "=", this.source.id]], ['summary']).then((results) => {
                                         this.state.summary = results[0].summary;
                                     });
                                 });
@@ -43,6 +44,7 @@ export class Card extends Component {
                         }
 
                     });
+                    console.log("5");
                     // }
                     // }, 100);
                 });
