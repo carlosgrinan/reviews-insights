@@ -1,10 +1,10 @@
 # Integración de la API de OpenAI con varias API de Google para generar información sobre los comentarios de los clientes
 
-The objective of this project is to develop an [Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html)aplicación que proporciona información breve basada en inteligencia artificial sobre los comentarios de los clientes.
+El objetivo de este proyecto es desarrollar un[Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html)aplicación que proporciona información breve basada en inteligencia artificial sobre los comentarios de los clientes.
 
 ## Motivación
 
-Los costos asociados con las revisiones y clasificaciones humanas de datos basados ​​en texto a menudo conducen a su descuido en favor de datos numéricos, que pueden analizarse automáticamente en plataformas como Google Analytics. Los avances recientes y la mayor accesibilidad de los modelos AI Language Generative también han hecho posible automatizar el análisis de información basada en texto. Al combinar análisis de ambos tipos de datos, las empresas pueden obtener conocimientos más completos que incorporar en la toma de decisiones.
+Los costos asociados con las revisiones y clasificaciones humanas de datos basados ​​en texto a menudo conducen a su descuido en favor de datos numéricos, que pueden analizarse automáticamente en plataformas como Google Analytics. Los avances recientes y la mayor accesibilidad de los modelos AI Language Generative también han hecho posible automatizar el análisis de información basada en texto. Al combinar análisis de ambos tipos de datos, las empresas pueden obtener conocimientos más completos que incorporar en su toma de decisiones.
 Para poner en marcha este proyecto, nos centraremos en analizar los comentarios de los clientes. Sin embargo, el mismo enfoque se puede aplicar a otros tipos de datos valiosos basados ​​en texto.
 
 ## Herramientas
@@ -13,14 +13,14 @@ Para poner en marcha este proyecto, nos centraremos en analizar los comentarios 
 
     -   Necesita autorización de Oauth2.0:
         -   **[API de Gmail](https://developers.google.com/gmail/api/guides)**: para obtener correos electrónicos de atención al cliente de_Gmail_.
-        -   TODO:**API de perfil comercial**: para obtener opiniones de los clientes de_mapas de Google_y_Búsqueda de Google_.
+        -   TODO:**API de perfil empresarial**: para obtener opiniones de los clientes de_mapas de Google_y_Búsqueda de Google_.
         -   TODO:**API para desarrolladores de Google Play**: para obtener reseñas de aplicaciones de_Tienda de juegos de Google_.
         -   TODO:**datos de la API**: para obtener comentarios sobre videos de_YouTube_.
-    -   Don't need authorization (publicly available data):
+    -   No necesita autorización (datos disponibles públicamente):
         -   **[API de lugares](https://developers.google.com/maps/documentation/places/web-service/overview)**: para obtener hasta 5 reseñas de un_mapas de Google_lugar. Tenga en cuenta que esta API no funciona con el cliente API de Google y necesita su propia[cliente](https://github.com/googlemaps/google-maps-services-python)
 -   Para obtener el consentimiento del usuario para acceder a los recursos protegidos de las API de Google que requieren autorización Oauth2.0:
 
-    1.  [Biblioteca de JavaScript de autorización de Google 3P](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library) will be used to obtain an authorization code
+    1.  [Biblioteca de JavaScript de autorización de Google 3P](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library)se utilizará para obtener un código de autorización
     2.  El código de autorización será canjeado por un[simbólico](https://developers.google.com/identity/protocols/oauth2/web-server#httprest_3). He encontrado[google-auth-oauthlib](https://google-auth-oauthlib.readthedocs.io/en/latest/)para complicar demasiado la tarea, así que opté por una solicitud HTTP simple.
     3.  [google-autorización](https://googleapis.dev/python/google-auth/latest/user-guide.html)se utilizará para crear Credenciales a partir del token. Las Credenciales serán utilizadas por el Cliente API de Google antes mencionado para acceder a las API de Google.
 -   Para obtener insights (resumen y/o tips) sobre la información, el modelo de lenguaje[gpt-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5)de[API de IA abierta](https://platform.openai.com/docs/introduction/overview)se utilizará a través de la[Biblioteca Open AI Python](https://github.com/openai/openai-python).
@@ -86,7 +86,7 @@ Hasta ahora, he estado desarrollando cada paso en una aplicación web simple usa
 
 ### El proceso de refinar el aviso:
 
-TODO: add the GOOGLE part from refining_prompt.md. Explain firstly that i passed reviews and emails along the prompt.
+TODO: agregue la parte GOOGLE de refining_prompt.md. Explique en primer lugar que pasé reseñas y correos electrónicos a lo largo del aviso.
 
 #### RESTAURANTE
 
@@ -103,7 +103,7 @@ pidiendo un`executive summary`nos da información que ya sabemos si somos el adm
 -   Inmediato:
     -   Sistema:`You are an Executive Assistant.`
     -   Usuario:`Write the manager quick overview of current customer satisfaction shorter than 100 words based on this reviews.`
--   Response:
+-   Respuesta:
     ```plaintext
     Overall, customer satisfaction is high with positive feedback on the 24-hour availability, friendly staff, and diverse menu options including vegan choices. However, there was one negative review regarding incorrect food preparation. Despite this, the majority of customers are pleased with the service and professionalism of the staff during busy periods.
     ```
