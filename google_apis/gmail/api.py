@@ -1,7 +1,4 @@
-from pprint import pprint
-
-# from ..api import GoogleApi # TODO remove if below line works
-from google_apis.api import GoogleApi
+from odoo.addons.proyecto_dam.google_apis.api import GoogleApi
 from googleapiclient.http import HttpMock
 
 from .utils import get_text
@@ -23,7 +20,7 @@ class Gmail(GoogleApi):
 
     def get_emails(self, mock=False):
         """
-        Returns a list consisting of the text body (string) of the 10 more recent emails in the user's inbox. Avoids forwarded and replied emails.
+        Returns a list consisting of the text body (string) of the 3 more recent emails in the user's inbox. Avoids forwarded and replied emails.
         """
 
         request = (
@@ -32,7 +29,7 @@ class Gmail(GoogleApi):
             .list(
                 userId="me",
                 labelIds=["INBOX"],
-                maxResults=10,
+                maxResults=3,
                 q="-is:forward -is:reply",  # exclude forwarded and replied emails because they contain the original email
                 fields="messages/id",
             )
@@ -69,5 +66,5 @@ class Gmail(GoogleApi):
         messages = batch.execute()
 
         text_bodies = [get_text(message) for message in messages]
-        text_bodies = [text_body for text_body in text_bodies if text_body]  # remove empty strings
+        text_bodies = [text_body for text_body in text_bodies if text_body]  # remove None values
         return text_bodies

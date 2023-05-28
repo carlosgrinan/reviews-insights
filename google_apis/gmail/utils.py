@@ -20,10 +20,13 @@ def message_parts_recursion(parts):
 
 def get_text(message):
     """
-    Returns the text body of a ``Message``
+    Returns the text body of a ``Message``. None if the message doesn't have one.
     """
 
     # Note that "payload" itself is a MessagePart.
     text = message_parts_recursion([message["payload"]])
-    text = re.sub(r"http\S+", "", text)  # Remove URLs
-    return text if text else ""
+    if text:
+        text = re.sub(r"http\S+", "", text)  # Remove URLs
+        return text
+    else:
+        return None

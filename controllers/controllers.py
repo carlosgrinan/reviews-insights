@@ -7,8 +7,10 @@ class Source(http.Controller):
         "/proyecto_dam/oauth2",
         type="json",
         auth="public",
+        methods=["POST"],
+        csrf=False,
     )
-    def code_to_token(self):
+    def code_to_token(self, **kwargs):
         code = http.request.params.get("code")
         refresh_token = api.code_to_token(code)
         id = http.request.params.get("id")

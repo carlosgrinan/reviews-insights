@@ -55,7 +55,7 @@ export class Card extends Component {
 
     disconnect() {
         this.state.summary = null;
-        this.orm.write('proyecto_dam.source', [this.source.id], { summary: null, refresh_token: null });
+        this.orm.write('proyecto_dam.source', [this.source.id], { summary: null, refresh_token: null, last_refresh: null });
 
     }
 

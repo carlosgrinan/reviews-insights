@@ -4,5 +4,6 @@ def refresh_summary(source):
     from . import google_maps
 
     reviews = google_maps.get_reviews(source.place_id)
-    summary = summarize(reviews, text_type="reviews")
-    return summary
+    if reviews:
+        summary = summarize(reviews, text_type="reviews")
+        return summary

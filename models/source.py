@@ -1,5 +1,5 @@
 import importlib
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, timezone
 from odoo import fields, models, api
 
 """Refreshing a source's summary is defined as the process of :
@@ -17,7 +17,7 @@ class Source(models.Model):
     display_name = fields.Char()  # Title Case, e.g. Google Maps
     name = fields.Char()  # snake_case, e.g. google_maps. Modules inside google_apis and images are named after it.
     summary = fields.Text()
-    last_refresh = fields.Datetime(default=fields.Datetime.now())  # Last update of the summary
+    last_refresh = fields.Datetime()  # Last update of the summary
 
     # Specific to Google Oauth2.0 APIs
     refresh_token = fields.Char()
@@ -27,26 +27,37 @@ class Source(models.Model):
 
     def refresh_summary(self):
         """Refreshes the ``Source``'s ``summary`` if it's older than 1 hour."""
+        self.ensure_one()
 
-        for source in self:  # Extract the source from the recordset
-            # if fields.Datetime.now() - self.last_refresh < timedelta(hours=1):
+        if not self.last_refresh:
+            needs_refresh = True
+        else:
+            needs_refresh = datetime.now(timezone.utc) - self.last_refresh.replace(tzinfo=timezone.utc) > timedelta(hours=1)
 
-            # Sources are connected when they have a refresh_token (Google Oauth2.0 APIs) or a place_id (Google Places API)
-            if source.refresh_token or source.place_id:
-                module = importlib.import_module(f"odoo.addons.proyecto_dam.google_apis.{source.name}")
-                summary = module.refresh_summary(source)
-                if summary:
-                    source.summary = summary
-                    source.last_refresh = fields.Datetime.now()
-                    source.write({"summary": source.summary, "last_refresh": source.last_refresh})
+        # Sources are connected when they have a refresh_token (Google Oauth2.0 APIs) or a place_id (Google Places API)
+        connected = self.refresh_token or self.place_id
+
+        if connected and needs_refresh:
+            module = importlib.import_module(f"odoo.addons.proyecto_dam.google_apis.{self.name}")
+            summary = module.refresh_summary(self)
+            print("Received Summary:")
+            print(summary)
+            if summary:
+                print("Summary updated.")
+                print({"summary": summary, "last_refresh": fields.Datetime.now()})
+                self.write({"summary": summary, "last_refresh": fields.Datetime.now()})
 
     def write(self, values):
-        # We update the summary whenever any field is updated, which usually happens when refresh_token or place_id are updated (i.e. changes in config that could change outcome).
-        # We don't want to update the summary when the only field that changes is the summary itself, because that would cause an infinite loop.
-        if any(field != "summary" for field in values.keys()):
-            self.refresh()
+        result = super().write(values)
 
-        result = super(Source, self).write(values)
+        # We update the summary whenever summary is not updated, which usually happens when refresh_token or place_id are updated (i.e. changes in config that could change outcome).
+        # We don't want to update the summary when summary changes, because that would cause an infinite loop.
+        if not any(field == "summary" for field in values.keys()):
+            # Re-browse the records to get the updated values, so refresh_summary() uses, for example, the updated refresh_token.
+            self = self.browse(self.ids)
+            for source in self:
+                source.refresh_summary()
+
         return result
 
     @api.model

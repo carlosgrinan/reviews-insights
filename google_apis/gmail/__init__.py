@@ -5,5 +5,6 @@ def refresh_summary(source):
 
     gmail = Gmail(source.refresh_token)
     emails = gmail.get_emails()
-    summary = summarize(emails, text_type="customer support emails")
-    return summary
+    if emails:
+        summary = summarize(emails, text_type="customer support emails")
+        return summary

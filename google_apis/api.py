@@ -3,8 +3,9 @@ import os
 import requests
 from dotenv import load_dotenv
 from google.oauth2.credentials import Credentials
-from . import http
 from googleapiclient.discovery import build
+
+from . import http
 
 TOKEN_URI = "https://oauth2.googleapis.com/token"
 
@@ -39,12 +40,13 @@ def code_to_token(code):
     """
     Returns a refresh token given an authorization code.
     """
+    load_dotenv()
     data = {
         "grant_type": "authorization_code",
         "code": code,
         "client_id": os.getenv("CLIENT_ID"),
         "client_secret": os.getenv("CLIENT_SECRET"),
-        "redirect_uri": "http://127.0.0.1:8069",  # One of the redirect URIs listed for your project in the API Console Credentials page for the given client_id. Not used but required.
+        "redirect_uri": "http://127.0.0.1:8069",  # Has to match the redirect URI used to get the authorization code. If authorization code ux_mode was popup, has to match the URI from which the auth flow was initiated. Beware of using localhost and 127.0.0.1, because they are not the same for Google.
     }
     response = requests.post(TOKEN_URI, data=data)
     return response.json().get("refresh_token")

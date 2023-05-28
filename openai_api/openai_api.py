@@ -5,14 +5,17 @@ import openai
 
 def create(prompt, system_prompt="You are a helpful assistant."):
     openai.api_key = os.getenv("OPENAI_API_KEY")
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": f"{system_prompt}"},
-            {"role": "user", "content": f"{prompt}"},
-        ],
-    )
-    return response["choices"][0]["message"]["content"]
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": f"{system_prompt}"},
+                {"role": "user", "content": f"{prompt}"},
+            ],
+        )
+        return response["choices"][0]["message"]["content"]
+    except Exception as e:
+        
 
 
 def translate(text, language="English"):
@@ -27,10 +30,14 @@ def summarize(texts, text_type="reviews"):
 
         # Translate to English to get better results
         text = translate(text)
+        # print("Translated text:")
+        # print(text)
 
         prompt = f"Write the manager a quick overview of current business situation shorter than 100 words based on this {text_type}. Avoid headers and signatures like 'Dear Manager,':"
         prompt += text
         summary = create(prompt, system_prompt="You are an Executive Assistant.")
+        print("Summary:")
+        print(summary)
         return summary
 
     else:
