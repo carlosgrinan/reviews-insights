@@ -1,11 +1,16 @@
 import os
-
 import openai
+import time
 
 
 def create(prompt, system_prompt="You are a helpful assistant."):
     openai.api_key = os.getenv("OPENAI_API_KEY")
-    try:
+
+    max_retries = 10  # Maximum number of retries
+    base_delay = 1  # Initial delay in seconds
+    backoff_factor = 2  # Delay multiplication factor
+
+    for retry_attempt in range(max_retries + 1):
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -13,9 +18,15 @@ def create(prompt, system_prompt="You are a helpful assistant."):
                 {"role": "user", "content": f"{prompt}"},
             ],
         )
-        return response["choices"][0]["message"]["content"]
-    except Exception as e:
-        
+
+        if "choices" in response:
+            return response["choices"][0]["message"]["content"]
+        else:
+            if retry_attempt < max_retries:
+                delay = base_delay * (backoff_factor**retry_attempt)
+                time.sleep(delay)
+
+    return None
 
 
 def translate(text, language="English"):

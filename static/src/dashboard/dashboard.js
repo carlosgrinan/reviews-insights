@@ -13,14 +13,12 @@ class Dashboard extends Component {
 
 
         onWillStart(async () => {
-            console.log("1");
-            this.sources = await this.orm.searchRead('proyecto_dam.source', [], ['id', 'display_name', 'summary', 'name', 'scope']);
+            this.sources = await this.orm.silent.searchRead('proyecto_dam.source', [], ['id', 'display_name', 'summary', 'name', 'scope'],);
             this.googleScriptLoaded = loadJS("https://accounts.google.com/gsi/client").catch((error) => {
                 console.error(error);
 
                 this.state.loadError = true;
             });
-            console.log("2");
 
         });
     }
