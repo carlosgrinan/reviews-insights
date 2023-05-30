@@ -77,12 +77,6 @@ Up until now, I've been developing each step on a simple web application using [
 * paragraph, the summary received from OpenAI API. Only shown when that Google API is connected.
 * button, to provide the functionality of connecting and disconnecting that Google API.
 
-## Others
-
-- Why I've chosen a chat-optimized model:
-  - https://platform.openai.com/docs/guides/chat/chat-vs-completions
-  - https://openai.com/pricing#language-models
-
 ### The process of refining the prompt:
 
 TODO: add the GOOGLE part from refining_prompt.md. Explain firstly that i passed reviews and emails along the prompt.
@@ -120,22 +114,24 @@ Now the model focus too much on the customers themselves (e.g. `there was one ne
 #### INTERNET PROVIDER
 
 - Prompt:
+
   - System: `You are an Executive Assistant.`
   - User: `Write the manager a quick overview of current business situation shorter than 100 words based on this customer support emails.`
 - Response:
+
   ```plaintext
   Dear Manager, 
   We have been receiving a mix of customer feedback regarding our internet services. Some customers are experiencing internet connection issues and slow internet speeds, while others are satisfied with the quality of internet provided. We have also received a billing issue complaint and a delayed installation complaint. We need to address these issues promptly to maintain customer satisfaction. 
   Best regards, 
   Executive Assistant
   ```
-
   Now we tell the model to `Avoid headers and signatures like "Dear Manager"`. Sometimes the model produces them, maybe because of the serious and professional nature of the System Prompt: `You are an Executive Assistant.`
-
 - Prompt:
+
   - System: `You are an Executive Assistant.`
   - User: `Write the manager a quick overview of current business situation shorter than 100 words based on this customer support emails. Avoid headers and signatures like "Dear Manager".`
 - Response:
+
   ```plaintext
   Customers are facing internet connection issues such as frequent disconnection, slow internet speeds, and delayed installation. Additionally, one customer has raised concerns about their billing. However, one customer has expressed their satisfaction with the quality of internet and customer service. Immediate action is required to address the issues faced by the customers.
   ```
