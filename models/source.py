@@ -1,6 +1,8 @@
 import importlib
-from datetime import timedelta, datetime, timezone
-from odoo import fields, models, api
+from datetime import datetime, timedelta, timezone
+import time
+
+from odoo import api, fields, models
 
 """Refreshing a source's summary is defined as the process of :
 - retrieving multiple pieces of information from the Google API that is represented by the source
@@ -37,15 +39,14 @@ class Source(models.Model):
         # Sources are connected when they have a refresh_token (Google Oauth2.0 APIs) or a place_id (Google Places API)
         connected = self.refresh_token or self.place_id
 
-        if connected and needs_refresh:
-            module = importlib.import_module(f"odoo.addons.proyecto_dam.google_apis.{self.name}")
-            summary = module.refresh_summary(self)
-            print("Received Summary:")
-            print(summary)
-            if summary:
-                print("Summary updated.")
-                print({"summary": summary, "last_refresh": fields.Datetime.now()})
-                self.write({"summary": summary, "last_refresh": fields.Datetime.now()})
+        time.sleep(15)  # TODO QUITAR
+        self.env["bus.bus"]._sendone("gmail", "gmail", {"message_key": " a demo async message"})
+        print("ASYNC JOB")
+        # if connected and needs_refresh:
+        # module = importlib.import_module(f"odoo.addons.proyecto_dam.google_apis.{self.name}") #TODO descomentar, es para no gastar cuota
+        # summary = module.refresh_summary(self)
+        # if summary:
+        #     self.write({"summary": summary, "last_refresh": fields.Datetime.now()})
 
     def write(self, values):
         result = super().write(values)
@@ -63,13 +64,12 @@ class Source(models.Model):
     @api.model
     def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None, **read_kwargs):
         """Wrapper around search_read that refreshes the ``summary`` of each ``Source`` before returning results."""
+
+        # time.sleep(5)  # QUITAR
         sources = self.search(domain or [], offset=offset, limit=limit, order=order)
         for source in sources:
-            source.refresh_summary()
+            # source.refresh_summary()
+            source.with_delay().refresh_summary()
+            self.env["bus.bus"]._sendone("my-channel", "my-type", {"message_key": " a demo message"})
         results = sources.read(fields, **read_kwargs)
         return results
-
-        # for source in sources:
-        #     source.refresh()
-        # results = super(Source, self).search_read(domain, fields, offset, limit, order, **read_kwargs)
-        # return results
