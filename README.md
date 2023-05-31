@@ -48,7 +48,7 @@ This is a succesful example. Customer reviews are real, obtained from a McDonald
 
 - Prompt:
 
-  * System: `You are an Executive Assistant.`
+  * [System](https://platform.openai.com/docs/api-reference/chat/create#chat/create-role): `You are an Executive Assistant.`
   * User:
 
 ```plaintext

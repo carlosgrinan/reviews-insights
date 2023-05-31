@@ -48,6 +48,79 @@ La app tiene ciertas particularidades debido a su uso de [multiprocesamiento](mu
 
   - Módulo [Job Queue](https://apps.odoo.com/apps/modules/16.0/queue_job/).
 
+## **Dificultades encontradas y decisiones al respecto**
+
+### Refinando el prompt
+
+Los resúmenes de la retroalimentación deben ser cortos (no más de un párrafo) y no deben referirse directamente a los datos concretos de la retroalimentación (por ejemplo, "*un cliente dice que...*" no es el comportamiento deseado).
+
+#### Resultado
+
+Este en un ejemplo exitoso. La retroalimentación consiste en reviews reales, obtenidas de un McDonald's de *Google Maps*.
+
+Nota: prompts y resultados traducidos al español, pueden verse los originales en inglés [aquí](../docs/prompt_refining.md), junto con más ejemplos del proceso de refinamiento.
+
+- Prompt:
+
+  * [Sistema](https://platform.openai.com/docs/api-reference/chat/create#chat/create-role): `Eres un asistente ejecutivo.`
+  * Usuario:
+
+```plaintext
+Escríbele al manager un resumen de la situacion actual del negocio de menos de 100 palabras basado en estas reseñas:
+
+- Abierto las 24 horas del día por lo que no haya prisa por llegar antes de la hora de cierre. El personal siempre es educado y amable a pesar de parecer increíblemente ocupado cuidando de los pedidos en coche, en casa y en línea. Los viejos favoritos y las opciones de temporada están disponibles en el menú y hay un menú vegano en crecimiento que es genial de ver.
+
+- El servicio fue bueno usando el coche.
+Imagino que el personal que preparaba la comida estaba a punto de dimitir o ser despedido ya que las hamburguesas con queso tenían el queso en el exterior del pan y los Big Mac no tenían carne en absoluto. Demasiado lejos para volver, realmente decepcionado y hambriento.
+
+- Cuando recogí mi comida esta semana, este restaurante estaba lleno y extremadamente ocupado, los trabajadores  del viernes alrededor de las 18:30 no solo estaban bajo una presión muy exigente, se mantuvieron tranquilos, educados y profesionales. usted 👏 y para colmo, incluso logró ayudarme con mi pedido de regreso a mi vehículo, ya que era un pedido grande. Espero que sus gerentes lean esto y sepan lo bueno que es el personal. Llegarán lejos en la vida. Nos vemos pronto.
+```
+
+- Respuesta:
+
+```plaintext
+En general, las reseñas de los clientes sobre el negocio son positivas y los clientes elogian el servicio las 24 horas y el amable personal. Sin embargo, ha habido algunas críticas negativas sobre la calidad de la comida. A pesar de esto, el restaurante sigue ocupado y se ha elogiado a los trabajadores por su profesionalismo y capacidad para manejar situaciones de alta presión.
+```
+
+#### Proceso
+
+- Prompt:
+  - Sistema: `Eres un asistente ejecutivo.`
+  - Usuario: `Escríbele al manager un resumen ejecutivo de menos de 100 palabras basado en estas reseñas.`
+- Respuesta:
+  ```plaintext
+  El restaurante ofrece servicio 24 horas con
+  El restaurante ofrece servicio las 24 horas con un personal amable y un menú variado que incluye opciones veganas. Sin embargo, un cliente experimentó una comida de mala calidad. A pesar de esto, los trabajadores se mantuvieron profesionales y serviciales durante un período ajetreado.
+  ```
+
+Al pedir un `resumen ejecutivo` nos da información obvia que deberíamos conocer si somos el manager del negocio (por ejemplo `El restaurante ofrece servicio 24 horas`), sin añadir ningún valor a esa información (¿A los clientes les gusta el servicio 24 horas?). Cambio  `resumen ejecutivo` por `satisfacción actual de los clientes`
+
+- Prompt:
+  - Sistema: `Eres un asistente ejecutivo.`
+  - Usuario: `Escríbele al manager un resumen de la satisfacción actual de los clientes de menos de 100 palabras basado en estas reseñas.`
+- Respuesta:
+  ```plaintext
+  En general, la satisfacción del cliente es alta con comentarios positivos sobre la disponibilidad las 24 horas, el personal amable y las diversas opciones de menú, incluidas opciones veganas. Sin embargo, hubo una reseña negativa con respecto a la preparación incorrecta de alimentos. A pesar de esto, la mayoría de los clientes están satisfechos con el servicio y la profesionalidad del personal durante los períodos de mayor actividad.
+  ```
+
+Ahora la IA se centra demasiado en los clientes (`hubo una reseña negativa`). Cambio `satisfacción actual de los clientes` for `situación actual del negocio`.
+
+- Prompt:
+  * Sistema: `Eres un asistente ejecutivo.`
+  * Usuario: `Escríbele al manager un resumen de la situación actual del negocio de menos de 100 palabras basado en estas reseñas.`
+- Respuesta:
+  ```plaintext
+  En general, las reseñas de los clientes sobre el negocio son positivas y los clientes elogian el servicio las 24 horas y el amable personal. Sin embargo, ha habido algunas críticas negativas sobre la calidad de la comida. A pesar de esto, el restaurante sigue ocupado y se ha elogiado a los trabajadores por su profesionalismo y capacidad para manejar situaciones de alta presión.
+  ```
+
+
+
+
+
+
+
+
+
 [^1]: *Places API* solo permite obtener hasta 5 reseñas de un negocio, mientras que las *APIs de Perfil de Empresa* no tienen esta limitación. No obstante, requieren (además de la autorización del usuario) [solicitar acceso](https://developers.google.com/my-business/content/prereqs?hl=es#request-access).
     
 [^2]: Las APIs de Google que ofrecen recursos protegidos  requieren autorización del propietario de los mismos (el usuario) mediante el protocolo OAuth2.0, aunque solamente se acceda a recursos abiertos al público (como las reseñas de las *APIs de Perfil de Empresa*).
