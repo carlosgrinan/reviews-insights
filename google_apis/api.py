@@ -5,15 +5,15 @@ from dotenv import load_dotenv
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 
-from . import http
+from googleapiclient.http import HttpMock
 
 TOKEN_URI = "https://oauth2.googleapis.com/token"
 
 
 class GoogleApi:
-    def __init__(self, api_name, api_version, refresh_token, mock=False, mock_filename=None):
+    def __init__(self, api_name, api_version, refresh_token, mock=False, mock_filename=None, discoveryServiceUrl=None):
         if mock:
-            http = http.HttpMock(mock_filename, {"status": "200"})
+            http = HttpMock(mock_filename, {"status": "200"})
             self.service = build(api_name, api_version, http=http)
 
         else:
@@ -25,7 +25,7 @@ class GoogleApi:
                 client_id=os.getenv("CLIENT_ID"),
                 client_secret=os.getenv("CLIENT_SECRET"),
             )
-            self.service = build(api_name, api_version, credentials=credentials)
+            self.service = build(api_name, api_version, credentials=credentials, discoveryServiceUrl=discoveryServiceUrl)
 
     def new_batch_http_request(
         self,
