@@ -14,13 +14,13 @@ export class Card extends Component {
         this.orm = useService("orm");
         this.rpc = useService("rpc");
 
-        this.bus_service = useService("bus_service");
-        this.channel = this.source.name;
-        this.bus_service.addChannel(this.channel);
-        this.bus_service.addEventListener(
-            "notification",
-            this.onNotification.bind(this)
-        );
+        // this.bus_service = useService("bus_service");
+        // this.channel = this.source.name;
+        // this.bus_service.addChannel(this.channel);
+        // this.bus_service.addEventListener(
+        //     "notification",
+        //     this.onNotification.bind(this)
+        // );
 
 
 

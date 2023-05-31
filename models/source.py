@@ -40,7 +40,7 @@ class Source(models.Model):
         connected = self.refresh_token or self.place_id
 
         time.sleep(15)  # TODO QUITAR
-        self.env["bus.bus"]._sendone("gmail", "gmail", {"message_key": " a demo async message"})
+        self.env["bus.bus"]._sendone("my-channel", "my-type", {"message_key": " a demo async message"})
         print("ASYNC JOB")
         # if connected and needs_refresh:
         # module = importlib.import_module(f"odoo.addons.proyecto_dam.google_apis.{self.name}") #TODO descomentar, es para no gastar cuota
@@ -53,11 +53,12 @@ class Source(models.Model):
 
         # We update the summary whenever summary is not updated, which usually happens when refresh_token or place_id are updated (i.e. changes in config that could change outcome).
         # We don't want to update the summary when summary changes, because that would cause an infinite loop.
-        if not any(field == "summary" for field in values.keys()):
-            # Re-browse the records to get the updated values, so refresh_summary() uses, for example, the updated refresh_token.
-            self = self.browse(self.ids)
-            for source in self:
-                source.refresh_summary()
+        # if not any(field == "summary" for field in values.keys()):
+        #     # Re-browse the records to get the updated values, so refresh_summary() uses, for example, the updated refresh_token.
+        #     self = self.browse(self.ids)
+        #     for source in self:
+        #         print("WRITING")
+        #         source.refresh_summary()
 
         return result
 
@@ -69,7 +70,7 @@ class Source(models.Model):
         sources = self.search(domain or [], offset=offset, limit=limit, order=order)
         for source in sources:
             # source.refresh_summary()
-            source.with_delay().refresh_summary()
+            # source.with_delay().refresh_summary()
             self.env["bus.bus"]._sendone("my-channel", "my-type", {"message_key": " a demo message"})
         results = sources.read(fields, **read_kwargs)
         return results

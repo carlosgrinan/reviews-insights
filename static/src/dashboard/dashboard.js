@@ -11,6 +11,14 @@ class Dashboard extends Component {
         this.orm = useService("orm");
         this.state = useState({ loadError: false, });
 
+        this.bus_service = useService("bus_service");
+        this.channel = "my-channel";
+        this.bus_service.addChannel(this.channel);
+        this.bus_service.addEventListener(
+            "notification",
+            this.onNotification.bind(this)
+        );
+
 
         onWillStart(async () => {
             this.sources = await this.orm.silent.searchRead('proyecto_dam.source', [], ['id', 'display_name', 'summary', 'name', 'scope'],);
@@ -21,6 +29,17 @@ class Dashboard extends Component {
             });
 
         });
+    }
+
+
+    onNotification({ detail: notifications }) {
+        for (const { payload, type } of notifications) {
+            if (type === "my-type") {
+                console.log(payload);
+                // console.log(payload.message_key);
+                // this.state.summary = payload.message_key;
+            }
+        }
     }
 
 }
