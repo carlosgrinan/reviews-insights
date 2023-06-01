@@ -13,14 +13,17 @@ class AccountManagement(GoogleApi):
             "v1",
             refresh_token,
             mock=mock,
-            mock_file=None,
+            mock_filename="/home/carlos/src/odoo/addons/proyecto_dam/mock_data/google/business_profile/account_management_discovery.json",
         )
 
     def get_accounts(self, mock=False):
         request = self.service.accounts().list(fields="accounts/name")
 
         if mock:
-            http_mock = HttpMock("mock_data/google/business_profile/accounts-list.json", {"status": "200"})
+            http_mock = HttpMock(
+                "/home/carlos/src/odoo/addons/proyecto_dam/mock_data/google/business_profile/accounts-list.json",
+                {"status": "200"},
+            )
             response = request.execute(http=http_mock)
         else:
             response = request.execute()
@@ -36,13 +39,17 @@ class BusinessInformation(GoogleApi):
             "v1",
             refresh_token,
             mock=mock,
+            mock_filename="/home/carlos/src/odoo/addons/proyecto_dam/mock_data/google/business_profile/business_information_discovery.json",
         )
 
     def get_locations(self, account_id, mock=False):
         request = self.service.accounts().locations().list(parent=f"accounts/{account_id}", readMask="locations.name")
 
         if mock:
-            http_mock = HttpMock("mock_data/google/business_profile/locations-list.json", {"status": "200"})
+            http_mock = HttpMock(
+                "/home/carlos/src/odoo/addons/proyecto_dam/mock_data/google/business_profile/locations-list.json",
+                {"status": "200"},
+            )
             response = request.execute(http=http_mock)
         else:
             response = request.execute()
@@ -61,6 +68,7 @@ class MyBusiness(GoogleApi):
             refresh_token,
             mock=mock,
             discoveryServiceUrl="https://developers.google.com/my-business/samples/mybusiness_google_rest_v4p9.json",
+            mock_filename="/home/carlos/src/odoo/addons/proyecto_dam/mock_data/google/business_profile/mybusiness_discovery.json",
         )
 
     def get_reviews(self, account_id, location_id, mock=False):
@@ -72,7 +80,10 @@ class MyBusiness(GoogleApi):
         )
 
         if mock:
-            http_mock = HttpMock("mock_data/google/business_profile/reviews-list.json", {"status": "200"})
+            http_mock = HttpMock(
+                "/home/carlos/src/odoo/addons/proyecto_dam/mock_data/google/business_profile/reviews-list.json",
+                {"status": "200"},
+            )
             response = request.execute(http=http_mock)
         else:
             response = request.execute()
@@ -89,7 +100,9 @@ class BusinessProfile:
         self.my_business = MyBusiness(refresh_token, mock=mock)
 
     def get_reviews(self, mock=False):
-        account = self.account_management.get_accounts(mock=mock)[0]
-        location = self.business_information.get_locations(account, mock=mock)[0]
-        reviews = self.my_business.get_reviews(account, location, mock=mock)
-        return reviews
+        accounts = self.account_management.get_accounts(mock=mock)
+        if accounts:
+            locations = self.business_information.get_locations(accounts[0], mock=mock)
+            if locations:
+                reviews = self.my_business.get_reviews(accounts[0], locations[0], mock=mock)
+                return reviews

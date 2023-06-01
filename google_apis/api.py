@@ -6,15 +6,16 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 
 from googleapiclient.http import HttpMock
+from .http import BatchHttpRequestCustom
 
 TOKEN_URI = "https://oauth2.googleapis.com/token"
 
 
 class GoogleApi:
-    def __init__(self, api_name, api_version, refresh_token, mock=False, mock_filename=None, discoveryServiceUrl=None):
+    def __init__(self, api_name, api_version, refresh_token, mock=False, mock_filename=None, **kwargs):
         if mock:
             http = HttpMock(mock_filename, {"status": "200"})
-            self.service = build(api_name, api_version, http=http)
+            self.service = build(api_name, api_version, http=http, **kwargs)
 
         else:
             load_dotenv()
@@ -25,7 +26,7 @@ class GoogleApi:
                 client_id=os.getenv("CLIENT_ID"),
                 client_secret=os.getenv("CLIENT_SECRET"),
             )
-            self.service = build(api_name, api_version, credentials=credentials, discoveryServiceUrl=discoveryServiceUrl)
+            self.service = build(api_name, api_version, credentials=credentials, **kwargs)
 
     def new_batch_http_request(
         self,
@@ -33,7 +34,7 @@ class GoogleApi:
         """
         Same as ``self.service.new_batch_http_request()`` but returns a ``BatchHttpRequestCustom``"""
         batch = self.service.new_batch_http_request()
-        return http.BatchHttpRequestCustom(batch)
+        return BatchHttpRequestCustom(batch)
 
 
 def code_to_token(code):

@@ -3,7 +3,9 @@ def refresh_summary(source):
 
     from .api import BusinessProfile
 
-    business_profile = BusinessProfile(source.refresh_token)
+    business_profile = BusinessProfile(
+        source.refresh_token,
+    )
     reviews = business_profile.get_reviews()
     if reviews:
         summary = summarize(reviews, text_type="reviews")

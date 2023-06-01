@@ -1,7 +1,13 @@
 {
     "accounts": [
         {
-            "name": "# TODO"
+            "name": "accounts/account1"
+        },
+        {
+            "name": "accounts/account2"
+        },
+        {
+            "name": "accounts/account3"
         }
     ]
 }

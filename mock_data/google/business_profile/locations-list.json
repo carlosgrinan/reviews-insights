@@ -1,7 +1,13 @@
 {
     "locations": [
         {
-            "name": "# TODO"
+            "name": "accounts/account1/locations/location1"
+        },
+        {
+            "name": "accounts/account1/locations/location2"
+        },
+        {
+            "name": "accounts/account1/locations/location3"
         }
     ]
 }
