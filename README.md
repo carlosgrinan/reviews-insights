@@ -7,9 +7,12 @@ The objective of this project is to develop an [Odoo](https://www.odoo.com/docum
 The costs associated with human reviews and classifications of text-based data often lead to its neglect in favor of numerical data, which can be automatically analyzed on platforms like Google Analytics. The recent advancements and increased accessibility of AI Language Generative models have made it possible to automate the analysis of text-based information too. By combining analyses of both types of data, companies can gain more comprehensive insights which to incorporate into their decision-making.
 To kickstart this project, our focus will be on analyzing customer feedback. However, the same approach can be applied to other types of valuable text-based data.
 
+
+
+
 ## Tools
 
-- To obtain customer feedback, various [Google APIs](https://developers.google.com/apis-explorer) will be used through [Google API Client](https://github.com/googleapis/google-api-python-client): 
+- To obtain customer feedback, various [Google APIs](https://developers.google.com/apis-explorer) will be used through [Google API Client](https://github.com/googleapis/google-api-python-client):
 
   - Need Oauth2.0 authorization:
     - **[Gmail API](https://developers.google.com/gmail/api/guides)**: to obtain customer support emails from *Gmail*.

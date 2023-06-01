@@ -1,6 +1,7 @@
 import importlib
-from datetime import timedelta, datetime, timezone
-from odoo import fields, models, api
+from datetime import datetime, timedelta, timezone
+
+from odoo import api, fields, models
 
 """Refreshing a source's summary is defined as the process of :
 - retrieving multiple pieces of information from the Google API that is represented by the source
@@ -12,7 +13,7 @@ class Source(models.Model):
     """A source of information (a Google API representation on our end). Stores the user's data related to that source.
     Not to be confused with the module google_apis, which is the interface used to communicate with Google APIs."""
 
-    _name = "proyecto_dam.source"
+    _name = "reviews_insights.source"
 
     display_name = fields.Char()  # Title Case, e.g. Google Maps
     name = fields.Char()  # snake_case, e.g. google_maps. Modules inside google_apis and images are named after it.
@@ -38,7 +39,7 @@ class Source(models.Model):
         connected = self.refresh_token or self.place_id
 
         if connected and needs_refresh:
-            module = importlib.import_module(f"odoo.addons.proyecto_dam.google_apis.{self.name}")
+            module = importlib.import_module(f"odoo.addons.reviews_insights.google_apis.{self.name}")
             summary = module.refresh_summary(self)
             print("Received Summary:")
             print(summary)

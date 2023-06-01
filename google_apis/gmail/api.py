@@ -1,5 +1,6 @@
-from odoo.addons.proyecto_dam.google_apis.api import GoogleApi
 from googleapiclient.http import HttpMock
+
+from odoo.addons.reviews_insights.google_apis.api import GoogleApi
 
 from .utils import get_text
 

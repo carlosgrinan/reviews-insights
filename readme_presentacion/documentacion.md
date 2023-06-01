@@ -50,9 +50,15 @@ La app tiene ciertas particularidades debido a su uso de [multiprocesamiento](mu
 
 ## **Dificultades encontradas y decisiones al respecto**
 
+### Datos simulados
+
+No soy dueño de ninguna app de *Google Play Store*  ni poseo un negocio en *Perfil de Empresa* por lo que para probar el funcionamiento de sus respectivas APIs he utilizado la clase [HttpMock](https://googleapis.github.io/google-api-python-client/docs/mocks.html) que ofrece el [Cliente Python de las APIs de Google](https://github.com/googleapis/google-api-python-client). Permite especificar un documento en formato *json* con la respuesta que supuestamente recibiríamos de la API.
+
+Nota: estos datos simulados estan únicamente destinados al proceso de desarrollo. He decidido no incluír datos de demostración de cara al usuario final, puesto que entiendo los mismos como una herramienta para que el usuario pruebe las distintas acciones que puede realizar con ellos. En esta app, el usuario no puede realizar acciones con los datos. Encontrarse con párrafos de ejemplo al iniciar la app únicamente provocaría confusión al usuario, que no tendría claro qué servicios están conectados y cuáles no, dado que todos presentan texto. Para ver el resultado al conectar los servicios, puede referirse al vídeo de demostración(TODO).
+
 ### Idiomas
 
-La retroalimentación puede estar en distintos idiomas. No obstante, el modelo de lenguaje *gpt-3.5-turbo* ofrece mejores resultados cuando recibe y produce texto en inglés. 
+La retroalimentación puede estar en distintos idiomas. No obstante, el modelo de lenguaje *gpt-3.5-turbo* ofrece mejores resultados cuando recibe y produce texto en inglés.
 
 He optado por traducir la retroalimentación a inglés antes de enviársela a la API de OpenAI para que la resuma. Para la traducción he utilizado el mismo modelo de lenguaje. Es decir, *gpt-3.5* se encarga de traducir a inglés la información que luego va a tener que resumir. De esta manera los resultados son mejores que encargándole la tarea de resumir (en inglés) textos de distintos idiomas.
 

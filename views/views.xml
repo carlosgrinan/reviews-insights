@@ -4,12 +4,11 @@
         <!-- actions -->
         <record model="ir.actions.client" id="dashboard">
             <field name="name">Dashboard</field>
-            <field name="tag">proyecto_dam.dashboard</field>
+            <field name="tag">reviews_insights.dashboard</field>
         </record>
 
         <!-- menu items -->
-        <menuitem name="Proyecto DAM" id="proyecto_dam.menu_root" groups="base.group_user"
-            action="proyecto_dam.dashboard" />
+        <menuitem name="Reviews Insights" id="reviews_insights.menu_root" groups="base.group_user" action="reviews_insights.dashboard" />
 
     </data>
 </odoo>
