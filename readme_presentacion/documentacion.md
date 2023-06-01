@@ -50,6 +50,14 @@ La app tiene ciertas particularidades debido a su uso de [multiprocesamiento](mu
 
 ## **Dificultades encontradas y decisiones al respecto**
 
+### Idiomas
+
+La retroalimentación puede estar en distintos idiomas. No obstante, el modelo de lenguaje *gpt-3.5-turbo* ofrece mejores resultados cuando recibe y produce texto en inglés. 
+
+He optado por traducir la retroalimentación a inglés antes de enviársela a la API de OpenAI para que la resuma. Para la traducción he utilizado el mismo modelo de lenguaje. Es decir, *gpt-3.5* se encarga de traducir a inglés la información que luego va a tener que resumir. De esta manera los resultados son mejores que encargándole la tarea de resumir (en inglés) textos de distintos idiomas.
+
+Otra opción habría sido utilizar un servicio específico de traducción, como *DeepL*, pero los resultados son [similares ](https://blog.inten.to/chatgpt-for-translation-surpassing-gpt-3-e8e34f37befb)y la interfaz con la API de OpenAI ya está montada.
+
 ### Refinando el prompt
 
 Los resúmenes de la retroalimentación deben ser cortos (no más de un párrafo) y no deben referirse directamente a los datos concretos de la retroalimentación (por ejemplo, "*un cliente dice que...*" no es el comportamiento deseado).
@@ -112,14 +120,6 @@ Ahora la IA se centra demasiado en los clientes (`hubo una reseña negativa`). C
   ```plaintext
   En general, las reseñas de los clientes sobre el negocio son positivas y los clientes elogian el servicio las 24 horas y el amable personal. Sin embargo, ha habido algunas críticas negativas sobre la calidad de la comida. A pesar de esto, el restaurante sigue ocupado y se ha elogiado a los trabajadores por su profesionalismo y capacidad para manejar situaciones de alta presión.
   ```
-
-
-
-
-
-
-
-
 
 [^1]: *Places API* solo permite obtener hasta 5 reseñas de un negocio, mientras que las *APIs de Perfil de Empresa* no tienen esta limitación. No obstante, requieren (además de la autorización del usuario) [solicitar acceso](https://developers.google.com/my-business/content/prereqs?hl=es#request-access).
     

@@ -9,7 +9,7 @@ To kickstart this project, our focus will be on analyzing customer feedback. How
 
 ## Tools
 
-- To obtain customer feedback, various [Google APIs](https://developers.google.com/apis-explorer) will be used through [Google API Client](https://github.com/googleapis/google-api-python-client):
+- To obtain customer feedback, various [Google APIs](https://developers.google.com/apis-explorer) will be used through [Google API Client](https://github.com/googleapis/google-api-python-client): 
 
   - Need Oauth2.0 authorization:
     - **[Gmail API](https://developers.google.com/gmail/api/guides)**: to obtain customer support emails from *Gmail*.
