@@ -37,7 +37,7 @@ class Gmail(GoogleApi):
 
         if mock:
             http_mock = HttpMock(
-                "/home/carlos/src/odoo/addons/proyecto_dam/mock_data/google/gmail/messages-list.json", {"status": "200"}
+                "/home/carlos/src/odoo/addons/reviews_insights/mock_data/google/gmail/messages-list.json", {"status": "200"}
             )
             response = request.execute(http=http_mock)
         else:

@@ -14,7 +14,7 @@ class Source(models.Model):
     """A source of information (a Google API representation on our end). Stores the user's data related to that source.
     Not to be confused with the module google_apis, which is the interface used to communicate with Google APIs."""
 
-    _name = "proyecto_dam.source"
+    _name = "reviews_insights.source"
 
     display_name = fields.Char()  # Title Case, e.g. Google Maps
     name = fields.Char()  # snake_case, e.g. google_maps. Modules inside google_apis and images are named after it.

@@ -1,5 +1,5 @@
 {
-    "name": "proyecto_dam",
+    "name": "reviews_insights",
     "summary": """
         AI-powered brief insights on customer feedback.""",
     "description": """
@@ -15,14 +15,10 @@
         "data/sources.xml",
         "views/views.xml",
     ],
-    # TODO like "data/sources.xml", but with summaries and refres tokens for each source
-    # "demo": [
-    #     "demo/sources.xml",
-    # ],
     "assets": {
         "web.assets_backend": [
-            "proyecto_dam/static/src/**/*",
-            "proyecto_dam/static/img/*",
+            "reviews_insights/static/src/**/*",
+            "reviews_insights/static/img/*",
         ],
     },
     "depends": [

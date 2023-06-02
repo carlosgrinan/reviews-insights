@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="1" model="proyecto_dam.source">
+    <record id="1" model="reviews_insights.source">
         <field name="display_name">Gmail</field>
         <field name="name">gmail</field>
         <field name="scope">https://www.googleapis.com/auth/gmail.readonly</field>
@@ -8,7 +8,7 @@
 
 
     <!-- no oauth -->
-    <record id="2" model="proyecto_dam.source">
+    <record id="2" model="reviews_insights.source">
         <field name="display_name">Google Maps</field>
         <field name="name">google_maps</field>
         <!-- <field name="summary">

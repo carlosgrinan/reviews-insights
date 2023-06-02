@@ -21,7 +21,7 @@ Para poner en marcha este proyecto, nos centraremos en analizar los comentarios 
 - Para obtener el consentimiento del usuario para acceder a los recursos protegidos de las API de Google que requieren autorización Oauth2.0:
 
   1. [Biblioteca de JavaScript de autorización de Google 3P](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library)se utilizará para obtener un código de autorización
-  2. El código de autorización será canjeado por un[simbólico](https://developers.google.com/identity/protocols/oauth2/web-server#httprest_3). He encontrado[google-auth-oauthlib](https://google-auth-oauthlib.readthedocs.io/en/latest/)para complicar demasiado la tarea, así que opté por una solicitud HTTP simple.
+  2. El código de autorización será canjeado por un[simbólico](https://developers.google.com/identity/protocols/oauth2/web-server#httprest_3). He encontrado[google-auth-oauthlib](https://google-auth-oauthlib.readthedocs.io/en/latest/)para complicar demasiado la tarea, así que  opté por una solicitud HTTP simple.
   3. [google-autorización](https://googleapis.dev/python/google-auth/latest/user-guide.html)se utilizará para crear Credenciales a partir del token. Las Credenciales serán utilizadas por el Cliente API de Google antes mencionado para acceder a las API de Google.
 - Para obtener insights (resumen y/o tips) sobre la información, el modelo de lenguaje[gpt-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5)de[API de IA abierta](https://platform.openai.com/docs/introduction/overview)se utilizará a través de la[Biblioteca Open AI Python](https://github.com/openai/openai-python).
 - TODO: Odoo

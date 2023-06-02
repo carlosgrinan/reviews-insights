@@ -1,10 +1,10 @@
 /** @odoo-module **/
 
+import { Component, onWillStart, useState } from "@odoo/owl";
 import { loadJS } from "@web/core/assets";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { Card } from "../card/card";
-import { Component, useState, onWillStart } from "@odoo/owl";
 
 class Dashboard extends Component {
     setup() {
@@ -21,7 +21,7 @@ class Dashboard extends Component {
 
 
         onWillStart(async () => {
-            this.sources = await this.orm.silent.searchRead('proyecto_dam.source', [], ['id', 'display_name', 'summary', 'name', 'scope'],);
+            this.sources = await this.orm.silent.searchRead('reviews_insights.source', [], ['id', 'display_name', 'summary', 'name', 'scope'],);
             this.googleScriptLoaded = loadJS("https://accounts.google.com/gsi/client").catch((error) => {
                 console.error(error);
 
@@ -45,6 +45,6 @@ class Dashboard extends Component {
 }
 
 Dashboard.components = { Card };
-Dashboard.template = "proyecto_dam.clientaction";
+Dashboard.template = "reviews_insights.clientaction";
 
-registry.category("actions").add("proyecto_dam.dashboard", Dashboard);
+registry.category("actions").add("reviews_insights.dashboard", Dashboard);

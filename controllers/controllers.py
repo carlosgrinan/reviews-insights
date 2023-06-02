@@ -1,10 +1,10 @@
 from odoo import http
-from odoo.addons.proyecto_dam.google_apis import api
+from odoo.addons.reviews_insights.google_apis import api
 
 
 class Source(http.Controller):
     @http.route(
-        "/proyecto_dam/oauth2",
+        "/reviews_insights/oauth2",
         type="json",
         auth="public",
         methods=["POST"],
@@ -14,5 +14,5 @@ class Source(http.Controller):
         code = http.request.params.get("code")
         refresh_token = api.code_to_token(code)
         id = http.request.params.get("id")
-        source = http.request.env["proyecto_dam.source"].browse(id)
+        source = http.request.env["reviews_insights.source"].browse(id)
         source.write({"refresh_token": refresh_token})

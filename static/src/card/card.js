@@ -41,7 +41,7 @@ export class Card extends Component {
                                 console.error(response.description);
                                 console.error(response.error_uri);
                             } else {
-                                this.rpc('/proyecto_dam/oauth2', {
+                                this.rpc('/reviews_insights/oauth2', {
                                     id: this.source.id,
                                     code: response.code,
                                 },
@@ -65,7 +65,7 @@ export class Card extends Component {
 
     disconnect() {
         this.state.summary = null;
-        this.orm.write('proyecto_dam.source', [this.source.id], { summary: null, refresh_token: null, last_refresh: null });
+        this.orm.write('reviews_insights.source', [this.source.id], { summary: null, refresh_token: null, last_refresh: null });
 
     }
 
@@ -84,4 +84,4 @@ export class Card extends Component {
     }
 }
 
-Card.template = "proyecto_dam.Card";
+Card.template = "reviews_insights.Card";
