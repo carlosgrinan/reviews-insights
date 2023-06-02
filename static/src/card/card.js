@@ -1,6 +1,6 @@
 /** @odoo-module */
+import { Component, onWillStart, useState } from "@odoo/owl";
 import { useService, } from "@web/core/utils/hooks";
-import { Component, useState, onWillStart } from "@odoo/owl";
 
 export class Card extends Component {
     setup() {
@@ -32,11 +32,11 @@ export class Card extends Component {
                                 console.error(response.description);
                                 console.error(response.error_uri);
                             } else {
-                                this.rpc('/proyecto_dam/oauth2', {
+                                this.rpc('/reviews_insights/oauth2', {
                                     id: this.source.id,
                                     code: response.code,
                                 }).then(async () => {
-                                    this.orm.searchRead('proyecto_dam.source', [["id", "=", this.source.id]], ['summary']).then((results) => {
+                                    this.orm.searchRead('reviews_insights.source', [["id", "=", this.source.id]], ['summary']).then((results) => {
                                         this.state.summary = results[0].summary;
                                     });
                                 });
@@ -55,7 +55,7 @@ export class Card extends Component {
 
     disconnect() {
         this.state.summary = null;
-        this.orm.write('proyecto_dam.source', [this.source.id], { summary: null, refresh_token: null, last_refresh: null });
+        this.orm.write('reviews_insights.source', [this.source.id], { summary: null, refresh_token: null, last_refresh: null });
 
     }
 
@@ -65,4 +65,4 @@ export class Card extends Component {
 
 }
 
-Card.template = "proyecto_dam.Card";
+Card.template = "reviews_insights.Card";

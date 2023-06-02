@@ -1,5 +1,5 @@
 def refresh_summary(source):
-    from odoo.addons.proyecto_dam.openai_api import summarize
+    from odoo.addons.reviews_insights.openai_api import summarize
 
     from . import google_maps
 
