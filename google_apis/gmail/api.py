@@ -16,7 +16,6 @@ class Gmail(GoogleApi):
             "v1",
             refresh_token,
             mock=mock,
-            mock_filename="",
         )
 
     def get_emails(self, mock=False):
@@ -37,7 +36,9 @@ class Gmail(GoogleApi):
         )
 
         if mock:
-            http_mock = HttpMock("mock_data/messages-list.json", {"status": "200"})
+            http_mock = HttpMock(
+                "/home/carlos/src/odoo/addons/proyecto_dam/mock_data/google/gmail/messages-list.json", {"status": "200"}
+            )
             response = request.execute(http=http_mock)
         else:
             response = request.execute()
