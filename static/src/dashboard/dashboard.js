@@ -18,6 +18,7 @@ class Dashboard extends Component {
             "notification",
             this.onNotification.bind(this)
         );
+        this.bus_service.start();
 
 
         onWillStart(async () => {

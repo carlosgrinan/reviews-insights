@@ -3,6 +3,7 @@ from datetime import datetime, timedelta, timezone
 import time
 
 from odoo import api, fields, models
+from odoo.addons.bus.websocket import Websocket
 
 """Refreshing a source's summary is defined as the process of :
 - retrieving multiple pieces of information from the Google API that is represented by the source
@@ -68,9 +69,16 @@ class Source(models.Model):
 
         # time.sleep(5)  # QUITAR
         sources = self.search(domain or [], offset=offset, limit=limit, order=order)
-        for source in sources:
-            # source.refresh_summary()
-            # source.with_delay().refresh_summary()
-            self.env["bus.bus"]._sendone("my-channel", "my-type", {"message_key": " a demo message"})
+        # for source in sources:
+        # source.refresh_summary()
+        # source.with_delay().refresh_summary()
+        self.env["bus.bus"]._sendone("my-channel", "my-type", {"message_key": " a demo message"})
         results = sources.read(fields, **read_kwargs)
         return results
+
+
+@Websocket.onopen
+def onopen(env, websocket):
+    print("CONECTADO A WEBSOCKET")
+    print(websocket)
+    print(env)
