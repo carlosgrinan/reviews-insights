@@ -12,6 +12,7 @@ export class Card extends Component {
         this.state = useState({
             summary: this.source.summary,
             codeClient: null,
+            configId: this.source.config_id,
         });
 
         onWillStart(async () => {
@@ -23,7 +24,7 @@ export class Card extends Component {
                     //         clearInterval(intervalId);
 
                     this.state.codeClient = window.google.accounts.oauth2.initCodeClient({
-                        client_id: '530981074278-kl9bg74l6at210cj5v18vfckmsqe6c9d.apps.googleusercontent.com',
+                        client_id: '530981074278-kl9bg74l6at210cj5v18vfckmsqe6c9d.apps.googleusercontent.com', // TODO
                         scope: this.source.scope,
                         ux_mode: 'popup',
                         callback: (response) => {
@@ -35,11 +36,8 @@ export class Card extends Component {
                                 this.rpc('/reviews_insights/oauth2', {
                                     id: this.source.id,
                                     code: response.code,
-                                }).then(async () => {
-                                    this.orm.searchRead('reviews_insights.source', [["id", "=", this.source.id]], ['summary']).then((results) => {
-                                        this.state.summary = results[0].summary;
-                                    });
-                                });
+                                    config_id: this.state.configId,
+                                }).then(async () => this.refresh());
                             }
                         }
 
@@ -55,12 +53,26 @@ export class Card extends Component {
 
     disconnect() {
         this.state.summary = null;
-        this.orm.write('reviews_insights.source', [this.source.id], { summary: null, refresh_token: null, last_refresh: null });
+        this.state.configId = null;
+        this.orm.write('reviews_insights.source', [this.source.id],
+            { summary: null, last_refresh: null, refresh_token: null, config_id: null });
 
     }
 
     connect() {
-        this.state.codeClient.requestCode();
+        if (this.source.scope) {
+            this.state.codeClient.requestCode();
+        }
+        else {
+            this.orm.write('reviews_insights.source', [this.source.id], { config_id: this.state.configId }).then(async () => this.refresh());
+        }
+    }
+
+    refresh() {
+        this.orm.searchRead('reviews_insights.source', [["id", "=", this.source.id]], ['summary']).then(
+            (results) => {
+                this.state.summary = results[0].summary;
+            });
     }
 
 }

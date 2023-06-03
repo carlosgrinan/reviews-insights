@@ -13,7 +13,7 @@ class Dashboard extends Component {
 
 
         onWillStart(async () => {
-            this.sources = await this.orm.silent.searchRead('reviews_insights.source', [], ['id', 'display_name', 'summary', 'name', 'scope'],);
+            this.sources = await this.orm.silent.searchRead('reviews_insights.source', [], ['id', 'display_name', 'summary', 'name', 'scope', 'config_id'],);
             this.googleScriptLoaded = loadJS("https://accounts.google.com/gsi/client").catch((error) => {
                 console.error(error);
 

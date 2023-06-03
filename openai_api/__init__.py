@@ -1,1 +1,1 @@
-from .openai_api import summarize
+from .openai_api import summarize, translate

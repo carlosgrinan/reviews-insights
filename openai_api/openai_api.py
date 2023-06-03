@@ -1,9 +1,11 @@
 import os
-import openai
 import time
 
+import openai
+from utils import beautify
 
-def create(prompt, system_prompt="You are a helpful assistant."):
+
+def _create(prompt, system_prompt="You are a helpful assistant."):
     openai.api_key = os.getenv("OPENAI_API_KEY")
 
     max_retries = 10  # Maximum number of retries
@@ -26,30 +28,28 @@ def create(prompt, system_prompt="You are a helpful assistant."):
                 delay = base_delay * (backoff_factor**retry_attempt)
                 time.sleep(delay)
 
-    return None
 
+def translate(texts, language="English"):
+    """
+    text: list of strings or a string
+    language: language to translate to
+    """
+    if isinstance(texts, list):
+        text = beautify(texts)
 
-def translate(text, language="English"):
     prompt = f"Translate non-{language} text into {language} while keeping {language} text unchanged:\n\n{text}"
-    translation = create(prompt)
+    translation = _create(prompt)
     return translation
 
 
 def summarize(texts, text_type="reviews"):
-    if texts:
-        text = "- " + "\n\n- ".join(texts)
+    """
+    texts: list of strings or a string. Make sure to call ``translate()`` first if the texts are not in English
+    """
+    if isinstance(texts, list):
+        text = beautify(texts)
 
-        # Translate to English to get better results
-        text = translate(text)
-        # print("Translated text:")
-        # print(text)
-
-        prompt = f"Write the manager a quick overview of current business situation shorter than 100 words based on this {text_type}. Avoid headers and signatures like 'Dear Manager,':"
-        prompt += text
-        summary = create(prompt, system_prompt="You are an Executive Assistant.")
-        print("Summary:")
-        print(summary)
-        return summary
-
-    else:
-        return "No hay suficientes datos para generar un resumen. Por favor, conecta otra cuenta."
+    prompt = f"Write the manager a quick overview of current business situation shorter than 100 words based on this {text_type}. Avoid headers and signatures like 'Dear Manager,':"
+    prompt += text
+    summary = _create(prompt, system_prompt="You are an Executive Assistant.")
+    return summary

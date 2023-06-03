@@ -14,5 +14,6 @@ class Source(http.Controller):
         code = http.request.params.get("code")
         refresh_token = api.code_to_token(code)
         id = http.request.params.get("id")
+        config_id = http.request.params.get("config_id")
         source = http.request.env["reviews_insights.source"].browse(id)
-        source.write({"refresh_token": refresh_token})
+        source.write({"refresh_token": refresh_token, "config_id": config_id})

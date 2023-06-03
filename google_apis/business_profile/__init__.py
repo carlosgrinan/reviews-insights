@@ -1,5 +1,5 @@
 def refresh_summary(source):
-    from odoo.addons.proyecto_dam.openai_api import summarize
+    from odoo.addons.reviews_insights.openai_api import summarize, translate
 
     from .api import BusinessProfile
 
@@ -8,5 +8,6 @@ def refresh_summary(source):
     )
     reviews = business_profile.get_reviews()
     if reviews:
-        summary = summarize(reviews, text_type="reviews")
+        translation = translate(reviews)
+        summary = summarize(translation, text_type="reviews")
         return summary
