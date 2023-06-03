@@ -1,7 +1,9 @@
 import importlib
 from datetime import datetime, timedelta, timezone
+import time
 
 from odoo import api, fields, models
+from odoo.addons.bus.websocket import Websocket
 
 """Refreshing a source's summary is defined as the process of :
 - retrieving multiple pieces of information from the Google API that is represented by the source
@@ -43,10 +45,6 @@ class Source(models.Model):
             summary = module.refresh_summary(self)
             if not summary:
                 summary = "No hay suficientes datos para generar un resumen. Por favor, conecta otra cuenta."
-            print("Received Summary:")
-            print(summary)
-            print("Summary updated.")
-            print({"summary": summary, "last_refresh": fields.Datetime.now()})
             self.write({"summary": summary, "last_refresh": fields.Datetime.now()})
 
     def write(self, values):
@@ -55,18 +53,18 @@ class Source(models.Model):
         # We update the summary whenever summary is not updated, which usually happens when refresh_token or config_id are updated (i.e. changes in config that could change outcome).
         # We don't want to update the summary when summary changes, because that would cause an infinite loop.
         if not any(field == "summary" for field in values.keys()):
-            # Re-browse the records to get the updated values, so refresh_summary() uses, for example, the updated refresh_token.
+            #     # Re-browse the records to get the updated values, so refresh_summary() uses, for example, the updated refresh_token.
             self = self.browse(self.ids)
             for source in self:
                 source.refresh_summary()
-
         return result
 
     @api.model
     def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None, **read_kwargs):
         """Wrapper around search_read that refreshes the ``summary`` of each ``Source`` before returning results."""
+
         sources = self.search(domain or [], offset=offset, limit=limit, order=order)
         for source in sources:
-            source.refresh_summary()
+            source.with_delay().refresh_summary()
         results = sources.read(fields, **read_kwargs)
         return results
