@@ -18,6 +18,10 @@ Esta app se centra en el análisis de retroalimentación de clientes, pero el mi
 
 
 
+https://github.com/carlosgrinan/proyecto_dam/assets/99912558/7adf24e8-97ed-4434-828e-db3800257701
+
+
+
 
 
 [^1]: Reseñas, comentarios, emails (por ejemplo, los recibidos por la cuenta de soporte técnico de un negocio)... En resumen, información que arroje luz sobre la situación actual del negocio en cuanto a satisfacción del cliente.
