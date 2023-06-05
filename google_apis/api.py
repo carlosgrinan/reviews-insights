@@ -47,7 +47,7 @@ def code_to_token(code):
         "code": code,
         "client_id": os.getenv("CLIENT_ID"),
         "client_secret": os.getenv("CLIENT_SECRET"),
-        "redirect_uri": "http://127.0.0.1:8069",  # Has to match the redirect URI used to get the authorization code. If authorization code ux_mode was popup, has to match the URI from which the auth flow was initiated. Beware of using localhost and 127.0.0.1, because they are not the same for Google.
+        "redirect_uri": "https://127.0.0.1",  # Has to match the redirect URI used to get the authorization code. If authorization code ux_mode was popup, has to match the URI from which the auth flow was initiated. Beware of using localhost and 127.0.0.1, because they are not the same for Google.
     }
     response = requests.post(TOKEN_URI, data=data)
     return response.json().get("refresh_token")

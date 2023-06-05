@@ -4,7 +4,7 @@
     <record id="1" model="reviews_insights.source">
         <field name="display_name">Google Maps</field>
         <field name="name">google_maps</field>
-        <field name="config_id">Place ID...</field>
+        <field name="config_placeholder">Place ID...</field>
     </record>
 
     <!-- oauth -->
@@ -12,22 +12,16 @@
         <field name="display_name">Gmail</field>
         <field name="name">gmail</field>
         <field name="scope">https://www.googleapis.com/auth/gmail.readonly</field>
-        <field name="config_id">not applicable</field>
     </record>
     <record id="3" model="reviews_insights.source">
         <field name="display_name">Business Profile</field>
         <field name="name">business_profile</field>
         <field name="scope">https://www.googleapis.com/auth/business.manage</field>
-        <field name="config_id">not applicable</field>
     </record>
-    <record id="3" model="reviews_insights.source">
+    <record id="4" model="reviews_insights.source">
         <field name="display_name">Play Store</field>
         <field name="name">play_developer</field>
         <field name="scope">https://www.googleapis.com/auth/androidpublisher</field>
-        <field name="config_id">Package name...</field>
+        <field name="config_placeholder">Package name...</field>
     </record>
-
-
-
-
 </odoo>

@@ -21,12 +21,7 @@
             "reviews_insights/static/img/*",
         ],
     },
-    "depends": [
-        "base",
-        "web",
-        "bus",
-        # "queue_job"
-    ],
+    "depends": ["base", "web", "bus", "queue_job"],
     "external_dependencies": {
         "python": ["requests", "google-api-python-client", "google-auth", "googlemaps", "openai", "python-dotenv"]
     },  # TODO: add to odoo's requirements.txt

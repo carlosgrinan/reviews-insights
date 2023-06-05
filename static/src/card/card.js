@@ -77,21 +77,31 @@ export class Card extends Component {
     }
 
     refresh() {
-        this.orm.searchRead('reviews_insights.source', [["id", "=", this.source.id]], ['summary']).then(
+        this.orm.silent.searchRead('reviews_insights.source', [["id", "=", this.source.id]], ['summary']).then(
             (results) => {
                 this.state.summary = results[0].summary;
+
+                // Check the result and repeat if necessary
+                if (this.state.summary === "Generating summary...") {
+                    // Wait for a certain delay (e.g., 2 seconds)
+                    setTimeout(() => {
+                        // Call the function again
+                        this.refresh();
+                    }, 3000); // Delay in milliseconds
+                }
             });
     }
 
-    onNotification({ detail: notifications }) {
-        for (const { payload, type } of notifications) {
-            if (type === this.source.name) {
-                console.log(payload);
-                console.log(payload.message_key);
-                this.state.summary = payload.message_key;
-            }
-        }
-    }
+
+    // onNotification({ detail: notifications }) {
+    //     for (const { payload, type } of notifications) {
+    //         if (type === this.source.name) {
+    //             console.log(payload);
+    //             console.log(payload.message_key);
+    //             this.state.summary = payload.message_key;
+    //         }
+    //     }
+    // }
 }
 
 Card.template = "reviews_insights.Card";

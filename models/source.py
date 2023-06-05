@@ -27,6 +27,7 @@ class Source(models.Model):
     scope = fields.Char()
 
     config_id = fields.Char()
+    config_placeholder = fields.Char()
 
     def refresh_summary(self):
         """Refreshes the ``Source``'s ``summary`` if it's older than 1 hour."""
@@ -41,22 +42,28 @@ class Source(models.Model):
         connected = self.refresh_token or self.config_id
 
         if connected and needs_refresh:
-            module = importlib.import_module(f"odoo.addons.reviews_insights.google_apis.{self.name}")
-            summary = module.refresh_summary(self)
-            if not summary:
-                summary = "No hay suficientes datos para generar un resumen. Por favor, conecta otra cuenta."
-            self.write({"summary": summary, "last_refresh": fields.Datetime.now()})
+            self.write({"summary": "Generating summary...", "last_refresh": fields.Datetime.now()})
+            self.with_delay()._refresh_summary()
+
+    def _refresh_summary(self):
+        module = importlib.import_module(f"odoo.addons.reviews_insights.google_apis.{self.name}")
+        summary = module.refresh_summary(self)
+        if not summary:
+            summary = "No hay suficientes datos para generar un resumen. Por favor, conecta otra cuenta."
+        self.write({"summary": summary, "last_refresh": fields.Datetime.now()})
 
     def write(self, values):
+        """Wrapper around write that calls ``refresh_summary()`` on each ``Source`` involved when the source has connected (refresh_token or config_id have changed)."""
+
         result = super().write(values)
 
-        # We update the summary whenever summary is not updated, which usually happens when refresh_token or config_id are updated (i.e. changes in config that could change outcome).
         # We don't want to update the summary when summary changes, because that would cause an infinite loop.
         if not any(field == "summary" for field in values.keys()):
-            #     # Re-browse the records to get the updated values, so refresh_summary() uses, for example, the updated refresh_token.
+            #     # Re-browse the records to get the updated values, so refresh_summary() uses, for example, the new refresh_token.
             self = self.browse(self.ids)
             for source in self:
                 source.refresh_summary()
+
         return result
 
     @api.model
@@ -65,6 +72,6 @@ class Source(models.Model):
 
         sources = self.search(domain or [], offset=offset, limit=limit, order=order)
         for source in sources:
-            source.with_delay().refresh_summary()
+            source.refresh_summary()
         results = sources.read(fields, **read_kwargs)
         return results
