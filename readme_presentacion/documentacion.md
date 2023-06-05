@@ -9,7 +9,7 @@ Se utilizan varias [APIs de Google](https://developers.google.com/apis-explorer)
 - APIs que necesitan autorización del usuario[^2]:
   - **[API de Gmail](https://developers.google.com/gmail/api/guides)**: para obtener emails de *Gmail* (por ejemplo, los recibidos por el departamento de atención al cliente).
   - **[APIs de Perfil de Empresa](https://developers.google.com/my-business/content/overview?hl=es)**: para obtener reseñas del negocio de *Google Maps* y *Búsqueda de Google*.
-  - ~~**[APIs de Google Play Developer](https://developers.google.com/android-publisher?hl=es-419)**: para obtener reseñas de la app del negocio de  *Google Play Store*.~~
+  - [**APIs de Google Play Developer**](https://developers.google.com/android-publisher?hl=es-419): para obtener reseñas de la app del negocio de  *Google Play Store*.
   - ~~**[Data API](https://developers.google.com/youtube/v3?hl=es-419)**: para obtener comentarios en videos de*Youtube* del negocio.~~
 - No necesitan autorización:
   - **[Places API](https://developers.google.com/maps/documentation/places/web-service/overview)**: para obtener reseñas del negocio de *Google Maps*[^1]. Nota: esta API no funciona con el *Cliente Python de las APIs de Google*  y necesita su propio [cliente](https://github.com/googlemaps/google-maps-services-python).

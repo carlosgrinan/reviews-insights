@@ -13,15 +13,21 @@ Combinando análisis de ambos tipos de datos, las empresas pueden conseguir una 
 
 Esta app se centra en el análisis de retroalimentación de clientes, pero el mismo enfoque puede ser apicado a numerosos tipos de datos basados en texto que posean valor empresarial.
 
+## Servicios TODO
 
+poner lo que recomiendo TODO
 
+### Reseñas de Google maps
 
+kkkk
 
+* Reseñas de un negocio de Google Maps
+* Emails de una cuenta de Gmail
+* Reseñas de tu negocio de Google Business Profile
+* Reseñas de tu app en Google Play Store
+
+## Demo
 
 https://github.com/carlosgrinan/proyecto_dam/assets/99912558/7adf24e8-97ed-4434-828e-db3800257701
-
-
-
-
 
 [^1]: Reseñas, comentarios, emails (por ejemplo, los recibidos por la cuenta de soporte técnico de un negocio)... En resumen, información que arroje luz sobre la situación actual del negocio en cuanto a satisfacción del cliente.

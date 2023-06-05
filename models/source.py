@@ -4,6 +4,7 @@ import time
 
 from odoo import api, fields, models
 from odoo.addons.bus.websocket import Websocket
+from ..openai_api import openai_api
 
 """Refreshing a source's summary is defined as the process of :
 - retrieving multiple pieces of information from the Google API that is represented by the source
@@ -49,8 +50,27 @@ class Source(models.Model):
         module = importlib.import_module(f"odoo.addons.reviews_insights.google_apis.{self.name}")
         summary = module.refresh_summary(self)
         if not summary:
-            summary = "No hay suficientes datos para generar un resumen. Por favor, conecta otra cuenta."
+            summary = _("No hay suficientes datos para generar un resumen. Por favor, conecta otra cuenta.")
+
+        summary = self.translate_summary(summary)
+
         self.write({"summary": summary, "last_refresh": fields.Datetime.now()})
+
+    @api.model
+    def translate_summary(self, summary):
+        """Translates the summary to the user's language."""
+        lang_code = self.env.user.lang
+
+        if lang_code:
+            lang = self.env["res.lang"].search([("code", "=", lang_code)], limit=1)
+            if lang:
+                lang_name = lang.name
+        else:
+            lang_name = "English"
+
+        summary = openai_api.translate(summary, lang_name)
+
+        return summary
 
     def write(self, values):
         """Wrapper around write that calls ``refresh_summary()`` on each ``Source`` involved when the source has connected (refresh_token or config_id have changed)."""

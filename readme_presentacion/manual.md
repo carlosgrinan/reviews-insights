@@ -19,7 +19,9 @@
    Sustituye los placeholders con tus credenciales de desarrollador de [Google](https://developers.google.com/identity/oauth2/web/guides/get-google-api-clientid?hl=es-419) y [OpenAi](https://platform.openai.com/account/api-keys).
 5. TODO nginx...
 
-
 ## Uso
-
-TODO incluir el mismo gif de uso que en la intro de la documentación
+Puedes ver una demostración [aquí](introduccion.md#demo).
+1. Introduce el identificador de tu negocio (Google Maps) o el del paquete de tu app (Google Play Store).
+2. Pulsa el botón "conectar".
+3. En unos segundos se generará el resumen.
+4. Para desconectar el servicio, pulsa en "desconectar".
