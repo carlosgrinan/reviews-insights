@@ -13,18 +13,16 @@ Combinando análisis de ambos tipos de datos, las empresas pueden conseguir una 
 
 Esta app se centra en el análisis de retroalimentación de clientes, pero el mismo enfoque puede ser apicado a numerosos tipos de datos basados en texto que posean valor empresarial.
 
-## Servicios TODO
+## Uso recomendado
 
-poner lo que recomiendo TODO
+La app genera resumenes utilizando una IA partir de:
 
-### Reseñas de Google maps
-
-kkkk
-
-* Reseñas de un negocio de Google Maps
-* Emails de una cuenta de Gmail
+* Reseñas de un negocio a elegir de Google Maps
+* Emails de tu cuenta de Gmail
 * Reseñas de tu negocio de Google Business Profile
 * Reseñas de tu app en Google Play Store
+
+Una vez hayamos conectado alguno de los servicios anteriores, la app nos ofrecerá un resumen, que se actualiza cada hora con la retroalimentación más reciente.
 
 ## Demo
 
