@@ -1,0 +1,48 @@
+{
+    "reviews": [
+        {
+            "comments": [
+                {
+                    "userComment": {
+                        "text": "Amazing for communication, it has helped me connect with serveral people across the world. May I suggest some quality of life improvements for the app, one, working audio for screen sharing, me and a friend of mine are music producers, and like to show each other what our progress is. it would be convenient to listen while sharing. Also the ability to group chats/ groups. My friend has music groups he is joined in, and it would be nice to have them in a group to seperate personal/business."
+                    }
+                },
+                {
+                    "userComment": {
+                        "text": "Hello devs. Here to commend you for a great, safe, and non-buggy app! I just have one criticism about group chat: profile photos are flushed bottom-left after a string of messages from one person, making it hard to know when a new person is chatting. It's especially difficult when reviewing a long thread. Profile photos flushed top-left provide a better visual cue that a new person is chatting (and is how all the other chat apps do it/what our brains are used to/more intuitive). Please fix?"
+                    }
+                },
+                {
+                    "userComment": {
+                        "text": "Great, robust and multi-functional communication app with more features than all the others out there. The absolute best one out there. Only issue I have recently is sharing from a just made camera video via Google photos-telegram crashes and fails to send the video directly from the camera. I have to go into telegram and hit the attachment 📎 button and select the video, then it sends. Didn't have this issue before I upgraded from Android 10 to 12 with a new phone. Please fix, thanks!"
+                    }
+                },
+                {
+                    "userComment": {
+                        "text": "Telegram is definitely my favorite messaging/social app. You can join channels where people can post things and talk and it has a sense of community. Or you can just use the app to chat with friends or have group chats with your friend group. I think my favorite part about telegram is that you can send any size file wether its a large video or program files. The subscription service offers some extra features such as more reactions to choose from, faster downloads, chat management, and more!"
+                    }
+                },
+                {
+                    "userComment": {
+                        "text": "Such a great app! Smooth experience with regular updates and great free features. I love all the little details, like the ability to edit photos before sending, the cool emojis you can tap for effects that everyone sees real-time, being able to set who can see your profile picture and which picture they see, and themes you can set globally. Also, you have so much control over your account's privacy! Additionally, the app has a pleasing design, good security features, and no ads. ✨"
+                    }
+                },
+                {
+                    "userComment": {
+                        "text": "Hello... I send more than 100 images and several audio files to my channel daily. I need these files to be sent in the order I selected and sorted, for example, from the oldest to the newest. But sometimes they are sent back and forth. This problem can easily be solved by putting a delay between the transmissions, but it doesn't exist! Please fix it so that Telegram remains the best"
+                    }
+                },
+                {
+                    "userComment": {
+                        "text": "The app doesn't allow to cancel the paid subscription. I have written the request to the customer service and they have never responded. One more thing. Telegram can block your account forever, with no reason and without any explanation whatsoever. Customer service is of course not accessible. So you lose all your contacts, records, conversations etc. That is what happened to me."
+                    }
+                },
+                {
+                    "userComment": {
+                        "text": "I use this app a lot and like it, but lately, it tends to detect my hand being close to the phone and will try to record audio, or blank the screen like my face is near it, trying to make a phone call. It's annoying, so I've had to restrict permissions of the app to control the audio and video recording because it so often disrupts my ability to type"
+                    }
+                }
+            ]
+        }
+    ]
+}

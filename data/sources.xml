@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- no oauth -->
     <record id="1" model="reviews_insights.source">
+        <field name="display_name">Google Maps</field>
+        <field name="name">google_maps</field>
+        <field name="config_placeholder">Place ID...</field>
+    </record>
+
+    <!-- oauth -->
+    <record id="2" model="reviews_insights.source">
         <field name="display_name">Gmail</field>
         <field name="name">gmail</field>
         <field name="scope">https://www.googleapis.com/auth/gmail.readonly</field>
     </record>
-
-
-    <!-- no oauth -->
-    <record id="2" model="reviews_insights.source">
-        <field name="display_name">Google Maps</field>
-        <field name="name">google_maps</field>
-        <!-- <field name="summary">
-            Overall, customer reviews for the business are positive with customers
-            praising the 24-hour service and friendly staff. However, there have been some negative
-            reviews regarding food quality. Despite this, the restaurant remains busy and workers
-            have been commended for their professionalism and ability to handle high-pressure
-            situations.
-        </field> -->
+    <record id="3" model="reviews_insights.source">
+        <field name="display_name">Business Profile</field>
+        <field name="name">business_profile</field>
+        <field name="scope">https://www.googleapis.com/auth/business.manage</field>
+    </record>
+    <record id="4" model="reviews_insights.source">
+        <field name="display_name">Play Store</field>
+        <field name="name">play_developer</field>
+        <field name="scope">https://www.googleapis.com/auth/androidpublisher</field>
+        <field name="config_placeholder">Package name...</field>
     </record>
 </odoo>

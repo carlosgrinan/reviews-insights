@@ -3,7 +3,8 @@ def refresh_summary(source):
 
     from . import google_maps
 
-    reviews = google_maps.get_reviews(source.place_id)
+    place_id = source.config_id
+    reviews = google_maps.get_reviews(place_id)
     if reviews:
         summary = summarize(reviews, text_type="reviews")
         return summary

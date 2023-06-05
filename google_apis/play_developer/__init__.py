@@ -1,10 +1,11 @@
 def refresh_summary(source):
     from odoo.addons.reviews_insights.openai_api import summarize
 
-    from .api import Gmail
+    from .api import PlayDeveloper
 
-    gmail = Gmail(source.refresh_token)
-    emails = gmail.get_emails()
-    if emails:
-        summary = summarize(emails, text_type="customer support emails")
+    play_developer = PlayDeveloper(source.refresh_token)
+    package_name = source.config_id
+    reviews = play_developer.get_reviews(package_name, mock=True)  # TODO
+    if reviews:
+        summary = summarize(reviews, text_type="app reviews from Google Play")
         return summary

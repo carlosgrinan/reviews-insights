@@ -1,7 +1,9 @@
 import importlib
 from datetime import datetime, timedelta, timezone
+import time
 
 from odoo import api, fields, models
+from odoo.addons.bus.websocket import Websocket
 
 """Refreshing a source's summary is defined as the process of :
 - retrieving multiple pieces of information from the Google API that is represented by the source
@@ -24,7 +26,8 @@ class Source(models.Model):
     refresh_token = fields.Char()
     scope = fields.Char()
 
-    place_id = fields.Char()  # Specific to Google Places API
+    config_id = fields.Char()
+    config_placeholder = fields.Char()
 
     def refresh_summary(self):
         """Refreshes the ``Source``'s ``summary`` if it's older than 1 hour."""
@@ -35,26 +38,28 @@ class Source(models.Model):
         else:
             needs_refresh = datetime.now(timezone.utc) - self.last_refresh.replace(tzinfo=timezone.utc) > timedelta(hours=1)
 
-        # Sources are connected when they have a refresh_token (Google Oauth2.0 APIs) or a place_id (Google Places API)
-        connected = self.refresh_token or self.place_id
+        # Sources are connected when they have a refresh_token (Google Oauth2.0 APIs) and/or a config_id
+        connected = self.refresh_token or self.config_id
 
         if connected and needs_refresh:
-            module = importlib.import_module(f"odoo.addons.reviews_insights.google_apis.{self.name}")
-            summary = module.refresh_summary(self)
-            print("Received Summary:")
-            print(summary)
-            if summary:
-                print("Summary updated.")
-                print({"summary": summary, "last_refresh": fields.Datetime.now()})
-                self.write({"summary": summary, "last_refresh": fields.Datetime.now()})
+            self.write({"summary": "Generating summary...", "last_refresh": fields.Datetime.now()})
+            self.with_delay()._refresh_summary()
+
+    def _refresh_summary(self):
+        module = importlib.import_module(f"odoo.addons.reviews_insights.google_apis.{self.name}")
+        summary = module.refresh_summary(self)
+        if not summary:
+            summary = "No hay suficientes datos para generar un resumen. Por favor, conecta otra cuenta."
+        self.write({"summary": summary, "last_refresh": fields.Datetime.now()})
 
     def write(self, values):
+        """Wrapper around write that calls ``refresh_summary()`` on each ``Source`` involved when the source has connected (refresh_token or config_id have changed)."""
+
         result = super().write(values)
 
-        # We update the summary whenever summary is not updated, which usually happens when refresh_token or place_id are updated (i.e. changes in config that could change outcome).
         # We don't want to update the summary when summary changes, because that would cause an infinite loop.
         if not any(field == "summary" for field in values.keys()):
-            # Re-browse the records to get the updated values, so refresh_summary() uses, for example, the updated refresh_token.
+            #     # Re-browse the records to get the updated values, so refresh_summary() uses, for example, the new refresh_token.
             self = self.browse(self.ids)
             for source in self:
                 source.refresh_summary()
@@ -64,13 +69,9 @@ class Source(models.Model):
     @api.model
     def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None, **read_kwargs):
         """Wrapper around search_read that refreshes the ``summary`` of each ``Source`` before returning results."""
+
         sources = self.search(domain or [], offset=offset, limit=limit, order=order)
         for source in sources:
             source.refresh_summary()
         results = sources.read(fields, **read_kwargs)
         return results
-
-        # for source in sources:
-        #     source.refresh()
-        # results = super(Source, self).search_read(domain, fields, offset, limit, order, **read_kwargs)
-        # return results
