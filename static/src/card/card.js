@@ -33,7 +33,7 @@ export class Card extends Component {
                     //         clearInterval(intervalId);
 
                     this.state.codeClient = window.google.accounts.oauth2.initCodeClient({
-                        client_id: '530981074278-kl9bg74l6at210cj5v18vfckmsqe6c9d.apps.googleusercontent.com', // TODO
+                        client_id: '530981074278-kl9bg74l6at210cj5v18vfckmsqe6c9d.apps.googleusercontent.com',
                         scope: this.source.scope,
                         ux_mode: 'popup',
                         callback: (response) => {

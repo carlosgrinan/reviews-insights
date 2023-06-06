@@ -8,11 +8,11 @@ Se utilizan varias [APIs de Google](https://developers.google.com/apis-explorer)
 
 - APIs que necesitan autorización del usuario[^2]:
   - **[API de Gmail](https://developers.google.com/gmail/api/guides)**: para obtener emails de *Gmail* (por ejemplo, los recibidos por el departamento de atención al cliente).
-  - **[APIs de Perfil de Empresa](https://developers.google.com/my-business/content/overview?hl=es)**: para obtener reseñas del negocio de *Google Maps* y *Búsqueda de Google*.
-  - [**APIs de Google Play Developer**](https://developers.google.com/android-publisher?hl=es-419): para obtener reseñas de la app del negocio de  *Google Play Store*.
+  - **[APIs de Perfil de Empresa](https://developers.google.com/my-business/content/overview?hl=es)**: para obtener reseñas del negocio de *Google Maps*.
+  - [API de Google Play Developer](https://developers.google.com/android-publisher?hl=es-419): para obtener reseñas de la app del negocio de  *Google Play Store*.
   - ~~**[Data API](https://developers.google.com/youtube/v3?hl=es-419)**: para obtener comentarios en videos de*Youtube* del negocio.~~
 - No necesitan autorización:
-  - **[Places API](https://developers.google.com/maps/documentation/places/web-service/overview)**: para obtener reseñas del negocio de *Google Maps*[^1]. Nota: esta API no funciona con el *Cliente Python de las APIs de Google*  y necesita su propio [cliente](https://github.com/googlemaps/google-maps-services-python).
+  - **[Places API](https://developers.google.com/maps/documentation/places/web-service/overview)**: para obtener reseñas del negocio de *Google Maps*. Nota: esta API no funciona con el *Cliente Python de las APIs de Google*  y necesita su propio [cliente](https://github.com/googlemaps/google-maps-services-python).
 
 Para obtener la autorización del usuario:
 
@@ -26,35 +26,49 @@ Se utiliza el modelo de lenguaje [gpt-3.5-turbo](https://platform.openai.com/doc
 
 ### Integración en Odoo
 
-He seguido la arquitectura estándar recomendada en Odoo 16:
+He seguido la arquitectura estándar recomendada en Odoo 16, con la única particularidad del módulo *Job Queue*, que permite crear tareas asíncronas:
 
 - Frontend:
+
   - [Framework OWL](https://www.odoo.com/documentation/16.0/es/developer/reference/frontend/owl_components.html?highlight=owl): similar a *React*, es un framework web en JavaScript basado en componentes reactivos.
   - [Bootstrap](https://getbootstrap.com/docs/5.0/getting-started/introduction/) para el diseño y estructura de la UI.
-  - Backend:
-
-    - Módulo Base
-    - Módulo Web
-  - Base de Datos:
-
-    - [PostgreSQL](https://www.postgresql.org/)
-
-La app tiene ciertas particularidades debido a su uso de [multiprocesamiento](multiprocesamiento.md):
-
-- Proxy inverso:
-
-  - [Nginx](https://nginx.org/)
+- Proxy inverso [Nginx](https://nginx.org/): necesario para el multiprocesamiento (varios usuarios simultáneamente).
 - Backend:
 
-  - Módulo [Job Queue](https://apps.odoo.com/apps/modules/16.0/queue_job/).
+  - Módulo Base
+  - Módulo Web
+  - Módulo [Job Queue](https://apps.odoo.com/apps/modules/16.0/queue_job/)
+- Base de Datos:
+
+  - [PostgreSQL](https://www.postgresql.org/)
 
 ## **Dificultades encontradas y decisiones al respecto**
 
 ### Datos simulados
 
-No soy dueño de ninguna app de *Google Play Store*  ni poseo un negocio en *Perfil de Empresa* por lo que para probar el funcionamiento de sus respectivas APIs he utilizado la clase [HttpMock](https://googleapis.github.io/google-api-python-client/docs/mocks.html) que ofrece el [Cliente Python de las APIs de Google](https://github.com/googleapis/google-api-python-client). Permite especificar un documento en formato *json* con la respuesta que supuestamente recibiríamos de la API.
+No soy dueño de ninguna app de *Google Play Store*  ni poseo un negocio en *Perfil de Empresa* por lo que para probar el funcionamiento de sus respectivas APIs he utilizado la clase [HttpMock](https://googleapis.github.io/google-api-python-client/docs/mocks.html) que ofrece el [Cliente Python de las APIs de Google](https://github.com/googleapis/google-api-python-client). Permite especificar un documento en formato *json* con la respuesta que supuestamente recibiríamos de la API. Por ejemplo, cuando solicito las reseñas de una app a la *API de Google Play Developer*  con la siguiente llamada: `service.reviews().list(packageName=package_name, maxResults=10, translationLanguage="en", fields="reviews/comments/userComment/text")`, especifico esta respuesta simulada:
 
-Nota: estos datos simulados estan únicamente destinados al proceso de desarrollo. He decidido no incluír datos de demostración de cara al usuario final, puesto que entiendo los mismos como una herramienta para que el usuario pruebe las distintas acciones que puede realizar con ellos. En esta app, el usuario no puede realizar acciones con los datos. Encontrarse con párrafos de ejemplo al iniciar la app únicamente provocaría confusión al usuario, que no tendría claro qué servicios están conectados y cuáles no, dado que todos presentan texto. Para ver el resultado al conectar los servicios, puede referirse al vídeo de demostración(TODO).
+```json
+{
+    "reviews": [
+        {
+            "comments": [
+                {
+                    "userComment": {
+                        "text": "This is a review obtained from the Telegram app in Play Store: it has helped me connect with serveral people across the world. May I suggest some quality of life improvements for the app, one, working audio for screen sharing, me and a friend of mine are music producers, and like to show each other what our progress is. it would be convenient to listen while sharing. Also the ability to group chats/ groups. My friend has music groups he is joined in, and it would be nice to have them in a group to seperate personal/business."
+                    }
+                },
+		...,
+		]
+	}
+}
+```
+
+Nota: estos datos simulados estan únicamente destinados al proceso de desarrollo. He decidido no incluír datos de demostración de cara al usuario final, puesto que entiendo los mismos como una herramienta para que el usuario pruebe las distintas acciones que puede realizar con ellos. En esta app, el usuario no puede realizar acciones con los datos. Encontrarse con párrafos de ejemplo al iniciar la app únicamente provocaría confusión al usuario, que no tendría claro qué servicios están conectados y cuáles no, dado que todos presentan texto. Para ver el resultado al conectar los servicios, puede referirse al [vídeo de demostración](introduccion.md#demo).
+
+### APIs de Perfil de Empresa
+
+Las APIs de Perfil de Empresa son APIs privadas. Para poder utilizarlas es necesario [solicitar acceso](https://developers.google.com/my-business/content/prereqs?hl=es#request-access), el cual no he podido obtener porque Google solo se lo otorga a empresas y consultoras de informática reales.
 
 ### Idiomas
 
@@ -127,8 +141,6 @@ Ahora la IA se centra demasiado en los clientes (`hubo una reseña negativa`). C
   En general, las reseñas de los clientes sobre el negocio son positivas y los clientes elogian el servicio las 24 horas y el amable personal. Sin embargo, ha habido algunas críticas negativas sobre la calidad de la comida. A pesar de esto, el restaurante sigue ocupado y se ha elogiado a los trabajadores por su profesionalismo y capacidad para manejar situaciones de alta presión.
   ```
 
-[^1]: *Places API* solo permite obtener hasta 5 reseñas de un negocio, mientras que las *APIs de Perfil de Empresa* no tienen esta limitación. No obstante, requieren (además de la autorización del usuario) [solicitar acceso](https://developers.google.com/my-business/content/prereqs?hl=es#request-access).
-    
 [^2]: Las APIs de Google que ofrecen recursos protegidos  requieren autorización del propietario de los mismos (el usuario) mediante el protocolo OAuth2.0, aunque solamente se acceda a recursos abiertos al público (como las reseñas de las *APIs de Perfil de Empresa*).
     
 [^3]: Existe una librería específica para esto: [google-auth-oauthlib](https://google-auth-oauthlib.readthedocs.io/en/latest/). Pero creo que añade complejidad innecesaria por lo que he optado por utilizar la librería estándar HTTP [requests](https://requests.readthedocs.io/en/latest/).

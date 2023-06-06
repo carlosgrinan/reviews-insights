@@ -5,7 +5,7 @@ def refresh_summary(source):
 
     play_developer = PlayDeveloper(source.refresh_token)
     package_name = source.config_id
-    reviews = play_developer.get_reviews(package_name, mock=True)  # TODO
+    reviews = play_developer.get_reviews(package_name)
     if reviews:
         summary = summarize(reviews, text_type="app reviews from Google Play")
         return summary
