@@ -1,3 +1,17 @@
+- [Documentación / memoria técnica descriptiva](#documentación--memoria-técnica-descriptiva)
+  - [**Tecnologías que se han empleado**](#tecnologías-que-se-han-empleado)
+    - [Retroalimentación de clientes](#retroalimentación-de-clientes)
+    - [Resúmenes de la retroalimentación](#resúmenes-de-la-retroalimentación)
+    - [Integración en Odoo](#integración-en-odoo)
+  - [**Dificultades encontradas y decisiones al respecto**](#dificultades-encontradas-y-decisiones-al-respecto)
+    - [Optimización](#optimización)
+    - [Datos simulados](#datos-simulados)
+    - [APIs de Business Profile](#apis-de-business-profile)
+    - [Internacionalización](#internacionalización)
+    - [Refinando el prompt](#refinando-el-prompt)
+      - [Resultado](#resultado)
+      - [Proceso](#proceso)
+
 # Documentación / memoria técnica descriptiva
 
 ## **Tecnologías que se han empleado**
@@ -30,9 +44,9 @@ He seguido la arquitectura estándar recomendada en Odoo 16, con la única parti
 
 - Frontend:
 
-  - [Framework OWL](https://www.odoo.com/documentation/16.0/es/developer/reference/frontend/owl_components.html?highlight=owl): similar a *React*, es un framework web en JavaScript basado en componentes reactivos.
+  - [Framework OWL](https://www.odoo.com/documentation/16.0/es/developer/reference/frontend/owl_components.html?highlight=owl)
   - [Bootstrap](https://getbootstrap.com/docs/5.0/getting-started/introduction/) para el diseño y estructura de la UI.
-- Proxy inverso [Nginx](https://nginx.org/): necesario para el multiprocesamiento (varios usuarios simultáneamente).
+- Proxy inverso [Nginx](https://nginx.org/)
 - Backend:
 
   - Módulo Base
@@ -43,6 +57,23 @@ He seguido la arquitectura estándar recomendada en Odoo 16, con la única parti
   - [PostgreSQL](https://www.postgresql.org/)
 
 ## **Dificultades encontradas y decisiones al respecto**
+
+### Optimización
+
+El proceso de generación del resumen es bastante lento, pues involucra numerosas llamadas a APIs externas. Puede alcanzar los 30 segundos, incluso con una buena conexión a internet. Hacer esperar al usuario durante tanto tiempo supone una mala experiencia. Por lo tanto, la generación del resumen debe ser asíncrona para permitir al usuario utilizar tanto la app como el resto de Odoo durante ese tiempo.
+
+Comportamiento asíncrono deseado:
+
+1. Cuando el usuario entra en la app, se muestran los resúmenes desactualizados (si los hay)
+2. En ese momento se empiecen a generar nuevos resúmenes con la retroalimentación más reciente.
+3. Cuando un resumen se haya generado, debería sustituir al antiguo en la UI.
+
+Para lograr la asincronía tanto en el frontend como en el backend he realizado los siguientes pasos:
+
+1. Cuando el usuario entra en la app, es decir, el cliente web manda una petición, en el servidor, un proceso se encarga de responder al cliente web con el resumen antiguo mientras que otro, de manera asíncrona, se encarga de generar el resumen. Para habilitar este **multiprocesamiento** en Odoo, es necesario configurar un proxy inverso *Nginx* (un servidor intermedio entre el cliente web y el servidor) que se encarge de redirigir las peticiónes a los distintos puertos utilizados por el servidor de Odoo.
+2. Para poder crear el nuevo proceso asíncrono que se encargue de generar el resumen, necesitamos el módulo *Job Queue* (cola de trabajo). El multiprocesamiento estándar de Odoo está únicamente destinado a asignar distintos procesos a cada uno de los clientes web (o usuarios) conectados, no permite crear procesos asíncronos a partir de un proceso, que es lo que buscamos.
+3. Una vez el proceso asíncrono de generación del resumen haya terminado, el resumen debería "enviarse" al cliente web. Teniendo en cuenta las limitaciones de HTTP, hago uso de polling[^6]: cada cierto tiempo, el cliente web envía una nueva petición al servidor preguntando si ya se ha generado el resumen.
+4. Cuando el resumen haya llegado definitivamente al cliente web, la "tarjeta" en la que se va a mostrar debe actualizarse. Ahí entra en escena el *Framework OWL.*  Es el framework web creado por Odoo: similar a *React*, es un framework web (JavaScript) basado en componentes reactivos, es decir, la UI está compuesta por elementos que tienen un estado. Cuando el estado cambia, por ejemplo, la variable *resumen* cambia, el componente tipo "tarjeta" que utilizo se renderiza de nuevo sin suponer una perturbación para el resto de la UI. Es un paso más allá de la programación basada en eventos porque los eventos ya se suscriben internamente por el propio framework.
 
 ### Datos simulados
 
@@ -70,7 +101,7 @@ Nota: estos datos simulados estan únicamente destinados al proceso de desarroll
 
 Las APIs de Business Profile son APIs privadas. Para poder utilizarlas es necesario [solicitar acceso](https://developers.google.com/my-business/content/prereqs?hl=es#request-access), el cual no he podido obtener porque Google solo se lo otorga a empresas y consultoras de informática reales.
 
-### Idiomas
+### Internacionalización
 
 La retroalimentación puede estar en distintos idiomas. No obstante, el modelo de lenguaje *gpt-3.5-turbo* ofrece mejores resultados cuando recibe y produce texto en inglés.
 
@@ -148,3 +179,5 @@ Ahora la IA se centra demasiado en los clientes (`hubo una reseña negativa`). C
 [^4]: Las Credenciales encapsulan los token y otros datos necesarios. *google-auth* se encarga de solicitar automáticamente un nuevo token de acceso cuando caduca.
     
 [^5]: La app no utiliza la capacidad de recordar mensajes que tiene este modelo optimizado para chat. Lo he escogido simplemente porque [su rendimiento es similar al de otros como davinci pero a un precio inferior](https://platform.openai.com/docs/guides/chat/chat-vs-completions).
+    
+[^6]: Una mejor solución es hacer uso de websocket, para establecer una conexión permanente entre cliente y servidor. No obstante, esta característica fue introducida muy recientemente en Odoo 16 por lo que la documentación es muy escasa.
