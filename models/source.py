@@ -11,11 +11,7 @@ from ..openai_api import openai_api
 - sending them to OpenAI API to generate a summary 
 - storing the summary in the source's summary field.
 
-
-A Source been connected or not is defined as having a summary or not, which can be:
-- A placeholder message while the real summary is been generated
-- An error message, if there was a problem generating the summary
-- The real summary"""
+"""
 
 
 class Source(models.Model):
@@ -61,10 +57,10 @@ class Source(models.Model):
         sources = self.search(domain or [], offset=offset, limit=limit, order=order)
 
         if sources.__len__() == 1:
-            for source in sources:
-                if source.needs_refresh():
-                    self.write({"generating_summary": True})
-                    source.with_delay().refresh_summary()
+            source = sources[0]
+            if source.needs_refresh():
+                super().write({"generating_summary": True})
+                source.with_delay().refresh_summary()
 
         results = sources.read(fields, **read_kwargs)
         return results

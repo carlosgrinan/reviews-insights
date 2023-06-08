@@ -24,7 +24,7 @@
 
 Puedes ver una demostración [aquí](introduccion.md#demo).
 
-1. Introduce el identificador de tu negocio (Google Maps) o el del paquete de tu app (Google Play Store).
+1. Introduce el [identificador de tu negocio](https://developers.google.com/maps/documentation/places/web-service/place-id#find-id) (Google Maps) o el del [paquete de tu app](https://developer.android.com/studio/build/application-id?hl=es-419) (Google Play Store).
 2. Pulsa el botón "conectar".
 3. En unos segundos se generará el resumen.
 4. Para desconectar el servicio, pulsa en "desconectar".

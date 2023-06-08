@@ -71,10 +71,11 @@ export class Card extends Component {
     }
 
     disconnect() {
+        this.state.connected = false;
         this.state.summary = null;
         this.state.configId = null;
         this.orm.write('reviews_insights.source', [this.source.id],
-            { summary: null, last_refresh: null, refresh_token: null, config_id: null });
+            { summary: this.state.summary, last_refresh: null, refresh_token: null, config_id: this.state.configId, connected: this.state.connected });
 
     }
 
@@ -83,9 +84,13 @@ export class Card extends Component {
             this.state.codeClient.requestCode();
         }
         else {
-            this.orm.write('reviews_insights.source', [this.source.id], { config_id: this.state.configId }).then(async () => this.refresh());
-
             this.state.connected = true;
+
+            this.orm.write('reviews_insights.source', [this.source.id], {
+                config_id: this.state.configId, connected: this.state.connected
+            }).then(async () => this.refresh());
+
+
         }
     }
 
