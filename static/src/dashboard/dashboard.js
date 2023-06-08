@@ -29,10 +29,8 @@ class Dashboard extends Component {
             this.sources = await this.orm.silent.searchRead('reviews_insights.source', [], [],);
             this.googleScriptLoaded = loadJS("https://accounts.google.com/gsi/client").catch((error) => {
                 console.error(error);
-
                 this.state.loadError = true;
             });
-
         });
     }
 

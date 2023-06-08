@@ -5,28 +5,27 @@
         <div class="col">
             <div class="card h-100">
                 <div class="card-body">
-                    <p t-if="state.summary" class="card-text">
+                    <p t-if="state.connected" class="card-text">
                         <t t-esc="state.summary" />
                     </p>
                 </div>
                 <div class="card-footer text-center">
 
 
-                    <t t-if="state.summary">
+                    <t t-if="state.connected">
                         <input t-if="source.config_placeholder" class="form-control" type="text" t-att-value="state.configId" disabled="true" readonly="true"></input>
                         <button class="btn btn-outline-danger mt-4" t-on-click="disconnect">
                             <img t-attf-src="/reviews_insights/static/img/{{source.name}}-48.png" class="mx-1" width="24" t-att-alt="source.display_name"></img>
-                            <p>Desconectar <t t-esc="source.display_name"></t>
+                            <p>Disconnect <t t-esc="source.display_name"></t>
                             </p>
                         </button>
                     </t>
                     <t t-else="">
                         <form t-on-submit="connect">
                             <input t-if="source.config_placeholder" t-model="state.configId" class="form-control" type="text" t-att-placeholder="source.config_placeholder" required="true"></input>
-                            <button class="btn btn-outline-primary mt-4" t-att-disabled="!state.codeClient&amp;&amp;source.scope" type="submit">
+                            <button class="btn btn-outline-primary mt-4" t-att-disabled="needsOauth&amp;&amp;!state.codeClient" type="submit">
                                 <img t-attf-src="/reviews_insights/static/img/{{source.name}}-48.png" class="mx-1" width="24" t-att-alt="source.display_name"></img>
-                                <p>Conectar <t t-esc="source.display_name"></t>
-                                </p>
+                                Connect <t t-esc="source.display_name"></t>
                             </button>
                         </form>
                     </t>

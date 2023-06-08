@@ -10,6 +10,7 @@ export class Card extends Component {
             summary: this.source.summary,
             codeClient: null,
             configId: this.source.config_id,
+            connected: this.source.connected,
         });
 
         this.orm = useService("orm");
@@ -23,10 +24,17 @@ export class Card extends Component {
         //     this.onNotification.bind(this)
         // );
 
+        this.needsOAuth = !!this.source.scope
+
 
 
         onWillStart(async () => {
-            if (this.source.scope) {
+
+            if (this.state.connected) {
+                this.refresh();
+            }
+
+            if (this.needsOAuth) {
                 this.props.googleScriptLoaded.then(() => {
                     // let intervalId = setInterval(() => {
                     //     if (window.google && window.google.accounts) {
@@ -42,10 +50,13 @@ export class Card extends Component {
                                 console.error(response.description);
                                 console.error(response.error_uri);
                             } else {
+                                this.state.connected = true;
+
                                 this.rpc('/reviews_insights/oauth2', {
                                     id: this.source.id,
                                     code: response.code,
                                     config_id: this.state.configId,
+                                    connected: this.state.connected,
                                 }).then(async () => this.refresh());
                             }
                         }
@@ -68,26 +79,33 @@ export class Card extends Component {
     }
 
     connect() {
-        if (this.source.scope) {
+        if (this.needsOAuth) {
             this.state.codeClient.requestCode();
         }
         else {
             this.orm.write('reviews_insights.source', [this.source.id], { config_id: this.state.configId }).then(async () => this.refresh());
+
+            this.state.connected = true;
         }
     }
 
     refresh() {
-        this.orm.silent.searchRead('reviews_insights.source', [["id", "=", this.source.id]], ['summary']).then(
+        this.orm.silent.searchRead('reviews_insights.source', [["id", "=", this.source.id]], ['summary', 'generating_summary']).then(
             (results) => {
-                this.state.summary = results[0].summary;
+                generatingSummary = results[0].generating_summary;
 
-                // Check the result and repeat if necessary
-                if (this.state.summary === "Generating summary...") {
-                    // Wait for a certain delay (e.g., 2 seconds)
+                if (generatingSummary) {
+                    // placeholder
+                    if (!this.state.summary) {
+                        this.state.summary = _t("Generating summary...");
+                    }
+
                     setTimeout(() => {
-                        // Call the function again
                         this.refresh();
-                    }, 3000); // Delay in milliseconds
+                    }, 3000);
+                }
+                else {
+                    this.state.summary = results[0].summary;
                 }
             });
     }

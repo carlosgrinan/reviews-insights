@@ -8,7 +8,7 @@ Se utilizan varias [APIs de Google](https://developers.google.com/apis-explorer)
 
 - APIs que necesitan autorización del usuario[^2]:
   - **[API de Gmail](https://developers.google.com/gmail/api/guides)**: para obtener emails de *Gmail* (por ejemplo, los recibidos por el departamento de atención al cliente).
-  - **[APIs de Perfil de Empresa](https://developers.google.com/my-business/content/overview?hl=es)**: para obtener reseñas del negocio de *Google Maps*.
+  - **[APIs de Business Profile](https://developers.google.com/my-business/content/overview?hl=es)**: para obtener reseñas del negocio de *Google Maps*.
   - [API de Google Play Developer](https://developers.google.com/android-publisher?hl=es-419): para obtener reseñas de la app del negocio de  *Google Play Store*.
   - ~~**[Data API](https://developers.google.com/youtube/v3?hl=es-419)**: para obtener comentarios en videos de*Youtube* del negocio.~~
 - No necesitan autorización:
@@ -46,7 +46,7 @@ He seguido la arquitectura estándar recomendada en Odoo 16, con la única parti
 
 ### Datos simulados
 
-No soy dueño de ninguna app de *Google Play Store*  ni poseo un negocio en *Perfil de Empresa* por lo que para probar el funcionamiento de sus respectivas APIs he utilizado la clase [HttpMock](https://googleapis.github.io/google-api-python-client/docs/mocks.html) que ofrece el [Cliente Python de las APIs de Google](https://github.com/googleapis/google-api-python-client). Permite especificar un documento en formato *json* con la respuesta que supuestamente recibiríamos de la API. Por ejemplo, cuando solicito las reseñas de una app a la *API de Google Play Developer*  con la siguiente llamada: `service.reviews().list(packageName=package_name, maxResults=10, translationLanguage="en", fields="reviews/comments/userComment/text")`, especifico esta respuesta simulada:
+No soy dueño de ninguna app de *Google Play Store*  ni poseo un negocio en *Business Profile* por lo que para probar el funcionamiento de sus respectivas APIs he utilizado la clase [HttpMock](https://googleapis.github.io/google-api-python-client/docs/mocks.html) que ofrece el [Cliente Python de las APIs de Google](https://github.com/googleapis/google-api-python-client). Permite especificar un documento en formato *json* con la respuesta que supuestamente recibiríamos de la API. Por ejemplo, cuando solicito las reseñas de una app a la *API de Google Play Developer*  con la siguiente llamada: `service.reviews().list(packageName=package_name, maxResults=10, translationLanguage="en", fields="reviews/comments/userComment/text")`, especifico esta respuesta simulada:
 
 ```json
 {
@@ -66,9 +66,9 @@ No soy dueño de ninguna app de *Google Play Store*  ni poseo un negocio en *Per
 
 Nota: estos datos simulados estan únicamente destinados al proceso de desarrollo. He decidido no incluír datos de demostración de cara al usuario final, puesto que entiendo los mismos como una herramienta para que el usuario pruebe las distintas acciones que puede realizar con ellos. En esta app, el usuario no puede realizar acciones con los datos. Encontrarse con párrafos de ejemplo al iniciar la app únicamente provocaría confusión al usuario, que no tendría claro qué servicios están conectados y cuáles no, dado que todos presentan texto. Para ver el resultado al conectar los servicios, puede referirse al [vídeo de demostración](introduccion.md#demo).
 
-### APIs de Perfil de Empresa
+### APIs de Business Profile
 
-Las APIs de Perfil de Empresa son APIs privadas. Para poder utilizarlas es necesario [solicitar acceso](https://developers.google.com/my-business/content/prereqs?hl=es#request-access), el cual no he podido obtener porque Google solo se lo otorga a empresas y consultoras de informática reales.
+Las APIs de Business Profile son APIs privadas. Para poder utilizarlas es necesario [solicitar acceso](https://developers.google.com/my-business/content/prereqs?hl=es#request-access), el cual no he podido obtener porque Google solo se lo otorga a empresas y consultoras de informática reales.
 
 ### Idiomas
 
@@ -141,7 +141,7 @@ Ahora la IA se centra demasiado en los clientes (`hubo una reseña negativa`). C
   En general, las reseñas de los clientes sobre el negocio son positivas y los clientes elogian el servicio las 24 horas y el amable personal. Sin embargo, ha habido algunas críticas negativas sobre la calidad de la comida. A pesar de esto, el restaurante sigue ocupado y se ha elogiado a los trabajadores por su profesionalismo y capacidad para manejar situaciones de alta presión.
   ```
 
-[^2]: Las APIs de Google que ofrecen recursos protegidos  requieren autorización del propietario de los mismos (el usuario) mediante el protocolo OAuth2.0, aunque solamente se acceda a recursos abiertos al público (como las reseñas de las *APIs de Perfil de Empresa*).
+[^2]: Las APIs de Google que ofrecen recursos protegidos  requieren autorización del propietario de los mismos (el usuario) mediante el protocolo OAuth2.0, aunque solamente se acceda a recursos abiertos al público (como las reseñas de las *APIs de Business Profile*).
     
 [^3]: Existe una librería específica para esto: [google-auth-oauthlib](https://google-auth-oauthlib.readthedocs.io/en/latest/). Pero creo que añade complejidad innecesaria por lo que he optado por utilizar la librería estándar HTTP [requests](https://requests.readthedocs.io/en/latest/).
     

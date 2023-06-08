@@ -18,7 +18,7 @@ La app genera resumenes utilizando una IA partir de:
 
 * Reseñas de un negocio a elegir de Google Maps
 * Emails de tu cuenta de Gmail
-* Reseñas de tu negocio de Perfil de Empresa [^2]
+* Reseñas de tu negocio de Business Profile [^2]
 * Reseñas de tu app en Google Play Store
 
 Una vez hayamos conectado alguno de los servicios anteriores, la app nos ofrecerá un resumen, que se actualiza cada hora con la retroalimentación más reciente.
@@ -29,4 +29,4 @@ https://github.com/carlosgrinan/proyecto_dam/assets/99912558/7adf24e8-97ed-4434-
 
 [^1]: Reseñas, comentarios, emails (por ejemplo, los recibidos por la cuenta de soporte técnico de un negocio)... En resumen, información que arroje luz sobre la situación actual del negocio en cuanto a satisfacción del cliente.
     
-[^2]: Las reseñas de *Maps* y *Perfil de Empresa* son la  mismas. Si conectamos *Maps*, el resumen se generará a partir de un máximo de 5 reseñas, mientras que con *Perfil de Empresa* no existe esta limitación, por lo que el resumen será de mayor calidad. No obstante, *Perfil de Empresa* requiere autorización, por lo que debemos tener la propiedad del negocio. Para beneficiarnos de ambos, recomendamos conectar *Perfil de Empresa* para obtener un resumen de nuestro negocio, y conectar *Maps* a un negocio tercero en el que estemos interesados, por ejemplo, un negocio de la competencia.
+[^2]: Las reseñas de *Maps* y *Business Profile* son la  mismas. Si conectamos *Maps*, el resumen se generará a partir de un máximo de 5 reseñas, mientras que con *Business Profile* no existe esta limitación, por lo que el resumen será de mayor calidad. No obstante, *Business Profile* requiere autorización, por lo que debemos tener la propiedad del negocio. Para beneficiarnos de ambos, recomendamos conectar *Business Profile* para obtener un resumen de nuestro negocio, y conectar *Maps* a un negocio tercero en el que estemos interesados, por ejemplo, un negocio de la competencia.
