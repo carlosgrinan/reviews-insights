@@ -5,9 +5,16 @@
         <div class="col">
             <div class="card h-100">
                 <div class="card-body">
-                    <p t-if="state.connected" class="card-text">
-                        <t t-esc="state.summary" />
-                    </p>
+                    <t t-if="state.connected">
+                        <p t-if="state.summary" t-esc="state.summary" class="card-text">
+                        </p>
+                        <t t-else="">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </t>
+
+                    </t>
                 </div>
                 <div class="card-footer text-center">
 
@@ -23,7 +30,7 @@
                     <t t-else="">
                         <form t-on-submit="connect">
                             <input t-if="source.config_placeholder" t-model="state.configId" class="form-control" type="text" t-att-placeholder="source.config_placeholder" required="true"></input>
-                            <button class="btn btn-outline-primary mt-4" t-att-disabled="needsOauth&amp;&amp;!state.codeClient" type="submit">
+                            <button class="btn btn-outline-primary mt-4" t-att-disabled="loadError" type="submit">
                                 <img t-attf-src="/reviews_insights/static/img/{{source.name}}-48.png" class="mx-1" width="24" t-att-alt="source.display_name"></img>
                                 Connect <t t-esc="source.display_name"></t>
                             </button>

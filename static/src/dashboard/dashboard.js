@@ -13,7 +13,8 @@ class Dashboard extends Component {
         actionManager.style.overflow = 'auto';
 
         this.orm = useService("orm");
-        this.state = useState({ loadError: false, });
+        this.state = useState({ internetError: false, });
+        this.loadError = false
 
         // this.bus_service = useService("bus_service");
         // this.channel = "my-channel";
@@ -29,7 +30,9 @@ class Dashboard extends Component {
             this.sources = await this.orm.silent.searchRead('reviews_insights.source', [], [],);
             this.googleScriptLoaded = loadJS("https://accounts.google.com/gsi/client").catch((error) => {
                 console.error(error);
-                this.state.loadError = true;
+                this.state.internetError = true;
+                this.loadError = true
+
             });
         });
     }

@@ -1,16 +1,3 @@
-- [Documentación / memoria técnica descriptiva](#documentación--memoria-técnica-descriptiva)
-  - [**Tecnologías que se han empleado**](#tecnologías-que-se-han-empleado)
-    - [Retroalimentación de clientes](#retroalimentación-de-clientes)
-    - [Resúmenes de la retroalimentación](#resúmenes-de-la-retroalimentación)
-    - [Integración en Odoo](#integración-en-odoo)
-  - [**Dificultades encontradas y decisiones al respecto**](#dificultades-encontradas-y-decisiones-al-respecto)
-    - [Optimización](#optimización)
-    - [Datos simulados](#datos-simulados)
-    - [APIs de Business Profile](#apis-de-business-profile)
-    - [Internacionalización](#internacionalización)
-    - [Refinando el prompt](#refinando-el-prompt)
-      - [Resultado](#resultado)
-      - [Proceso](#proceso)
 
 # Documentación / memoria técnica descriptiva
 

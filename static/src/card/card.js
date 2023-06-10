@@ -1,6 +1,7 @@
 /** @odoo-module */
 import { Component, onWillStart, useState } from "@odoo/owl";
 import { useService, } from "@web/core/utils/hooks";
+const { status } = owl;
 
 export class Card extends Component {
     setup() {
@@ -25,45 +26,42 @@ export class Card extends Component {
         // );
 
         this.needsOAuth = !!this.source.scope
+        this.loadError = this.props.loadError
 
 
 
         onWillStart(async () => {
 
             if (this.state.connected) {
-                this.refresh();
+                this.fetch_summary();
             }
 
             if (this.needsOAuth) {
                 this.props.googleScriptLoaded.then(() => {
-                    // let intervalId = setInterval(() => {
-                    //     if (window.google && window.google.accounts) {
-                    //         clearInterval(intervalId);
+                    if (!this.loadError) {
+                        let intervalId = setInterval(() => {
+                            if (window.google && window.google.accounts) {
+                                clearInterval(intervalId);
 
-                    this.state.codeClient = window.google.accounts.oauth2.initCodeClient({
-                        client_id: '530981074278-kl9bg74l6at210cj5v18vfckmsqe6c9d.apps.googleusercontent.com',
-                        scope: this.source.scope,
-                        ux_mode: 'popup',
-                        callback: (response) => {
-                            if (response.error) {
-                                console.error(response.error);
-                                console.error(response.description);
-                                console.error(response.error_uri);
-                            } else {
-                                this.state.connected = true;
+                                this.state.codeClient = window.google.accounts.oauth2.initCodeClient({
+                                    client_id: '530981074278-kl9bg74l6at210cj5v18vfckmsqe6c9d.apps.googleusercontent.com',
+                                    scope: this.source.scope,
+                                    ux_mode: 'popup',
+                                    callback: (response) => {
+                                        if (response.error) {
+                                            console.error(response.error);
+                                            console.error(response.description);
+                                            console.error(response.error_uri);
+                                        } else {
+                                            this._connect(response.code);
+                                        }
+                                    }
 
-                                this.rpc('/reviews_insights/oauth2', {
-                                    id: this.source.id,
-                                    code: response.code,
-                                    config_id: this.state.configId,
-                                    connected: this.state.connected,
-                                }).then(async () => this.refresh());
+                                });
+
                             }
-                        }
-
-                    });
-                    // }
-                    // }, 100);
+                        }, 100);
+                    }
                 });
             }
 
@@ -75,7 +73,7 @@ export class Card extends Component {
         this.state.summary = null;
         this.state.configId = null;
         this.orm.write('reviews_insights.source', [this.source.id],
-            { summary: this.state.summary, last_refresh: null, refresh_token: null, config_id: this.state.configId, connected: this.state.connected });
+            { summary: this.state.summary, last_refresh: null, refresh_token: null, config_id: this.state.configId, connected: this.state.connected, generating_summary: false });
 
     }
 
@@ -84,35 +82,52 @@ export class Card extends Component {
             this.state.codeClient.requestCode();
         }
         else {
-            this.state.connected = true;
-
-            this.orm.write('reviews_insights.source', [this.source.id], {
-                config_id: this.state.configId, connected: this.state.connected
-            }).then(async () => this.refresh());
-
-
+            this._connect();
         }
     }
 
-    refresh() {
-        this.orm.silent.searchRead('reviews_insights.source', [["id", "=", this.source.id]], ['summary', 'generating_summary']).then(
-            (results) => {
-                generatingSummary = results[0].generating_summary;
+    _connect(code = null) {
+        this.state.connected = true;
 
-                if (generatingSummary) {
-                    // placeholder
-                    if (!this.state.summary) {
-                        this.state.summary = _t("Generating summary...");
-                    }
+        this.rpc('/reviews_insights/connect', {
+            id: this.source.id,
+            code: code,
+            config_id: this.state.configId,
+            connected: this.state.connected,
+        }, {
+            silent: true,
+        }).then(async () => this.fetch_summary());
+    }
 
-                    setTimeout(() => {
-                        this.refresh();
-                    }, 3000);
-                }
-                else {
-                    this.state.summary = results[0].summary;
-                }
-            });
+
+
+    fetch_summary() {
+        try {
+
+            //In case the user left the app to use another Odoo app
+            if (status(this) != 'destroyed') {
+
+                this.orm.silent.searchRead('reviews_insights.source', [["id", "=", this.source.id]], ['summary', 'generating_summary']).then(
+                    (results) => {
+
+                        const generatingSummary = results[0].generating_summary;
+                        if (generatingSummary) {
+
+                            setTimeout(() => {
+
+                                this.fetch_summary();
+
+                            }, 3000);
+                        }
+                        else {
+                            this.state.summary = results[0].summary;
+                        }
+                    });
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
     }
 
 

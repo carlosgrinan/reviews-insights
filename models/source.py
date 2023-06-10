@@ -36,35 +36,6 @@ class Source(models.Model):
     config_id = fields.Char()
     config_placeholder = fields.Char()
 
-    def write(self, values):
-        """Wrapper around write that calls ``refresh_summary()`` on each ``Source`` involved when the source has connected."""
-
-        # Write and then re-browse so that refresh_summary() uses the updated records (e.g. a new refresh token)
-        result = super().write(values)
-        if not any(field == "summary" for field in values.keys()):
-            self = self.browse(self.ids)
-            for source in self:
-                if source.needs_refresh():
-                    self.write({"generating_summary": True})
-                    source.with_delay().refresh_summary()
-
-        return result
-
-    @api.model
-    def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None, **read_kwargs):
-        """Wrapper around search_read that refreshes the ``summary``"""
-
-        sources = self.search(domain or [], offset=offset, limit=limit, order=order)
-
-        if sources.__len__() == 1:
-            source = sources[0]
-            if source.needs_refresh():
-                super().write({"generating_summary": True})
-                source.with_delay().refresh_summary()
-
-        results = sources.read(fields, **read_kwargs)
-        return results
-
     def needs_refresh(self):
         """Returns True if the summary needs to be refreshed."""
         if not self.summary:
@@ -79,12 +50,37 @@ class Source(models.Model):
 
         module = importlib.import_module(f"odoo.addons.reviews_insights.google_apis.{self.name}")
         summary = module.refresh_summary(self)
-        if not summary:
-            summary = _("No hay suficientes datos para generar un resumen. Por favor, conecta otra cuenta.")
-
-        summary = self.translate_summary(summary)
+        if summary:
+            summary = self.translate_summary(summary)
+        else:
+            summary = _("Not enough data to generate a summary. Please try again later or connect another account")
 
         self.write({"summary": summary, "last_refresh": fields.Datetime.now(), "generating_summary": False})
+
+    def refresh_summary(self):
+        """Updates the ``summary`` field with a new summary or an error message"""
+        # check if user has disconnected during the wait time (because it is async)
+        if self.connected:
+            try:
+                module = importlib.import_module(f"odoo.addons.reviews_insights.google_apis.{self.name}")
+                summary = module.refresh_summary(self)
+                # TODO revisar error messages que vienen de mi openai y que no deberia traducir.
+                if summary:
+                    summary = self.translate_summary(summary)
+                else:
+                    summary = _(
+                        "There was a problem generating the summary. Please try again later or connect another account."
+                    )
+
+            except Exception as e:
+                summary = str(e)
+                print(summary)
+                raise e
+
+            # re-browse and check if user has disconnected during the summary generation process
+            self = self.browse(self.id)
+            if self.connected:
+                self.write({"summary": summary, "last_refresh": fields.Datetime.now(), "generating_summary": False})
 
     @api.model
     def translate_summary(self, summary):
@@ -95,8 +91,34 @@ class Source(models.Model):
             if not "en" in lang_code:  # summary is already in English
                 lang = self.env["res.lang"].search([("code", "=", lang_code)], limit=1)
                 summary = openai_api.translate(summary, lang.name)
+                if not summary:
+                    summary = (
+                        _("There was a problem translating the summary. Here is the original summary in English")
+                        + ":\n\n"
+                        + summary
+                    )
 
         return summary
+
+    @api.model
+    def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None, **read_kwargs):
+        """Wrapper around search_read that refreshes the ``summary``"""
+
+        sources = self.search(domain or [], offset=offset, limit=limit, order=order)
+        results = sources.read(fields, **read_kwargs)
+
+        if sources.__len__() == 1:
+            source = sources[0]
+            if source.needs_refresh():
+                results[0]["generating_summary"] = True
+                source.write(
+                    {
+                        "generating_summary": True,
+                    }
+                )
+                source.with_delay().refresh_summary()
+
+        return results
 
 
 # class IrHttp(models.AbstractModel):

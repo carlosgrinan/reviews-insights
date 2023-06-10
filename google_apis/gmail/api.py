@@ -48,25 +48,26 @@ class Gmail(GoogleApi):
         # LIST returns the messages in 'minimal' format (doesn't include the body)
         # Now we need to GET the
         # messages in 'full' format one by one (of course, the requests are batched):
-        batch = self.new_batch_http_request()
-        for minimal_message in minimal_messages:
-            request = (
-                self.service.users()
-                .messages()
-                .get(
-                    userId="me",
-                    id=minimal_message["id"],
-                    format="full",
-                    fields="payload",
+        if minimal_messages:
+            batch = self.new_batch_http_request()
+            for minimal_message in minimal_messages:
+                request = (
+                    self.service.users()
+                    .messages()
+                    .get(
+                        userId="me",
+                        id=minimal_message["id"],
+                        format="full",
+                        fields="payload",
+                    )
                 )
-            )
-            batch.add(request)
-        # if mock:
-        #     http_batch_mock = ...
-        #     messages = batch.execute(http=http_batch_mock)
-        # else:
-        messages = batch.execute()
+                batch.add(request)
+            # if mock:
+            #     http_batch_mock = ...
+            #     messages = batch.execute(http=http_batch_mock)
+            # else:
+            messages = batch.execute()
 
-        text_bodies = [get_text(message) for message in messages]
-        text_bodies = [text_body for text_body in text_bodies if text_body]  # remove None values
-        return text_bodies
+            text_bodies = [get_text(message) for message in messages]
+            text_bodies = [text_body for text_body in text_bodies if text_body]  # remove None values
+            return text_bodies

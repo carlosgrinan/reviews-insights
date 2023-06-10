@@ -26,8 +26,8 @@ def _create(prompt, system_prompt="You are a helpful assistant."):
             if retry_attempt < max_retries:
                 delay = base_delay * (backoff_factor**retry_attempt)
                 time.sleep(delay)
-
-    return "OpenAI API is currently overloaded. Please try again later."
+        except Exception as e:
+            print(str(e))
 
 
 def translate(texts, language="English"):
@@ -36,9 +36,9 @@ def translate(texts, language="English"):
     language: language to translate to
     """
     if isinstance(texts, list):
-        text = beautify(texts)
+        texts = beautify(texts)
 
-    prompt = f"Translate non-{language} text into {language} while keeping {language} text unchanged:\n\n{text}"
+    prompt = f"Translate non-{language} text into {language} while keeping {language} text unchanged:\n\n{texts}"
     translation = _create(prompt)
     return translation
 
