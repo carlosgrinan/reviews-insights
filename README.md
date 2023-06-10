@@ -92,7 +92,8 @@ He seguido la arquitectura estándar recomendada en Odoo 16, con la única parti
 
   - [PostgreSQL](https://www.postgresql.org/)
 
-![Arquitectura](https://github.com/carlosgrinan/reviews-insights/assets/99912558/d6787d29-91fc-4f92-985a-9e03905e82c0)
+![Arquitectura](https://github.com/carlosgrinan/reviews-insights/assets/99912558/779252d0-59a9-4a5d-b330-c8cf016a9300)
+
 
 ## Dificultades encontradas y decisiones al respecto
 
@@ -213,16 +214,15 @@ Ahora la IA se centra demasiado en los clientes (`hubo una reseña negativa`). C
   ```
 ## Flujo de datos y funcionalidad
 ### Entrar
-
-![Entrar](https://github.com/carlosgrinan/reviews-insights/assets/99912558/93b78755-2f43-479d-a17c-bdc11ce0a2cc)
+<img src="https://github.com/carlosgrinan/reviews-insights/assets/99912558/12b54faa-c939-4d90-846e-861bcbb1b9d8" width=50% height=50%>
 
 ### Conectar
+![Conectar](https://github.com/carlosgrinan/reviews-insights/assets/99912558/485ac4eb-dcd4-467b-9a7a-f676768a3f41)
 
-![Conectar](https://github.com/carlosgrinan/reviews-insights/assets/99912558/ece7c462-6218-4989-a63d-3ca91fb0c4d2)
 
 ### Desconectar
+<img src="https://github.com/carlosgrinan/reviews-insights/assets/99912558/9e29f108-d044-40fc-8f19-223b706febdc" width=50% height=50%>
 
-![Desconectar](https://github.com/carlosgrinan/reviews-insights/assets/99912558/03924b76-6a7c-425f-a5ff-0f0288c8ac26)
 
 # Manual de usuario
 
