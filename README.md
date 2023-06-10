@@ -21,7 +21,7 @@
 
 # Introducción
 
-**Review Insights** es una app de [Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html) que ofrece breves resúmenes generados por IA sobre retroalimentación[^1] de clientes obtenida de varios servicios de Google.
+**Review Insights** es una app de [Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html) que ofrece breves resúmenes generados por IA sobre retroalimentación[^1] de clientes obtenida de varios servicios de Google. Está destinada a managers de negocios que quieran 
 
 ## Motivación
 
@@ -211,6 +211,18 @@ Ahora la IA se centra demasiado en los clientes (`hubo una reseña negativa`). C
   ```plaintext
   En general, las reseñas de los clientes sobre el negocio son positivas y los clientes elogian el servicio las 24 horas y el amable personal. Sin embargo, ha habido algunas críticas negativas sobre la calidad de la comida. A pesar de esto, el restaurante sigue ocupado y se ha elogiado a los trabajadores por su profesionalismo y capacidad para manejar situaciones de alta presión.
   ```
+## Flujo de datos y funcionalidad
+### Entrar
+
+![Entrar](https://github.com/carlosgrinan/reviews-insights/assets/99912558/93b78755-2f43-479d-a17c-bdc11ce0a2cc)
+
+### Conectar
+
+![Conectar](https://github.com/carlosgrinan/reviews-insights/assets/99912558/ece7c462-6218-4989-a63d-3ca91fb0c4d2)
+
+### Desconectar
+
+![Desconectar](https://github.com/carlosgrinan/reviews-insights/assets/99912558/03924b76-6a7c-425f-a5ff-0f0288c8ac26)
 
 # Manual de usuario
 
