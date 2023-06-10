@@ -255,6 +255,11 @@ Puedes ver una demostración [aquí](introduccion.md#demo).
 3. En unos segundos se generará el resumen.
 4. Para desconectar el servicio, pulsa en "desconectar".
 
+# Próximos pasos
+## Servidor middleware
+![Arquitectura middleware](https://github.com/carlosgrinan/reviews-insights/assets/99912558/2737f794-9765-432e-bf52-61bf14f0052a)
+
+
 [^1]: Reseñas, comentarios, emails (por ejemplo, los recibidos por la cuenta de soporte técnico de un negocio)... En resumen, información que arroje luz sobre la situación actual del negocio en cuanto a satisfacción del cliente.
     
 [^2]: Las reseñas de *Maps* y *Business Profile* son la  mismas. Si conectamos *Maps*, el resumen se generará a partir de un máximo de 5 reseñas, mientras que con *Business Profile* no existe esta limitación, por lo que el resumen será de mayor calidad. No obstante, *Business Profile* requiere autorización, por lo que debemos tener la propiedad del negocio. Para beneficiarnos de ambos, recomendamos conectar *Business Profile* para obtener un resumen de nuestro negocio, y conectar *Maps* a un negocio tercero en el que estemos interesados, por ejemplo, un negocio de la competencia.
