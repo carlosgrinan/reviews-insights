@@ -1,5 +1,4 @@
-PROYECTO DE DAM DE CARLOS ALEJANDRO GRIÑÁN ESPADA, PARA CIFP CARLOS III, CARTAGENA, 2023
-
+Proyecto de Carlos Alejandro Griñán Espada, alumno de segundo curso de DAM del CIFP Carlos III, Cartagena, 2023
 - [Introducción](#introducción)
   - [Motivación](#motivación)
   - [Descripción](#descripción)
