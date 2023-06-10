@@ -1,3 +1,5 @@
+ROYECTO DE DAM DE CARLOS ALEJANDRO GRIÑÁN ESPADA, PARA CIFP CARLOS III, CARTAGENA, 2023
+
 - [Introducción](#introducción)
   - [Motivación](#motivación)
   - [Descripción](#descripción)
@@ -20,7 +22,6 @@
   - [Uso](#uso)
 
 # Introducción
-
 **Review Insights** es una app de [Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html) que ofrece breves resúmenes generados por IA sobre retroalimentación[^1] de clientes obtenida de varios servicios de Google. Está destinada a managers de negocios que quieran 
 
 ## Motivación
