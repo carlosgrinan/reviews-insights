@@ -21,7 +21,7 @@ Proyecto de Carlos Alejandro Griñán Espada, alumno de segundo curso de DAM del
   - [Uso](#uso)
 
 # Introducción
-**Review Insights** es una app de [Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html) que ofrece breves resúmenes generados por IA sobre retroalimentación[^1] de clientes obtenida de varios servicios de Google. Está destinada a managers de negocios que quieran 
+**Review Insights** es una app de [Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html) que ofrece breves resúmenes generados por IA sobre retroalimentación[^1] de clientes obtenida de varios servicios de Google. Está destinada a managers que quieran conocer la situación de su negocio de un vistazo.
 
 ## Motivación
 
