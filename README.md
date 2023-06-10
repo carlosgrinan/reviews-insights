@@ -271,6 +271,7 @@ No obstante, para empresas pequeñas y particulares sería ventajoso poder utili
 
 ## Integración en el Dashboard de Odoo
 Para una mejor experiencia de usuario, la funcionalidad de la app debería compartir interfaz junto con gráficos y otros elementos que provean un resumen de la situación actual. La opción óptima es integrarla en la app Dashboard de Odoo, para que el usuario disponga en la misma app de toda la información necesaria para tomar decisiones. Aunque Odoo no facilita la integración de widgets hechos en Javascript, como sí lo hace con gráficos creados con hojas de cálculo, existe la posibilidad de sobreescribir la app Dashboard. Así, nuestra app dispondría de toda la funcionalidad de Dashboard junto con el widget añadido de los resumenes de retroalimentación. Debemos tener en cuenta que a muchos usuarios puede no interesarle dicha posibilidad, si ya han customizado su Dashboard a medida.
+
 ![Diseño de concepto de Dashboard y Reviews Insights](https://github.com/carlosgrinan/reviews-insights/assets/99912558/22d6d02a-a9a1-45a3-9cbe-ee1bc19760e4)
 
 [^1]: Reseñas, comentarios, emails (por ejemplo, los recibidos por la cuenta de soporte técnico de un negocio)... En resumen, información que arroje luz sobre la situación actual del negocio en cuanto a satisfacción del cliente.
