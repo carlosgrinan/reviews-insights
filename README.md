@@ -1,4 +1,5 @@
 Proyecto de Carlos Alejandro Griñán Espada, alumno de segundo curso de DAM del CIFP Carlos III, Cartagena, 2023
+
 - [Introducción](#introducción)
   - [Motivación](#motivación)
   - [Descripción](#descripción)
@@ -21,6 +22,7 @@ Proyecto de Carlos Alejandro Griñán Espada, alumno de segundo curso de DAM del
   - [Uso](#uso)
 
 # Introducción
+
 **Review Insights** es una app de [Odoo](https://www.odoo.com/documentation/16.0/developer/tutorials/getting_started.html) que ofrece breves resúmenes generados por IA sobre retroalimentación[^1] de clientes obtenida de varios servicios de Google. Está destinada a managers que quieran conocer la situación de su negocio de un vistazo.
 
 ## Motivación
@@ -93,7 +95,6 @@ He seguido la arquitectura estándar recomendada en Odoo 16, con la única parti
   - [PostgreSQL](https://www.postgresql.org/)
 
 ![Arquitectura](https://github.com/carlosgrinan/reviews-insights/assets/99912558/779252d0-59a9-4a5d-b330-c8cf016a9300)
-
 
 ## Dificultades encontradas y decisiones al respecto
 
@@ -212,17 +213,20 @@ Ahora la IA se centra demasiado en los clientes (`hubo una reseña negativa`). C
   ```plaintext
   En general, las reseñas de los clientes sobre el negocio son positivas y los clientes elogian el servicio las 24 horas y el amable personal. Sin embargo, ha habido algunas críticas negativas sobre la calidad de la comida. A pesar de esto, el restaurante sigue ocupado y se ha elogiado a los trabajadores por su profesionalismo y capacidad para manejar situaciones de alta presión.
   ```
+
 ## Flujo de datos y funcionalidad
+
 ### Entrar
+
 <img src="https://github.com/carlosgrinan/reviews-insights/assets/99912558/12b54faa-c939-4d90-846e-861bcbb1b9d8" width=50% height=50%>
 
 ### Conectar
+
 ![Conectar](https://github.com/carlosgrinan/reviews-insights/assets/99912558/485ac4eb-dcd4-467b-9a7a-f676768a3f41)
 
-
 ### Desconectar
-<img src="https://github.com/carlosgrinan/reviews-insights/assets/99912558/9e29f108-d044-40fc-8f19-223b706febdc" width=50% height=50%>
 
+<img src="https://github.com/carlosgrinan/reviews-insights/assets/99912558/9e29f108-d044-40fc-8f19-223b706febdc" width=50% height=50%>
 
 # Manual de usuario
 
@@ -256,14 +260,22 @@ Puedes ver una demostración [aquí](introduccion.md#demo).
 4. Para desconectar el servicio, pulsa en "desconectar".
 
 # Próximos pasos
+
 ## Servidor middleware
+
+Actualmente, para instalar la app se requieren credenciales de desarrollador de las APIs de *Google* y *OpenAI*. Son sencillas de conseguir, y si la empresa trabaja con una consultora o dispone de departamento de informática, es posible que incluso ya las tengan. Además, esta manera de distribuir la app aporta mayor control: se incrementa la seguridad, puesto que la información no es compartida con terceros (se desplaza del servidor de la empresa a las APIs), y pueden controlar de primera mano el gasto que hacen en las llamadas a las APIs (recordemos que son de pago). 
+
+No obstante, para empresas pequeñas y particulares sería ventajoso poder utilizar esta app como un Saas. Es decir, poder utilizar mis credenciales de desarrollador, y de esa manera evitar la configuración inicial. Dado que las credenciales no se pueden compartir con el usuario, la solución es desplegar un servidor intermedio (middleware) que se encargue de encapsular la parte de la app que realiza llamadas a APIs y que contenga las credenciales. De esta forma los usuarios realizarían peticiones al servidor intermedio, en lugar de a las APIs. Los usuarios deberían tener una cuenta asociada a esta app, para controlar el gasto que hacen y poder exigirselo, ya sea por subscripcion de pago o pagando exclusivamente por el uso.
+
 ![Arquitectura middleware](https://github.com/carlosgrinan/reviews-insights/assets/99912558/2737f794-9765-432e-bf52-61bf14f0052a)
+
+## Integración en el Dashboard de Odoo
 
 
 [^1]: Reseñas, comentarios, emails (por ejemplo, los recibidos por la cuenta de soporte técnico de un negocio)... En resumen, información que arroje luz sobre la situación actual del negocio en cuanto a satisfacción del cliente.
     
 [^2]: Las reseñas de *Maps* y *Business Profile* son la  mismas. Si conectamos *Maps*, el resumen se generará a partir de un máximo de 5 reseñas, mientras que con *Business Profile* no existe esta limitación, por lo que el resumen será de mayor calidad. No obstante, *Business Profile* requiere autorización, por lo que debemos tener la propiedad del negocio. Para beneficiarnos de ambos, recomendamos conectar *Business Profile* para obtener un resumen de nuestro negocio, y conectar *Maps* a un negocio tercero en el que estemos interesados, por ejemplo, un negocio de la competencia.
-
+    
 [^3]: Las APIs de Google que ofrecen recursos protegidos  requieren autorización del propietario de los mismos (el usuario) mediante el protocolo OAuth2.0, aunque solamente se acceda a recursos abiertos al público (como las reseñas de las *APIs de Business Profile*).
     
 [^4]: Existe una librería específica para esto: [google-auth-oauthlib](https://google-auth-oauthlib.readthedocs.io/en/latest/). Pero creo que añade complejidad innecesaria por lo que he optado por utilizar la librería estándar HTTP [requests](https://requests.readthedocs.io/en/latest/).
@@ -273,5 +285,3 @@ Puedes ver una demostración [aquí](introduccion.md#demo).
 [^6]: La app no utiliza la capacidad de recordar mensajes que tiene este modelo optimizado para chat. Lo he escogido simplemente porque [su rendimiento es similar al de otros como davinci pero a un precio inferior](https://platform.openai.com/docs/guides/chat/chat-vs-completions).
     
 [^7]: Una mejor solución es hacer uso de websocket, para establecer una conexión permanente entre cliente y servidor. No obstante, esta característica fue introducida muy recientemente en Odoo 16 por lo que la documentación es muy escasa.
-    
-
