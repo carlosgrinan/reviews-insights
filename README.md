@@ -3,11 +3,11 @@
   - [Descripción](#descripción)
   - [Demo](#demo)
 - [Documentación / memoria técnica descriptiva](#documentación--memoria-técnica-descriptiva)
-  - [**Tecnologías que se han empleado**](#tecnologías-que-se-han-empleado)
+  - [Tecnologías que se han empleado](#tecnologías-que-se-han-empleado)
     - [Retroalimentación de clientes](#retroalimentación-de-clientes)
     - [Resúmenes de la retroalimentación](#resúmenes-de-la-retroalimentación)
     - [Integración en Odoo](#integración-en-odoo)
-  - [**Dificultades encontradas y decisiones al respecto**](#dificultades-encontradas-y-decisiones-al-respecto)
+  - [Dificultades encontradas y decisiones al respecto](#dificultades-encontradas-y-decisiones-al-respecto)
     - [Optimización](#optimización)
     - [Datos simulados](#datos-simulados)
     - [APIs de Business Profile](#apis-de-business-profile)
@@ -15,7 +15,7 @@
     - [Refinando el prompt](#refinando-el-prompt)
       - [Resultado](#resultado)
       - [Proceso](#proceso)
-- [**Manual de usuario**](#manual-de-usuario)
+- [Manual de usuario](#manual-de-usuario)
   - [Instalación](#instalación)
   - [Uso](#uso)
 
@@ -50,13 +50,13 @@ https://github.com/carlosgrinan/proyecto_dam/assets/99912558/7adf24e8-97ed-4434-
 
 # Documentación / memoria técnica descriptiva
 
-## **Tecnologías que se han empleado**
+## Tecnologías que se han empleado
 
 ### Retroalimentación de clientes
 
 Se utilizan varias [APIs de Google](https://developers.google.com/apis-explorer) mediante el [Cliente Python de las APIs de Google ](https://github.com/googleapis/google-api-python-client):
 
-- APIs que necesitan autorización del usuario[^2]:
+- APIs que necesitan autorización del usuario[^3]:
   - **[API de Gmail](https://developers.google.com/gmail/api/guides)**: para obtener emails de *Gmail* (por ejemplo, los recibidos por el departamento de atención al cliente).
   - **[APIs de Business Profile](https://developers.google.com/my-business/content/overview?hl=es)**: para obtener reseñas del negocio de *Google Maps*.
   - [API de Google Play Developer](https://developers.google.com/android-publisher?hl=es-419): para obtener reseñas de la app del negocio de  *Google Play Store*.
@@ -67,12 +67,12 @@ Se utilizan varias [APIs de Google](https://developers.google.com/apis-explorer)
 Para obtener la autorización del usuario:
 
 1. [ Librería JavaScript de autorización de terceros de Google](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library) se utiliza para obtener el código de autorización.
-2. El código se intercambia por un [token](https://developers.google.com/identity/protocols/oauth2/web-server#httprest_3). [^3]
-3. [google-auth](https://googleapis.dev/python/google-auth/latest/user-guide.html) crea *Credenciales*[^4] a partir del token. Las *Credenciales* son utilizadas por el *Cliente Python de las APIs de Google* para acceder a las APIs de Google.
+2. El código se intercambia por un [token](https://developers.google.com/identity/protocols/oauth2/web-server#httprest_3). [^4]
+3. [google-auth](https://googleapis.dev/python/google-auth/latest/user-guide.html) crea *Credenciales*[^5] a partir del token. Las *Credenciales* son utilizadas por el *Cliente Python de las APIs de Google* para acceder a las APIs de Google.
 
 ### Resúmenes de la retroalimentación
 
-Se utiliza el modelo de lenguaje [gpt-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5)[^5] de la [API de OpenAI](https://platform.openai.com/docs/introduction/overview) mediante la [Libreria Python de OpenAI](https://github.com/openai/openai-python).
+Se utiliza el modelo de lenguaje [gpt-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5)[^6] de la [API de OpenAI](https://platform.openai.com/docs/introduction/overview) mediante la [Libreria Python de OpenAI](https://github.com/openai/openai-python).
 
 ### Integración en Odoo
 
@@ -92,7 +92,9 @@ He seguido la arquitectura estándar recomendada en Odoo 16, con la única parti
 
   - [PostgreSQL](https://www.postgresql.org/)
 
-## **Dificultades encontradas y decisiones al respecto**
+![Arquitectura](https://github.com/carlosgrinan/reviews-insights/assets/99912558/d6787d29-91fc-4f92-985a-9e03905e82c0)
+
+## Dificultades encontradas y decisiones al respecto
 
 ### Optimización
 
@@ -108,7 +110,7 @@ Para lograr la asincronía tanto en el frontend como en el backend he realizado 
 
 1. Cuando el usuario entra en la app, es decir, el cliente web manda una petición, en el servidor, un proceso se encarga de responder al cliente web con el resumen antiguo mientras que otro, de manera asíncrona, se encarga de generar el resumen. Para habilitar este **multiprocesamiento** en Odoo, es necesario configurar un proxy inverso *Nginx* (un servidor intermedio entre el cliente web y el servidor) que se encarge de redirigir las peticiónes a los distintos puertos utilizados por el servidor de Odoo.
 2. Para poder crear el nuevo proceso asíncrono que se encargue de generar el resumen, necesitamos el módulo *Job Queue* (cola de trabajo). El multiprocesamiento estándar de Odoo está únicamente destinado a asignar distintos procesos a cada uno de los clientes web (o usuarios) conectados, no permite crear procesos asíncronos a partir de un proceso, que es lo que buscamos.
-3. Una vez el proceso asíncrono de generación del resumen haya terminado, el resumen debería "enviarse" al cliente web. Teniendo en cuenta las limitaciones de HTTP, hago uso de polling[^6]: cada cierto tiempo, el cliente web envía una nueva petición al servidor preguntando si ya se ha generado el resumen.
+3. Una vez el proceso asíncrono de generación del resumen haya terminado, el resumen debería "enviarse" al cliente web. Teniendo en cuenta las limitaciones de HTTP, hago uso de polling[^7]: cada cierto tiempo, el cliente web envía una nueva petición al servidor preguntando si ya se ha generado el resumen.
 4. Cuando el resumen haya llegado definitivamente al cliente web, la "tarjeta" en la que se va a mostrar debe actualizarse. Ahí entra en escena el *Framework OWL.*  Es el framework web creado por Odoo: similar a *React*, es un framework web (JavaScript) basado en componentes reactivos, es decir, la UI está compuesta por elementos que tienen un estado. Cuando el estado cambia, por ejemplo, la variable *resumen* cambia, el componente tipo "tarjeta" que utilizo se renderiza de nuevo sin suponer una perturbación para el resto de la UI. Es un paso más allá de la programación basada en eventos porque los eventos ya se suscriben internamente por el propio framework.
 
 ### Datos simulados
@@ -210,7 +212,7 @@ Ahora la IA se centra demasiado en los clientes (`hubo una reseña negativa`). C
   En general, las reseñas de los clientes sobre el negocio son positivas y los clientes elogian el servicio las 24 horas y el amable personal. Sin embargo, ha habido algunas críticas negativas sobre la calidad de la comida. A pesar de esto, el restaurante sigue ocupado y se ha elogiado a los trabajadores por su profesionalismo y capacidad para manejar situaciones de alta presión.
   ```
 
-# **Manual de usuario**
+# Manual de usuario
 
 ## Instalación
 
@@ -241,16 +243,18 @@ Puedes ver una demostración [aquí](introduccion.md#demo).
 3. En unos segundos se generará el resumen.
 4. Para desconectar el servicio, pulsa en "desconectar".
 
-[^2]: Las APIs de Google que ofrecen recursos protegidos  requieren autorización del propietario de los mismos (el usuario) mediante el protocolo OAuth2.0, aunque solamente se acceda a recursos abiertos al público (como las reseñas de las *APIs de Business Profile*).
-    
-[^3]: Existe una librería específica para esto: [google-auth-oauthlib](https://google-auth-oauthlib.readthedocs.io/en/latest/). Pero creo que añade complejidad innecesaria por lo que he optado por utilizar la librería estándar HTTP [requests](https://requests.readthedocs.io/en/latest/).
-    
-[^4]: Las Credenciales encapsulan los token y otros datos necesarios. *google-auth* se encarga de solicitar automáticamente un nuevo token de acceso cuando caduca.
-    
-[^5]: La app no utiliza la capacidad de recordar mensajes que tiene este modelo optimizado para chat. Lo he escogido simplemente porque [su rendimiento es similar al de otros como davinci pero a un precio inferior](https://platform.openai.com/docs/guides/chat/chat-vs-completions).
-    
-[^6]: Una mejor solución es hacer uso de websocket, para establecer una conexión permanente entre cliente y servidor. No obstante, esta característica fue introducida muy recientemente en Odoo 16 por lo que la documentación es muy escasa.
-    
 [^1]: Reseñas, comentarios, emails (por ejemplo, los recibidos por la cuenta de soporte técnico de un negocio)... En resumen, información que arroje luz sobre la situación actual del negocio en cuanto a satisfacción del cliente.
     
 [^2]: Las reseñas de *Maps* y *Business Profile* son la  mismas. Si conectamos *Maps*, el resumen se generará a partir de un máximo de 5 reseñas, mientras que con *Business Profile* no existe esta limitación, por lo que el resumen será de mayor calidad. No obstante, *Business Profile* requiere autorización, por lo que debemos tener la propiedad del negocio. Para beneficiarnos de ambos, recomendamos conectar *Business Profile* para obtener un resumen de nuestro negocio, y conectar *Maps* a un negocio tercero en el que estemos interesados, por ejemplo, un negocio de la competencia.
+
+[^3]: Las APIs de Google que ofrecen recursos protegidos  requieren autorización del propietario de los mismos (el usuario) mediante el protocolo OAuth2.0, aunque solamente se acceda a recursos abiertos al público (como las reseñas de las *APIs de Business Profile*).
+    
+[^4]: Existe una librería específica para esto: [google-auth-oauthlib](https://google-auth-oauthlib.readthedocs.io/en/latest/). Pero creo que añade complejidad innecesaria por lo que he optado por utilizar la librería estándar HTTP [requests](https://requests.readthedocs.io/en/latest/).
+    
+[^5]: Las Credenciales encapsulan los token y otros datos necesarios. *google-auth* se encarga de solicitar automáticamente un nuevo token de acceso cuando caduca.
+    
+[^6]: La app no utiliza la capacidad de recordar mensajes que tiene este modelo optimizado para chat. Lo he escogido simplemente porque [su rendimiento es similar al de otros como davinci pero a un precio inferior](https://platform.openai.com/docs/guides/chat/chat-vs-completions).
+    
+[^7]: Una mejor solución es hacer uso de websocket, para establecer una conexión permanente entre cliente y servidor. No obstante, esta característica fue introducida muy recientemente en Odoo 16 por lo que la documentación es muy escasa.
+    
+
