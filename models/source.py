@@ -64,7 +64,6 @@ class Source(models.Model):
             try:
                 module = importlib.import_module(f"odoo.addons.reviews_insights.google_apis.{self.name}")
                 summary = module.refresh_summary(self)
-                # TODO revisar error messages que vienen de mi openai y que no deberia traducir.
                 if summary:
                     summary = self.translate_summary(summary)
                 else:
@@ -119,12 +118,3 @@ class Source(models.Model):
                 source.with_delay().refresh_summary()
 
         return results
-
-
-# class IrHttp(models.AbstractModel):
-#     _inherit = "ir.http"
-
-#     @classmethod
-#     def _get_translation_frontend_modules_name(cls):
-#         modules = super()._get_translation_frontend_modules_name()
-#         return modules + ["reviews_insights"]

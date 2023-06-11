@@ -17,9 +17,16 @@ Proyecto de Carlos Alejandro Griñán Espada, alumno de segundo curso de DAM del
     - [Refinando el prompt](#refinando-el-prompt)
       - [Resultado](#resultado)
       - [Proceso](#proceso)
+  - [Flujo de datos y funcionalidad](#flujo-de-datos-y-funcionalidad)
+    - [Entrar](#entrar)
+    - [Conectar](#conectar)
+    - [Desconectar](#desconectar)
 - [Manual de usuario](#manual-de-usuario)
   - [Instalación](#instalación)
   - [Uso](#uso)
+- [Próximos pasos](#próximos-pasos)
+  - [Servidor middleware](#servidor-middleware)
+  - [Integración en el Dashboard de Odoo](#integración-en-el-dashboard-de-odoo)
 
 # Introducción
 

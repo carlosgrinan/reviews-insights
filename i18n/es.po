@@ -105,7 +105,7 @@ msgstr ""
 msgid ""
 "Please check out your internet connection. You won't be able to connect new "
 "services or receive up-to-date summaries."
-msgstr ""
+msgstr "Por favor, verifica tu conexión a Internet. No podrás conectar nuevos servicios o recibir resúmenes actualizados."
 
 #. module: reviews_insights
 #: model:ir.model.fields,field_description:reviews_insights.field_reviews_insights_source__refresh_token
