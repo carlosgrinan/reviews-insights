@@ -48,7 +48,7 @@ Una vez hayamos conectado alguno de los servicios anteriores, la app nos ofrecer
 
 ## Demo
 
-https://github.com/carlosgrinan/proyecto_dam/assets/99912558/7adf24e8-97ed-4434-828e-db3800257701
+https://github.com/carlosgrinan/reviews-insights/assets/99912558/10656659-1873-405d-bf08-1398373d0aa8
 
 # Documentación / memoria técnica descriptiva
 
@@ -218,13 +218,21 @@ Ahora la IA se centra demasiado en los clientes (`hubo una reseña negativa`). C
 
 ### Entrar
 
+El resumen se actualiza automáticamente al entrar si ha pasado más de una hora desde la última actualización:
+
+![Entrar](https://github.com/carlosgrinan/reviews-insights/assets/99912558/b1852d83-c89e-405e-b323-c9e315d6bd02)
+
 <img src="https://github.com/carlosgrinan/reviews-insights/assets/99912558/12b54faa-c939-4d90-846e-861bcbb1b9d8" width=50% height=50%>
 
 ### Conectar
 
+https://github.com/carlosgrinan/reviews-insights/assets/99912558/10656659-1873-405d-bf08-1398373d0aa8
+
 ![Conectar](https://github.com/carlosgrinan/reviews-insights/assets/99912558/485ac4eb-dcd4-467b-9a7a-f676768a3f41)
 
 ### Desconectar
+
+![Desconectar](https://github.com/carlosgrinan/reviews-insights/assets/99912558/9c33a030-a717-4137-b4bc-92007ddb9cdf)
 
 <img src="https://github.com/carlosgrinan/reviews-insights/assets/99912558/9e29f108-d044-40fc-8f19-223b706febdc" width=50% height=50%>
 
