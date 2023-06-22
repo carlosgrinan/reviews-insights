@@ -1,4 +1,4 @@
-Proyecto de Carlos Alejandro Griñán Espada, alumno de segundo curso de DAM del CIFP Carlos III, Cartagena, 2023
+Proyecto de Carlos Alejandro Griñán Espada, alumno de 2° DAM del CIFP Carlos III, Cartagena, 2023. Este proyecto obtuvo una calificación de 10-MH (Mención Honorífica).
 
 - [Introducción](#introducción)
   - [Motivación](#motivación)
